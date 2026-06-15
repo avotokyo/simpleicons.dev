@@ -16,7 +16,7 @@ jobs:
 
     steps:
       - name: Setup Vite Plus
-        uses: bjmhe/workflows/setup-vp@vp
+        uses: heyongqi02/workflows/setup-vp@vp
         with:
           fetch-all: true
           cache: false
