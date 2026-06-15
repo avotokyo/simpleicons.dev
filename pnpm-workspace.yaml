@@ -3,5 +3,5 @@ allowBuilds:
   unrs-resolver: true
 minimumReleaseAge: 0
 registries:
-  default: https://registry.npmmirror.com/
+  default: https://registry.npmjs.org/
   "@jd": http://registry.m.jd.com/
