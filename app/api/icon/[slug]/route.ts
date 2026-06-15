@@ -1,28 +1,30 @@
 import { renderIconCard } from "@/lib/icons/render";
 import { isResolveError, parseRenderOptions, resolveSlugParam } from "@/lib/icons/resolve";
+import { errorResponse, renderErrorResponse, svgResponse } from "@/lib/icons/responses";
 
+/**
+ * GET /api/icon/{slug} — 单个图标 SVG 端点。
+ * 支持 slug 别名解析及通用渲染参数。
+ */
 export async function GET(request: Request, { params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   const resolved = resolveSlugParam(slug);
 
   if (isResolveError(resolved)) {
-    return new Response(resolved.message, { status: resolved.status });
+    return errorResponse(resolved);
   }
 
   const { searchParams } = new URL(request.url);
   const options = parseRenderOptions(searchParams);
 
   if (isResolveError(options)) {
-    return new Response(options.message, { status: options.status });
+    return errorResponse(options);
   }
 
   try {
     const svg = renderIconCard(resolved, options);
-    return new Response(svg, {
-      headers: { "Content-Type": "image/svg+xml" },
-    });
+    return svgResponse(svg);
   } catch (error) {
-    const message = error instanceof Error ? error.message : "Internal error";
-    return new Response(message, { status: 500 });
+    return renderErrorResponse(error);
   }
 }
