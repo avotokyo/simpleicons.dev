@@ -42,7 +42,7 @@ function parseIconNames(
   iconParam: string | null,
 ): string[] | ResolveError {
   if (!iconParam) {
-    return { status: 400, message: "You didn't specify any icons!" };
+    return { status: 400, message: "Missing icons parameter" };
   }
 
   if (iconParam === "all") {
@@ -51,7 +51,7 @@ function parseIconNames(
 
   const names = iconParam.split(",").map((n) => n.trim()).filter(Boolean);
   if (names.length === 0) {
-    return { status: 400, message: "You didn't specify any icons!" };
+    return { status: 400, message: "Missing icons parameter" };
   }
 
   return names;
@@ -85,14 +85,12 @@ export function isResolveError(
 export function parseIconsRequest(
   searchParams: URLSearchParams,
 ): IconsRequestParams | ResolveError {
-  const iconParam =
-    searchParams.get("i") ?? searchParams.get("icons");
+  const iconParam = searchParams.get("icons");
 
   const iconNames = parseIconNames(iconParam);
   if (isResolveError(iconNames)) return iconNames;
 
-  const themeParam = searchParams.get("t") ?? searchParams.get("theme");
-  const themeResult = parseTheme(themeParam);
+  const themeResult = parseTheme(searchParams.get("theme"));
   if (isResolveError(themeResult)) return themeResult;
 
   const perLineResult = parsePerLine(searchParams.get("perline"));
@@ -104,9 +102,8 @@ export function parseIconsRequest(
       : resolveIconSlugs(iconNames as string[]);
   if (isResolveError(slugsResult)) return slugsResult;
 
-  const color = searchParams.get("color") ?? searchParams.get("c") ?? undefined;
-  const iconColor =
-    searchParams.get("iconColor") ?? searchParams.get("ic") ?? undefined;
+  const color = searchParams.get("color") ?? undefined;
+  const iconColor = searchParams.get("iconColor") ?? undefined;
   const viewboxParam = searchParams.get("viewbox");
   const viewbox =
     viewboxParam === "auto" ? ("auto" as const) : undefined;
@@ -129,13 +126,11 @@ export function parseIconsRequest(
 export function parseRenderOptions(
   searchParams: URLSearchParams,
 ): RenderOptions | ResolveError {
-  const themeParam = searchParams.get("t") ?? searchParams.get("theme");
-  const themeResult = parseTheme(themeParam);
+  const themeResult = parseTheme(searchParams.get("theme"));
   if (isResolveError(themeResult)) return themeResult;
 
-  const color = searchParams.get("color") ?? searchParams.get("c") ?? undefined;
-  const iconColor =
-    searchParams.get("iconColor") ?? searchParams.get("ic") ?? undefined;
+  const color = searchParams.get("color") ?? undefined;
+  const iconColor = searchParams.get("iconColor") ?? undefined;
   const viewboxParam = searchParams.get("viewbox");
   const viewbox =
     viewboxParam === "auto" ? ("auto" as const) : undefined;

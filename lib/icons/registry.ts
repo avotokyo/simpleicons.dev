@@ -4,7 +4,6 @@ import path from "node:path";
 
 import iconsData from "simple-icons/icons.json";
 
-import { SHORT_NAMES, SLUG_ALIASES } from "./aliases";
 import type { IconMeta, IconRecord } from "./types";
 
 type IconData = {
@@ -17,6 +16,7 @@ type IconData = {
   aliases?: {
     aka?: string[];
     old?: string[];
+    loc?: Record<string, string>;
   };
 };
 
@@ -67,14 +67,12 @@ function buildRegistry(): Registry {
         aliasToSlug.set(normalizeAlias(aka), icon.slug);
       }
     }
-  }
 
-  for (const [alias, slug] of Object.entries(SHORT_NAMES)) {
-    aliasToSlug.set(alias, slug);
-  }
-
-  for (const [alias, slug] of Object.entries(SLUG_ALIASES)) {
-    aliasToSlug.set(alias, slug);
+    if (icon.aliases?.loc) {
+      for (const localized of Object.values(icon.aliases.loc)) {
+        aliasToSlug.set(normalizeAlias(localized), icon.slug);
+      }
+    }
   }
 
   const allSlugs = [...bySlug.keys()].sort();
