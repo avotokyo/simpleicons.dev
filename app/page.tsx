@@ -3,13 +3,7 @@ import type { ReactNode } from "react";
 
 import { CodeBlock } from "@/components/home/code-block";
 import { Badge } from "@/components/ui/badge";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import {
   Table,
@@ -61,20 +55,13 @@ const curlExamples = [
   'curl "https://simpleicons.dev/icons?icons=javascript,html5,css,react"',
 ] as const;
 
-function ExternalLink({
-  href,
-  children,
-}: {
-  href: string;
-  children: ReactNode;
-}) {
+function ExternalLink({ href, children }: { href: string; children: ReactNode }) {
   return (
     <a
       href={href}
       target="_blank"
       rel="noopener noreferrer"
-      className="text-primary underline-offset-4 hover:underline"
-    >
+      className="text-primary underline-offset-4 hover:underline">
       {children}
     </a>
   );
@@ -84,13 +71,12 @@ export default function Home() {
   return (
     <main id="main-content" className="mx-auto max-w-3xl space-y-8 p-6">
       <nav aria-label="On this page">
-        <ul className="flex flex-wrap gap-x-4 gap-y-2 text-sm text-muted-foreground">
+        <ul className="text-muted-foreground flex flex-wrap gap-x-4 gap-y-2 text-sm">
           {navItems.map((item) => (
             <li key={item.href}>
               <a
                 href={item.href}
-                className="underline-offset-4 hover:text-foreground hover:underline"
-              >
+                className="hover:text-foreground underline-offset-4 hover:underline">
                 {item.label}
               </a>
             </li>
@@ -104,11 +90,10 @@ export default function Home() {
         </h1>
         <p className="text-muted-foreground">
           SVG icon API powered by{" "}
-          <ExternalLink href="https://simpleicons.org">Simple Icons</ExternalLink>
-          . Combine brand icons into a single SVG for GitHub READMEs, resumes,
-          and other Markdown documents.
+          <ExternalLink href="https://simpleicons.org">Simple Icons</ExternalLink>. Combine brand
+          icons into a single SVG for GitHub READMEs, resumes, and other Markdown documents.
         </p>
-        <p className="text-sm text-muted-foreground">
+        <p className="text-muted-foreground text-sm">
           Icon data from{" "}
           <ExternalLink href="https://www.npmjs.com/package/simple-icons">
             <code className="text-foreground" translate="no">
@@ -130,9 +115,7 @@ export default function Home() {
         <Card>
           <CardHeader>
             <CardTitle>Markdown badge</CardTitle>
-            <CardDescription>
-              Embed a linked icon strip in your README.
-            </CardDescription>
+            <CardDescription>Embed a linked icon strip in your README.</CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
             <CodeBlock>{quickStartMarkdown}</CodeBlock>
@@ -147,18 +130,14 @@ export default function Home() {
                   className="max-w-full"
                 />
               </Link>
-              <figcaption className="text-sm text-muted-foreground">
-                Live preview
-              </figcaption>
+              <figcaption className="text-muted-foreground text-sm">Live preview</figcaption>
             </figure>
           </CardContent>
         </Card>
         <Card>
           <CardHeader>
             <CardTitle>Markdown image</CardTitle>
-            <CardDescription>
-              Use theme and perline to customize the layout.
-            </CardDescription>
+            <CardDescription>Use theme and perline to customize the layout.</CardDescription>
           </CardHeader>
           <CardContent>
             <CodeBlock>{quickStartImageMarkdown}</CodeBlock>
@@ -186,12 +165,11 @@ export default function Home() {
                   <Link
                     href={endpoint.href}
                     className="font-mono text-sm underline-offset-4 hover:underline"
-                    translate="no"
-                  >
+                    translate="no">
                     {endpoint.path}
                   </Link>
                 </TableCell>
-                <TableCell className="whitespace-normal text-muted-foreground">
+                <TableCell className="text-muted-foreground whitespace-normal">
                   {endpoint.description}
                 </TableCell>
               </TableRow>
@@ -225,7 +203,7 @@ export default function Home() {
                     <Badge variant="outline">No</Badge>
                   )}
                 </TableCell>
-                <TableCell className="whitespace-normal text-muted-foreground">
+                <TableCell className="text-muted-foreground whitespace-normal">
                   {parameter.description}
                 </TableCell>
               </TableRow>
@@ -236,7 +214,7 @@ export default function Home() {
 
       <section id="render-parameters" className="space-y-4">
         <h2 className="text-xl font-semibold text-balance">Render Parameters</h2>
-        <p className="text-sm text-muted-foreground">Applies to `/icons`:</p>
+        <p className="text-muted-foreground text-sm">Applies to `/icons`:</p>
         <Table>
           <TableHeader>
             <TableRow>
@@ -252,7 +230,7 @@ export default function Home() {
                     {parameter.name}
                   </code>
                 </TableCell>
-                <TableCell className="whitespace-normal text-muted-foreground">
+                <TableCell className="text-muted-foreground whitespace-normal">
                   {parameter.description}
                 </TableCell>
               </TableRow>
@@ -273,9 +251,8 @@ export default function Home() {
       <section id="slugs" className="space-y-4">
         <h2 className="text-xl font-semibold text-balance">Slugs</h2>
         <p className="text-muted-foreground">
-          Find slugs at{" "}
-          <ExternalLink href="https://simpleicons.org">simpleicons.org</ExternalLink>
-          . Aliases (
+          Find slugs at <ExternalLink href="https://simpleicons.org">simpleicons.org</ExternalLink>.
+          Aliases (
           <code className="text-sm" translate="no">
             aliases.old
           </code>

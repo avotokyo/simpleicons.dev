@@ -1,10 +1,6 @@
 import { describe, expect, it } from "vite-plus/test";
 
-import {
-  isResolveError,
-  parseIconsRequest,
-  parseRenderOptions,
-} from "./resolve";
+import { isResolveError, parseIconsRequest, parseRenderOptions } from "./resolve";
 
 function params(input: Record<string, string>): URLSearchParams {
   return new URLSearchParams(input);
