@@ -1,5 +1,4 @@
 import "server-only";
-
 import * as simpleIcons from "simple-icons";
 import type { SimpleIcon } from "simple-icons";
 import iconsData from "simple-icons/icons.json";
@@ -7,7 +6,7 @@ import { slugToVariableName } from "simple-icons/sdk";
 
 import type { IconRecord } from "./types";
 
-/** icons.json 中单条图标的原始数据结构 */
+/** Icons.json 中单条图标的原始数据结构 */
 type IconData = {
   title: string;
   slug: string;
@@ -22,12 +21,7 @@ type IconData = {
   };
 };
 
-/**
- * 内存注册表结构。
- * bySlug: 官方 slug → 元数据
- * aliasToSlug: 别名（含规范化后的）→ 官方 slug
- * allSlugs: 排序后的全部 slug 列表
- */
+/** 内存注册表结构。 bySlug: 官方 slug → 元数据 aliasToSlug: 别名（含规范化后的）→ 官方 slug allSlugs: 排序后的全部 slug 列表 */
 type Registry = {
   bySlug: Map<string, IconRecord>;
   aliasToSlug: Map<string, string>;
@@ -37,18 +31,12 @@ type Registry = {
 /** 懒加载单例，首次请求时构建 */
 let registry: Registry | null = null;
 
-/**
- * 将用户输入的别名规范化为查找键。
- * 规则：转小写并移除非字母数字字符（如 "Node.js" → "nodedotjs"）。
- */
+/** 将用户输入的别名规范化为查找键。 规则：转小写并移除非字母数字字符（如 "Node.js" → "nodedotjs"）。 */
 function normalizeAlias(alias: string): string {
   return alias.toLowerCase().replace(/[^a-z0-9]/g, "");
 }
 
-/**
- * 从 icons.json 构建内存注册表。
- * 索引 slug、title、old/aka/loc 别名，支持多种方式查找图标。
- */
+/** 从 icons.json 构建内存注册表。 索引 slug、title、old/aka/loc 别名，支持多种方式查找图标。 */
 function buildRegistry(): Registry {
   const raw = iconsData as IconData[];
   const bySlug = new Map<string, IconRecord>();
@@ -111,10 +99,7 @@ function isSimpleIcon(value: unknown): value is SimpleIcon {
   );
 }
 
-/**
- * 根据 slug 获取 SVG path 字符串。
- * 通过 slugToVariableName 将 slug 转为 simple-icons 包的导出名（如 siJavascript）。
- */
+/** 根据 slug 获取 SVG path 字符串。 通过 slugToVariableName 将 slug 转为 simple-icons 包的导出名（如 siJavascript）。 */
 export function getIconSvg(slug: string): string | undefined {
   const key = slugToVariableName(slug) as keyof typeof simpleIcons;
   const icon = simpleIcons[key];
@@ -137,10 +122,7 @@ export function getIconBySlug(slug: string): IconRecord | undefined {
   return getRegistry().bySlug.get(slug);
 }
 
-/**
- * 将用户输入解析为官方 slug。
- * 依次尝试：精确 slug → 别名表 → 规范化别名。
- */
+/** 将用户输入解析为官方 slug。 依次尝试：精确 slug → 别名表 → 规范化别名。 */
 export function resolveSlug(name: string): string | undefined {
   const key = name.trim().toLowerCase();
   if (!key) return undefined;
@@ -159,10 +141,7 @@ export function resolveSlug(name: string): string | undefined {
   return undefined;
 }
 
-/**
- * 按 slug 或 title 模糊搜索图标。
- * 线性扫描，结果达到 limit 时提前终止。
- */
+/** 按 slug 或 title 模糊搜索图标。 线性扫描，结果达到 limit 时提前终止。 */
 export function searchIcons(query: string, limit = 50): IconRecord[] {
   const q = query.trim().toLowerCase();
   if (!q) return [];

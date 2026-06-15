@@ -2,10 +2,7 @@ import { renderIconCard } from "@/lib/icons/render";
 import { isResolveError, parseRenderOptions, resolveSlugParam } from "@/lib/icons/resolve";
 import { errorResponse, renderErrorResponse, svgResponse } from "@/lib/icons/responses";
 
-/**
- * GET /api/icon/{slug} — 单个图标 SVG 端点。
- * 支持 slug 别名解析及通用渲染参数。
- */
+/** GET /api/icon/{slug} — 单个图标 SVG 端点。 支持 slug 别名解析及通用渲染参数。 */
 export async function GET(request: Request, { params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   const resolved = resolveSlugParam(slug);

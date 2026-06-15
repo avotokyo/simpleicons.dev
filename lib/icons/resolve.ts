@@ -1,7 +1,6 @@
 import "server-only";
-
-import { ICONS_PER_LINE } from "./render";
 import { getAllSlugs, resolveSlug } from "./registry";
+import { ICONS_PER_LINE } from "./render";
 import type { RenderOptions, Theme } from "./types";
 
 /** `/icons` 端点解析后的请求参数 */
@@ -23,10 +22,7 @@ export type SearchRequestParams = {
   limit: number;
 };
 
-/**
- * 参数校验失败时的错误结构。
- * 使用联合类型而非 throw，便于路由层统一处理 400 响应。
- */
+/** 参数校验失败时的错误结构。 使用联合类型而非 throw，便于路由层统一处理 400 响应。 */
 export type ResolveError = {
   status: number;
   message: string;
@@ -37,10 +33,7 @@ const DEFAULT_SEARCH_LIMIT = 50;
 /** 搜索最大返回数量 */
 const MAX_SEARCH_LIMIT = 100;
 
-/**
- * 解析 theme 查询参数。
- * 合法值：dark | light；未传则返回 undefined（由调用方决定默认值）。
- */
+/** 解析 theme 查询参数。 合法值：dark | light；未传则返回 undefined（由调用方决定默认值）。 */
 function parseTheme(value: string | null): Theme | undefined | ResolveError {
   if (!value) return undefined;
   if (value === "dark" || value === "light") return value;
@@ -50,10 +43,7 @@ function parseTheme(value: string | null): Theme | undefined | ResolveError {
   };
 }
 
-/**
- * 解析 perline 查询参数。
- * 合法范围：1–50，未传则使用 ICONS_PER_LINE 默认值。
- */
+/** 解析 perline 查询参数。 合法范围：1–50，未传则使用 ICONS_PER_LINE 默认值。 */
 function parsePerLine(value: string | null): number | ResolveError {
   const perLine = value ? Number.parseInt(value, 10) : ICONS_PER_LINE;
   if (Number.isNaN(perLine) || perLine < 1 || perLine > 50) {
@@ -65,10 +55,7 @@ function parsePerLine(value: string | null): number | ResolveError {
   return perLine;
 }
 
-/**
- * 解析 icons 查询参数为名称列表。
- * 支持逗号分隔的 slug 列表，或特殊值 "all" 返回全部 slug。
- */
+/** 解析 icons 查询参数为名称列表。 支持逗号分隔的 slug 列表，或特殊值 "all" 返回全部 slug。 */
 function parseIconNames(iconParam: string | null): string[] | ResolveError {
   if (!iconParam) {
     return { status: 400, message: "Missing icons parameter" };
@@ -89,10 +76,7 @@ function parseIconNames(iconParam: string | null): string[] | ResolveError {
   return names;
 }
 
-/**
- * 将用户输入的名称列表解析为官方 slug 列表。
- * 任一名称无法解析时立即返回 400 错误。
- */
+/** 将用户输入的名称列表解析为官方 slug 列表。 任一名称无法解析时立即返回 400 错误。 */
 function resolveIconSlugs(names: string[]): string[] | ResolveError {
   const slugs: string[] = [];
 
@@ -112,10 +96,7 @@ export function isResolveError(value: unknown): value is ResolveError {
   return typeof value === "object" && value !== null && "status" in value && "message" in value;
 }
 
-/**
- * 解析 SVG 渲染相关的通用查询参数。
- * 适用于所有返回 SVG 的端点（theme、color、iconColor、viewbox）。
- */
+/** 解析 SVG 渲染相关的通用查询参数。 适用于所有返回 SVG 的端点（theme、color、iconColor、viewbox）。 */
 export function parseRenderOptions(searchParams: URLSearchParams): RenderOptions | ResolveError {
   const themeResult = parseTheme(searchParams.get("theme"));
   if (isResolveError(themeResult)) return themeResult;
@@ -133,10 +114,7 @@ export function parseRenderOptions(searchParams: URLSearchParams): RenderOptions
   };
 }
 
-/**
- * 解析 `/icons` 端点的完整请求参数。
- * 组合 icons/perline 与通用渲染参数。
- */
+/** 解析 `/icons` 端点的完整请求参数。 组合 icons/perline 与通用渲染参数。 */
 export function parseIconsRequest(
   searchParams: URLSearchParams,
 ): IconsRequestParams | ResolveError {
@@ -161,10 +139,7 @@ export function parseIconsRequest(
   };
 }
 
-/**
- * 解析 `/api/svgs` 端点的请求参数。
- * 支持 ?slugs=a,b,c 或 ?all=1 获取全部图标。
- */
+/** 解析 `/api/svgs` 端点的请求参数。 支持 ?slugs=a,b,c 或 ?all=1 获取全部图标。 */
 export function parseSvgsRequest(searchParams: URLSearchParams): SvgsRequestParams | ResolveError {
   const renderOptions = parseRenderOptions(searchParams);
   if (isResolveError(renderOptions)) return renderOptions;
@@ -192,10 +167,7 @@ export function parseSvgsRequest(searchParams: URLSearchParams): SvgsRequestPara
   };
 }
 
-/**
- * 解析 `/api/icons/search` 端点的请求参数。
- * limit 默认 50，最大 100；无效值回退到默认值。
- */
+/** 解析 `/api/icons/search` 端点的请求参数。 limit 默认 50，最大 100；无效值回退到默认值。 */
 export function parseSearchRequest(searchParams: URLSearchParams): SearchRequestParams {
   const query = searchParams.get("q") ?? "";
   const limitParam = searchParams.get("limit");
@@ -206,10 +178,7 @@ export function parseSearchRequest(searchParams: URLSearchParams): SearchRequest
   return { query, limit: safeLimit };
 }
 
-/**
- * 解析动态路由中的 slug 参数。
- * 支持别名解析，未知 slug 返回 400。
- */
+/** 解析动态路由中的 slug 参数。 支持别名解析，未知 slug 返回 400。 */
 export function resolveSlugParam(slug: string): string | ResolveError {
   const resolved = resolveSlug(slug);
   if (!resolved) {

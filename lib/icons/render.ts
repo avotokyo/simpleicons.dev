@@ -1,5 +1,4 @@
 import "server-only";
-
 import { getIconBySlug, getIconSvg } from "./registry";
 import type { RenderOptions, Theme } from "./types";
 
@@ -23,10 +22,7 @@ const THEME_BACKGROUNDS: Record<Theme, string> = {
   light: "#F4F2ED",
 };
 
-/**
- * 规范化 hex 颜色值，确保以 # 开头。
- * 支持 3–8 位 hex，无效格式抛出 Error。
- */
+/** 规范化 hex 颜色值，确保以 # 开头。 支持 3–8 位 hex，无效格式抛出 Error。 */
 function normalizeHex(color: string): string {
   const hex = color.replace(/^#/, "");
   if (!/^[0-9a-fA-F]{3,8}$/.test(hex)) {
@@ -41,10 +37,7 @@ function extractSvgInner(svg: string): string {
   return match ? match[1].trim() : svg;
 }
 
-/**
- * 为 path 元素设置 fill 属性。
- * force=false 时保留已有 fill；force=true 时强制覆盖。
- */
+/** 为 path 元素设置 fill 属性。 force=false 时保留已有 fill；force=true 时强制覆盖。 */
 function applyPathFill(inner: string, fill: string, force = false): string {
   return inner.replace(/<path\b([^>]*)\/>/gi, (_tag, attrs: string) => {
     if (!force && /\sfill="/i.test(attrs)) {
@@ -66,10 +59,7 @@ function applyDefaultIconFill(inner: string, hex: string): string {
   return applyPathFill(inner, normalizeHex(hex));
 }
 
-/**
- * 渲染单个图标的 SVG 卡片。
- * viewbox=auto 时返回原始 24×24 SVG；否则返回带圆角背景的 256×256 卡片。
- */
+/** 渲染单个图标的 SVG 卡片。 viewbox=auto 时返回原始 24×24 SVG；否则返回带圆角背景的 256×256 卡片。 */
 export function renderIconCard(slug: string, options: RenderOptions = {}): string {
   const icon = getIconBySlug(slug);
   if (!icon) {
@@ -103,19 +93,13 @@ ${inner}
 </svg>`;
 }
 
-/**
- * 渲染图标卡片并仅返回内部 path 内容。
- * 用于多图标拼接，避免嵌套完整 <svg> 标签。
- */
+/** 渲染图标卡片并仅返回内部 path 内容。 用于多图标拼接，避免嵌套完整 <svg> 标签。 */
 export function renderIconCardInner(slug: string, options: RenderOptions = {}): string {
   const full = renderIconCard(slug, options);
   return extractSvgInner(full);
 }
 
-/**
- * 将多个图标拼接为一张 SVG。
- * 按 perLine 分列排列，整体缩放至 ONE_ICON 高度的行。
- */
+/** 将多个图标拼接为一张 SVG。 按 perLine 分列排列，整体缩放至 ONE_ICON 高度的行。 */
 export function generateCombinedSvg(
   slugs: string[],
   perLine: number,
