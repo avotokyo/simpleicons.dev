@@ -137,3 +137,7 @@ Use official slugs from [simpleicons.org](https://simpleicons.org):
 Built-in aliases from simple-icons (`aliases.old`, `aliases.aka`, `aliases.loc`) are also supported. Unknown slugs return `400 Unknown icon: ...`.
 
 Full list: `GET https://simpleicons.dev/api/icons`
+
+---
+
+Powered by Vercel
