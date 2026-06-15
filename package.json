@@ -23,9 +23,9 @@
     "dev": "next dev",
     "lint": "eslint",
     "start": "next start",
-    "test": "vitest run",
+    "test": "vp test",
     "test:e2e": "playwright test",
-    "test:watch": "vitest"
+    "test:watch": "vp test watch"
   },
   "dependencies": {
     "@vercel/analytics": "^2.0.1",
