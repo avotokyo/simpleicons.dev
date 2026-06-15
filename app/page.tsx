@@ -1,7 +1,9 @@
 export default function Home() {
   return (
-    <main>
-      <h1>simpleicons.dev</h1>
+    <main id="main-content">
+      <h1>
+        <span translate="no">simpleicons.dev</span>
+      </h1>
       <p>Simple Icons SVG API — see README for usage.</p>
       <ul>
         <li>

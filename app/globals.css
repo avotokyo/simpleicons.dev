@@ -12,6 +12,7 @@ main {
 h1 {
   font-size: 1.5rem;
   margin: 0 0 0.5rem;
+  text-wrap: balance;
 }
 
 ul {
@@ -20,4 +21,28 @@ ul {
 
 a {
   color: inherit;
+  touch-action: manipulation;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+a:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+}
+
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  z-index: 999;
+  padding: 0.5rem 1rem;
+  background: #fff;
+  color: #000;
+}
+
+.skip-link:focus {
+  left: 1rem;
+  top: 1rem;
 }
