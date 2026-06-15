@@ -1,8 +1,8 @@
 # simpleicons.dev
 
-> https://simpleicons.dev
+> <https://simpleicons.dev>
 
-An SVG icon API powered by [Simple Icons](https://simpleicons.org). Combines multiple brand icons into a single SVG image, ready to embed in GitHub README files, resumes, and other Markdown documents.
+An SVG icon API powered by [Simple Icons](https://simpleicons.org). Combine multiple brand icons into a single SVG image for GitHub README files, resumes, and other Markdown documents.
 
 Icon data comes from the [`simple-icons`](https://www.npmjs.com/package/simple-icons) npm package. Official [slugs](https://github.com/simple-icons/simple-icons/blob/master/slugs.md) are used as identifiers.
 
@@ -50,8 +50,6 @@ These parameters apply to all endpoints that return SVG:
 ### `GET /icons`
 
 Generate a combined multi-icon SVG.
-
-**Parameters**
 
 | Parameter   | Required | Description                                               |
 | ----------- | -------- | --------------------------------------------------------- |
@@ -139,36 +137,3 @@ Use official slugs from [simpleicons.org](https://simpleicons.org):
 Built-in aliases from simple-icons (`aliases.old`, `aliases.aka`, `aliases.loc`) are also supported. Unknown slugs return `400 Unknown icon: ...`.
 
 Full list: `GET https://simpleicons.dev/api/icons`
-
----
-
-## Local Development
-
-```bash
-pnpm install
-pnpm dev    # http://localhost:3000
-pnpm build
-pnpm start
-```
-
-### Testing
-
-```bash
-pnpm test          # Unit + route integration tests (Vitest)
-pnpm test:watch    # Vitest watch mode
-pnpm test:e2e      # E2E API tests (Playwright)
-```
-
-### Project Layout
-
-```
-lib/icons/          Icon registry, rendering, parameter parsing
-app/icons/          Multi-icon combined SVG
-app/api/icon/       Single icon
-app/api/icons/      List and search
-app/api/svgs/       Batch SVG
-```
-
-## License
-
-Icon copyrights belong to their respective brand owners. Use in accordance with the [Simple Icons disclaimer](https://github.com/simple-icons/simple-icons/blob/develop/DISCLAIMER.md).

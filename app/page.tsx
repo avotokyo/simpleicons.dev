@@ -2,7 +2,7 @@ export default function Home() {
   return (
     <main>
       <h1>simpleicons.dev</h1>
-      <p>Simple Icons SVG API — see README for endpoints.</p>
+      <p>Simple Icons SVG API — see README for usage.</p>
       <ul>
         <li>
           <a href="/icons?icons=javascript,react,nodedotjs">/icons</a>
