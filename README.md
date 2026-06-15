@@ -20,6 +20,8 @@ Icon data from [`simple-icons`](https://www.npmjs.com/package/simple-icons). Use
 ![My Skills](https://simpleicons.dev/icons?icons=nodedotjs,vuedotjs,nextdotjs&theme=light&perline=3)
 ```
 
+![My Skills](https://simpleicons.dev/icons?icons=nodedotjs,vuedotjs,nextdotjs&theme=light&perline=3)
+
 ## API
 
 | Endpoint     | Description             |

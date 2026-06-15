@@ -141,6 +141,19 @@ export default function Home() {
           </CardHeader>
           <CardContent>
             <CodeBlock>{quickStartImageMarkdown}</CodeBlock>
+            <figure className="space-y-2">
+              <Link href="/">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src="/icons?icons=nodedotjs,vuedotjs,nextdotjs&theme=light&perline=3"
+                  alt="Node.js, Vue.js, and Next.js icons"
+                  width={560}
+                  height={35}
+                  className="max-w-full"
+                />
+              </Link>
+              <figcaption className="text-muted-foreground text-sm">Live preview</figcaption>
+            </figure>
           </CardContent>
         </Card>
       </section>
