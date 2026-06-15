@@ -43,6 +43,7 @@
     "eslint": "^9",
     "eslint-config-next": "16.2.4",
     "jiti": "^2.7.0",
+    "skills": "^1.5.11",
     "typescript": "^6",
     "vite-plus": "^0.1.24"
   },

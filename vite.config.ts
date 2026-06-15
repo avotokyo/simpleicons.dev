@@ -11,6 +11,7 @@ export default defineConfig({
   },
   fmt: {
     bracketSameLine: true,
+    ignorePatterns: [".agents"],
     jsdoc: true,
     sortImports: true,
     sortPackageJson: {
