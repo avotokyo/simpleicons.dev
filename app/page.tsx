@@ -130,7 +130,6 @@ export default function Home() {
                   className="max-w-full"
                 />
               </Link>
-              <figcaption className="text-muted-foreground text-sm">Live preview</figcaption>
             </figure>
           </CardContent>
         </Card>
@@ -152,7 +151,6 @@ export default function Home() {
                   className="max-w-full"
                 />
               </Link>
-              <figcaption className="text-muted-foreground text-sm">Live preview</figcaption>
             </figure>
           </CardContent>
         </Card>
