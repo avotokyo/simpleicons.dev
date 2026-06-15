@@ -15,33 +15,22 @@ jobs:
     timeout-minutes: 15
 
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v4
+      - name: Setup Vite Plus
+        uses: bjmhe/workflows/setup-vp@vp
         with:
-          version: 11.3.0
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version-file: .nvmrc
-          cache: pnpm
-
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+          fetch-all: true
+          cache: false
 
       - name: Lint
-        run: pnpm lint
+        run: vp run lint
 
       - name: Unit and integration tests
-        run: pnpm test
+        run: vp run test
 
       - name: Install Playwright browsers
         run: pnpm exec playwright install chromium --with-deps
 
       - name: E2E tests
-        run: pnpm test:e2e
+        run: vp run test:e2e
         env:
           CI: true
