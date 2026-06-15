@@ -18,15 +18,15 @@ pnpm start
 
 ## Scripts
 
-| Command           | Description                              |
-| ----------------- | ---------------------------------------- |
-| `pnpm dev`        | Start Next.js dev server                 |
-| `pnpm build`      | Production build                         |
-| `pnpm start`      | Serve production build                   |
-| `pnpm lint`       | Run ESLint                               |
-| `pnpm test`       | Unit and route integration tests         |
-| `pnpm test:watch` | Vitest watch mode                        |
-| `pnpm test:e2e`   | E2E API tests (Playwright)                 |
+| Command           | Description                      |
+| ----------------- | -------------------------------- |
+| `pnpm dev`        | Start Next.js dev server         |
+| `pnpm build`      | Production build                 |
+| `pnpm start`      | Serve production build           |
+| `pnpm lint`       | Run ESLint                       |
+| `pnpm test`       | Unit and route integration tests |
+| `pnpm test:watch` | Vitest watch mode                |
+| `pnpm test:e2e`   | E2E API tests (Playwright)       |
 
 ## Testing
 
