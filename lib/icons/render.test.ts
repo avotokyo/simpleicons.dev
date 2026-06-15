@@ -1,10 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import {
-  generateCombinedSvg,
-  renderIconCard,
-  renderSvgsMap,
-} from "./render";
+import { generateCombinedSvg, renderIconCard, renderSvgsMap } from "./render";
 
 describe("render", () => {
   describe("renderIconCard", () => {
@@ -41,9 +37,7 @@ describe("render", () => {
     });
 
     it("throws for invalid hex color", () => {
-      expect(() => renderIconCard("javascript", { color: "not-a-color" })).toThrow(
-        "Invalid color",
-      );
+      expect(() => renderIconCard("javascript", { color: "not-a-color" })).toThrow("Invalid color");
     });
   });
 
@@ -51,15 +45,15 @@ describe("render", () => {
     it("combines multiple icons with layout transforms", () => {
       const svg = generateCombinedSvg(["javascript", "react"], 2);
       expect(svg).toContain("<svg");
-      expect(svg).toContain('translate(0, 0)');
-      expect(svg).toContain('translate(300, 0)');
+      expect(svg).toContain("translate(0, 0)");
+      expect(svg).toContain("translate(300, 0)");
     });
 
     it("respects perLine layout", () => {
       const svg = generateCombinedSvg(["javascript", "react", "css"], 1);
-      expect(svg).toContain('translate(0, 0)');
-      expect(svg).toContain('translate(0, 300)');
-      expect(svg).toContain('translate(0, 600)');
+      expect(svg).toContain("translate(0, 0)");
+      expect(svg).toContain("translate(0, 300)");
+      expect(svg).toContain("translate(0, 600)");
     });
   });
 

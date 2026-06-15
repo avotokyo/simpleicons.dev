@@ -1,11 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import {
-  errorResponse,
-  jsonResponse,
-  renderErrorResponse,
-  svgResponse,
-} from "./responses";
+import { errorResponse, jsonResponse, renderErrorResponse, svgResponse } from "./responses";
 
 describe("responses", () => {
   it("jsonResponse sets content-type and body", async () => {

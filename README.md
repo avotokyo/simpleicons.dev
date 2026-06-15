@@ -24,24 +24,24 @@ Light theme with custom icons per line:
 
 ## API Overview
 
-| Endpoint                                       | Description              | Response Type      |
-| ---------------------------------------------- | ------------------------ | ------------------ |
-| [`GET /icons`](#get-icons)                     | Combined multi-icon SVG  | `image/svg+xml`    |
-| [`GET /api/icon/{slug}`](#get-apiiconslug)     | Single icon              | `image/svg+xml`    |
-| [`GET /api/icons`](#get-apiicons)              | Icon list                | `application/json` |
-| [`GET /api/icons/search`](#get-apiiconssearch) | Search icons             | `application/json` |
-| [`GET /api/svgs`](#get-apisvgs)                | Batch SVG retrieval      | `application/json` |
+| Endpoint                                       | Description             | Response Type      |
+| ---------------------------------------------- | ----------------------- | ------------------ |
+| [`GET /icons`](#get-icons)                     | Combined multi-icon SVG | `image/svg+xml`    |
+| [`GET /api/icon/{slug}`](#get-apiiconslug)     | Single icon             | `image/svg+xml`    |
+| [`GET /api/icons`](#get-apiicons)              | Icon list               | `application/json` |
+| [`GET /api/icons/search`](#get-apiiconssearch) | Search icons            | `application/json` |
+| [`GET /api/svgs`](#get-apisvgs)                | Batch SVG retrieval     | `application/json` |
 
 ### Common Render Parameters
 
 These parameters apply to all endpoints that return SVG:
 
-| Parameter   | Description                                                              |
-| ----------- | ------------------------------------------------------------------------ |
-| `theme`     | Card background theme: `dark` (default) or `light`                       |
-| `color`     | Override card background color (hex, e.g. `F7DF1E`)                      |
-| `iconColor` | Override icon path fill color (hex)                                      |
-| `viewbox`   | Set to `auto` to output raw 24×24 SVG without rounded card background    |
+| Parameter   | Description                                                           |
+| ----------- | --------------------------------------------------------------------- |
+| `theme`     | Card background theme: `dark` (default) or `light`                    |
+| `color`     | Override card background color (hex, e.g. `F7DF1E`)                   |
+| `iconColor` | Override icon path fill color (hex)                                   |
+| `viewbox`   | Set to `auto` to output raw 24×24 SVG without rounded card background |
 
 ---
 
@@ -53,10 +53,10 @@ Generate a combined multi-icon SVG.
 
 **Parameters**
 
-| Parameter   | Required | Description                                      |
-| ----------- | -------- | ------------------------------------------------ |
-| `icons`     | Yes      | Comma-separated slugs, or `all` for every icon   |
-| `perline`   | No       | Icons per row, 1–50, default `15`                |
+| Parameter   | Required | Description                                               |
+| ----------- | -------- | --------------------------------------------------------- |
+| `icons`     | Yes      | Comma-separated slugs, or `all` for every icon            |
+| `perline`   | No       | Icons per row, 1–50, default `15`                         |
 | `theme`     | No       | See [Common Render Parameters](#common-render-parameters) |
 | `color`     | No       | See [Common Render Parameters](#common-render-parameters) |
 | `iconColor` | No       | See [Common Render Parameters](#common-render-parameters) |
@@ -88,18 +88,18 @@ curl "https://simpleicons.dev/api/icons"
 curl "https://simpleicons.dev/api/icons?format=full"
 ```
 
-| Parameter     | Description                              |
-| ------------- | ---------------------------------------- |
+| Parameter     | Description                                |
+| ------------- | ------------------------------------------ |
 | `format=full` | Return full metadata instead of slug array |
 
 ### `GET /api/icons/search`
 
 Fuzzy search icons by slug or title.
 
-| Parameter | Description                              |
-| --------- | ---------------------------------------- |
-| `q`       | Search query                             |
-| `limit`   | Max results, default `50`, max `100`     |
+| Parameter | Description                          |
+| --------- | ------------------------------------ |
+| `q`       | Search query                         |
+| `limit`   | Max results, default `50`, max `100` |
 
 ```bash
 curl "https://simpleicons.dev/api/icons/search?q=react"
@@ -109,10 +109,10 @@ curl "https://simpleicons.dev/api/icons/search?q=react"
 
 Return SVG strings for multiple icons as a JSON object keyed by slug.
 
-| Parameter | Description                          |
-| --------- | ------------------------------------ |
-| `slugs`     | Comma-separated slug list            |
-| `all=1`     | Return all icons (large response)    |
+| Parameter | Description                       |
+| --------- | --------------------------------- |
+| `slugs`   | Comma-separated slug list         |
+| `all=1`   | Return all icons (large response) |
 
 Supports the same render parameters as SVG endpoints.
 

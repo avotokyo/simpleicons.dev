@@ -1,11 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import {
-  getAllSlugs,
-  getIconBySlug,
-  resolveSlug,
-  searchIcons,
-} from "./registry";
+import { getAllSlugs, getIconBySlug, resolveSlug, searchIcons } from "./registry";
 
 describe("registry", () => {
   describe("resolveSlug", () => {
