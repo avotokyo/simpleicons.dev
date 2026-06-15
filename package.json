@@ -2,6 +2,7 @@
   "name": "simpleicons.dev",
   "version": "0.0.7",
   "description": "SVG icon API inspired by @skill-icons.",
+  "homepage": "https://simpleicons.dev",
   "license": "Apache-2.0",
   "author": "Yongqi He <hi@heyongqi.me>",
   "repository": {
@@ -27,13 +28,22 @@
     "test:watch": "vp test watch"
   },
   "dependencies": {
+    "@base-ui/react": "^1.5.0",
+    "@tailwindcss/postcss": "^4.3.1",
     "@vercel/analytics": "^2.0.1",
     "@vercel/speed-insights": "^2.0.0",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "lucide-react": "^1.18.0",
     "next": "16.2.9",
     "react": "19.2.7",
     "react-dom": "19.2.7",
     "server-only": "^0.0.1",
-    "simple-icons": "^16.23.0"
+    "shadcn": "^4.11.0",
+    "simple-icons": "^16.23.0",
+    "tailwind-merge": "^3.6.0",
+    "tailwindcss": "^4.3.1",
+    "tw-animate-css": "^1.4.0"
   },
   "devDependencies": {
     "@playwright/test": "^1.60.0",

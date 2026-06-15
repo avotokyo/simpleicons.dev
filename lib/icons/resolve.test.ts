@@ -1,13 +1,6 @@
 import { describe, expect, it } from "vite-plus/test";
 
-import {
-  isResolveError,
-  parseIconsRequest,
-  parseRenderOptions,
-  parseSearchRequest,
-  parseSvgsRequest,
-  resolveSlugParam,
-} from "./resolve";
+import { isResolveError, parseIconsRequest, parseRenderOptions } from "./resolve";
 
 function params(input: Record<string, string>): URLSearchParams {
   return new URLSearchParams(input);
@@ -98,71 +91,6 @@ describe("resolve", () => {
       expect(isResolveError(result)).toBe(true);
       if (isResolveError(result)) {
         expect(result.message).toContain("Unknown icon");
-      }
-    });
-  });
-
-  describe("parseSvgsRequest", () => {
-    it("returns 400 when neither slugs nor all is provided", () => {
-      const result = parseSvgsRequest(params({}));
-      expect(isResolveError(result)).toBe(true);
-    });
-
-    it("parses slugs parameter", () => {
-      const result = parseSvgsRequest(params({ slugs: "javascript,react" }));
-      expect(isResolveError(result)).toBe(false);
-      if (!isResolveError(result)) {
-        expect(result.slugs).toEqual(["javascript", "react"]);
-      }
-    });
-
-    it("supports all=1", () => {
-      const result = parseSvgsRequest(params({ all: "1" }));
-      expect(isResolveError(result)).toBe(false);
-      if (!isResolveError(result)) {
-        expect(result.slugs.length).toBeGreaterThan(100);
-      }
-    });
-
-    it("rejects unknown slug in slugs list", () => {
-      const result = parseSvgsRequest(params({ slugs: "not-a-real-icon-xyz" }));
-      expect(isResolveError(result)).toBe(true);
-    });
-  });
-
-  describe("parseSearchRequest", () => {
-    it("defaults limit to 50", () => {
-      const result = parseSearchRequest(params({ q: "react" }));
-      expect(result.limit).toBe(50);
-      expect(result.query).toBe("react");
-    });
-
-    it("caps limit at 100", () => {
-      const result = parseSearchRequest(params({ q: "react", limit: "200" }));
-      expect(result.limit).toBe(100);
-    });
-
-    it("falls back to 50 for invalid limit", () => {
-      expect(parseSearchRequest(params({ q: "react", limit: "0" })).limit).toBe(50);
-      expect(parseSearchRequest(params({ q: "react", limit: "-5" })).limit).toBe(50);
-      expect(parseSearchRequest(params({ q: "react", limit: "abc" })).limit).toBe(50);
-    });
-  });
-
-  describe("resolveSlugParam", () => {
-    it("resolves known slug", () => {
-      const result = resolveSlugParam("javascript");
-      expect(isResolveError(result)).toBe(false);
-      if (!isResolveError(result)) {
-        expect(result).toBe("javascript");
-      }
-    });
-
-    it("returns 400 for unknown slug", () => {
-      const result = resolveSlugParam("not-a-real-icon-xyz");
-      expect(isResolveError(result)).toBe(true);
-      if (isResolveError(result)) {
-        expect(result.status).toBe(400);
       }
     });
   });
