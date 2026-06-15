@@ -20,31 +20,31 @@ Icon data from [`simple-icons`](https://www.npmjs.com/package/simple-icons). Use
 
 ## API
 
-| Endpoint | Description |
-| --- | --- |
-| `GET /icons` | Combined multi-icon SVG |
-| `GET /api/icon/{slug}` | Single icon SVG |
-| `GET /api/icons` | Icon list (`?format=full` for metadata) |
-| `GET /api/icons/search` | Search by slug or title (`q`, `limit`) |
-| `GET /api/svgs` | Batch SVG as JSON (`slugs` or `all=1`) |
+| Endpoint                | Description                             |
+| ----------------------- | --------------------------------------- |
+| `GET /icons`            | Combined multi-icon SVG                 |
+| `GET /api/icon/{slug}`  | Single icon SVG                         |
+| `GET /api/icons`        | Icon list (`?format=full` for metadata) |
+| `GET /api/icons/search` | Search by slug or title (`q`, `limit`)  |
+| `GET /api/svgs`         | Batch SVG as JSON (`slugs` or `all=1`)  |
 
 ### Render parameters
 
 Applies to all SVG endpoints:
 
-| Parameter | Description |
-| --- | --- |
-| `theme` | `dark` (default) or `light` |
-| `color` | Card background (hex, e.g. `F7DF1E`) |
-| `iconColor` | Icon fill color (hex) |
-| `viewbox` | `auto` for raw 24×24 SVG without card |
+| Parameter   | Description                           |
+| ----------- | ------------------------------------- |
+| `theme`     | `dark` (default) or `light`           |
+| `color`     | Card background (hex, e.g. `F7DF1E`)  |
+| `iconColor` | Icon fill color (hex)                 |
+| `viewbox`   | `auto` for raw 24×24 SVG without card |
 
 ### `GET /icons`
 
-| Parameter | Required | Description |
-| --- | --- | --- |
-| `icons` | Yes | Comma-separated slugs, or `all` |
-| `perline` | No | Icons per row, 1–50 (default `15`) |
+| Parameter | Required | Description                        |
+| --------- | -------- | ---------------------------------- |
+| `icons`   | Yes      | Comma-separated slugs, or `all`    |
+| `perline` | No       | Icons per row, 1–50 (default `15`) |
 
 ```bash
 curl "https://simpleicons.dev/icons?icons=javascript,html5,css,react"
