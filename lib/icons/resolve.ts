@@ -15,9 +15,7 @@ export type ResolveError = {
   message: string;
 };
 
-function parseTheme(
-  value: string | null,
-): Theme | undefined | ResolveError {
+function parseTheme(value: string | null): Theme | undefined | ResolveError {
   if (!value) return undefined;
   if (value === "dark" || value === "light") return value;
   return {
@@ -37,9 +35,7 @@ function parsePerLine(value: string | null): number | ResolveError {
   return perLine;
 }
 
-function parseIconNames(
-  iconParam: string | null,
-): string[] | ResolveError {
+function parseIconNames(iconParam: string | null): string[] | ResolveError {
   if (!iconParam) {
     return { status: 400, message: "Missing icons parameter" };
   }
@@ -48,7 +44,10 @@ function parseIconNames(
     return getAllSlugs();
   }
 
-  const names = iconParam.split(",").map((n) => n.trim()).filter(Boolean);
+  const names = iconParam
+    .split(",")
+    .map((n) => n.trim())
+    .filter(Boolean);
   if (names.length === 0) {
     return { status: 400, message: "Missing icons parameter" };
   }
@@ -70,15 +69,8 @@ function resolveIconSlugs(names: string[]): string[] | ResolveError {
   return slugs;
 }
 
-export function isResolveError(
-  value: unknown,
-): value is ResolveError {
-  return (
-    typeof value === "object" &&
-    value !== null &&
-    "status" in value &&
-    "message" in value
-  );
+export function isResolveError(value: unknown): value is ResolveError {
+  return typeof value === "object" && value !== null && "status" in value && "message" in value;
 }
 
 export function parseIconsRequest(
@@ -95,17 +87,13 @@ export function parseIconsRequest(
   const perLineResult = parsePerLine(searchParams.get("perline"));
   if (isResolveError(perLineResult)) return perLineResult;
 
-  const slugsResult =
-    iconParam === "all"
-      ? iconNames
-      : resolveIconSlugs(iconNames as string[]);
+  const slugsResult = iconParam === "all" ? iconNames : resolveIconSlugs(iconNames as string[]);
   if (isResolveError(slugsResult)) return slugsResult;
 
   const color = searchParams.get("color") ?? undefined;
   const iconColor = searchParams.get("iconColor") ?? undefined;
   const viewboxParam = searchParams.get("viewbox");
-  const viewbox =
-    viewboxParam === "auto" ? ("auto" as const) : undefined;
+  const viewbox = viewboxParam === "auto" ? ("auto" as const) : undefined;
 
   const theme: Theme = themeResult ?? "dark";
 
@@ -121,17 +109,14 @@ export function parseIconsRequest(
   };
 }
 
-export function parseRenderOptions(
-  searchParams: URLSearchParams,
-): RenderOptions | ResolveError {
+export function parseRenderOptions(searchParams: URLSearchParams): RenderOptions | ResolveError {
   const themeResult = parseTheme(searchParams.get("theme"));
   if (isResolveError(themeResult)) return themeResult;
 
   const color = searchParams.get("color") ?? undefined;
   const iconColor = searchParams.get("iconColor") ?? undefined;
   const viewboxParam = searchParams.get("viewbox");
-  const viewbox =
-    viewboxParam === "auto" ? ("auto" as const) : undefined;
+  const viewbox = viewboxParam === "auto" ? ("auto" as const) : undefined;
 
   return {
     theme: themeResult ?? "dark",
@@ -141,9 +126,7 @@ export function parseRenderOptions(
   };
 }
 
-export function resolveSlugParam(
-  slug: string,
-): string | ResolveError {
+export function resolveSlugParam(slug: string): string | ResolveError {
   const resolved = resolveSlug(slug);
   if (!resolved) {
     return { status: 400, message: `Unknown icon: ${slug}` };

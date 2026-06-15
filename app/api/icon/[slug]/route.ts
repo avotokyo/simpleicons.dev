@@ -1,14 +1,7 @@
 import { renderIconCard } from "@/lib/icons/render";
-import {
-  isResolveError,
-  parseRenderOptions,
-  resolveSlugParam,
-} from "@/lib/icons/resolve";
+import { isResolveError, parseRenderOptions, resolveSlugParam } from "@/lib/icons/resolve";
 
-export async function GET(
-  request: Request,
-  { params }: { params: Promise<{ slug: string }> },
-) {
+export async function GET(request: Request, { params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   const resolved = resolveSlugParam(slug);
 

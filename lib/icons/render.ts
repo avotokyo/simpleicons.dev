@@ -47,10 +47,7 @@ function applyDefaultIconFill(inner: string, hex: string): string {
   return applyPathFill(inner, normalizeHex(hex));
 }
 
-export function renderIconCard(
-  slug: string,
-  options: RenderOptions = {},
-): string {
+export function renderIconCard(slug: string, options: RenderOptions = {}): string {
   const icon = getIconBySlug(slug);
   if (!icon) {
     throw new Error(`Unknown icon: ${slug}`);
@@ -70,9 +67,7 @@ export function renderIconCard(
     return `<svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">${inner}</svg>`;
   }
 
-  const background = options.color
-    ? normalizeHex(options.color)
-    : THEME_BACKGROUNDS[theme];
+  const background = options.color ? normalizeHex(options.color) : THEME_BACKGROUNDS[theme];
 
   const iconScale = (CARD_SIZE - 64) / 24;
   const iconOffset = (CARD_SIZE - 24 * iconScale) / 2;
@@ -85,10 +80,7 @@ ${inner}
 </svg>`;
 }
 
-export function renderIconCardInner(
-  slug: string,
-  options: RenderOptions = {},
-): string {
+export function renderIconCardInner(slug: string, options: RenderOptions = {}): string {
   const full = renderIconCard(slug, options);
   return extractSvgInner(full);
 }
@@ -100,10 +92,8 @@ export function generateCombinedSvg(
 ): string {
   const iconSvgList = slugs.map((slug) => renderIconCardInner(slug, options));
 
-  const length =
-    Math.min(perLine * CELL_SIZE, slugs.length * CELL_SIZE) - CELL_PADDING;
-  const height =
-    Math.ceil(iconSvgList.length / perLine) * CELL_SIZE - CELL_PADDING;
+  const length = Math.min(perLine * CELL_SIZE, slugs.length * CELL_SIZE) - CELL_PADDING;
+  const height = Math.ceil(iconSvgList.length / perLine) * CELL_SIZE - CELL_PADDING;
   const scaledHeight = height * SCALE;
   const scaledWidth = length * SCALE;
 

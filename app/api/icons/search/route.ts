@@ -12,8 +12,7 @@ export async function GET(request: Request) {
 
   const limitParam = searchParams.get("limit");
   const limit = limitParam ? Number.parseInt(limitParam, 10) : 50;
-  const safeLimit =
-    Number.isNaN(limit) || limit < 1 ? 50 : Math.min(limit, 100);
+  const safeLimit = Number.isNaN(limit) || limit < 1 ? 50 : Math.min(limit, 100);
 
   const results = searchIcons(query, safeLimit);
 

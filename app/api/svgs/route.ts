@@ -1,10 +1,6 @@
 import { renderSvgsMap } from "@/lib/icons/render";
 import { getAllSlugs } from "@/lib/icons/registry";
-import {
-  isResolveError,
-  parseRenderOptions,
-  resolveSlugParam,
-} from "@/lib/icons/resolve";
+import { isResolveError, parseRenderOptions, resolveSlugParam } from "@/lib/icons/resolve";
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
@@ -22,7 +18,10 @@ export async function GET(request: Request) {
   if (all === "1") {
     slugs = getAllSlugs();
   } else if (slugsParam) {
-    const names = slugsParam.split(",").map((n) => n.trim()).filter(Boolean);
+    const names = slugsParam
+      .split(",")
+      .map((n) => n.trim())
+      .filter(Boolean);
     for (const name of names) {
       const resolved = resolveSlugParam(name);
       if (isResolveError(resolved)) {

@@ -10,11 +10,7 @@ export async function GET(request: Request) {
   }
 
   try {
-    const svg = generateCombinedSvg(
-      parsed.slugs,
-      parsed.perLine,
-      parsed.renderOptions,
-    );
+    const svg = generateCombinedSvg(parsed.slugs, parsed.perLine, parsed.renderOptions);
 
     return new Response(svg, {
       headers: { "Content-Type": "image/svg+xml" },
