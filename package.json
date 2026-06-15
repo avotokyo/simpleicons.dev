@@ -2,6 +2,7 @@
   "name": "simpleicons.dev",
   "version": "0.0.7",
   "description": "SVG icon API inspired by @skill-icons.",
+  "homepage": "https://simpleicons.dev",
   "license": "Apache-2.0",
   "author": "Yongqi He <hi@heyongqi.me>",
   "repository": {
