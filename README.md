@@ -2,13 +2,13 @@
 
 > https://simpleicons.dev
 
-基于 [Simple Icons](https://simpleicons.org) 的 SVG 图标 API。将多个品牌图标拼接为一张 SVG，可直接嵌入 GitHub README、简历等 Markdown 文档。
+An SVG icon API powered by [Simple Icons](https://simpleicons.org). Combines multiple brand icons into a single SVG image, ready to embed in GitHub README files, resumes, and other Markdown documents.
 
-图标数据来自 [`simple-icons`](https://www.npmjs.com/package/simple-icons) npm 包，使用官方 [slug](https://github.com/simple-icons/simple-icons/blob/master/slugs.md) 作为标识符。
+Icon data comes from the [`simple-icons`](https://www.npmjs.com/package/simple-icons) npm package. Official [slugs](https://github.com/simple-icons/simple-icons/blob/master/slugs.md) are used as identifiers.
 
-## 快速使用
+## Quick Start
 
-在 Markdown 中嵌入技能图标条：
+Embed a skills icon bar in Markdown:
 
 ```md
 [![My Skills](https://simpleicons.dev/icons?icons=javascript,html5,css,react,nodedotjs)](https://simpleicons.dev)
@@ -16,51 +16,51 @@
 
 [![My Skills](https://simpleicons.dev/icons?icons=javascript,html5,css,react,nodedotjs)](https://simpleicons.dev)
 
-指定浅色主题与每行数量：
+Light theme with custom icons per line:
 
 ```md
 ![My Skills](https://simpleicons.dev/icons?icons=nodedotjs,vuedotjs,nextdotjs&theme=light&perline=3)
 ```
 
-## API 概览
+## API Overview
 
-| 端点                                           | 说明         | 响应类型           |
-| ---------------------------------------------- | ------------ | ------------------ |
-| [`GET /icons`](#get-icons)                     | 多图标拼接   | `image/svg+xml`    |
-| [`GET /api/icon/{slug}`](#get-apiiconslug)     | 单个图标     | `image/svg+xml`    |
-| [`GET /api/icons`](#get-apiicons)              | 图标列表     | `application/json` |
-| [`GET /api/icons/search`](#get-apiiconssearch) | 搜索图标     | `application/json` |
-| [`GET /api/svgs`](#get-apisvgs)                | 批量获取 SVG | `application/json` |
+| Endpoint                                       | Description             | Response Type      |
+| ---------------------------------------------- | ----------------------- | ------------------ |
+| [`GET /icons`](#get-icons)                     | Combined multi-icon SVG | `image/svg+xml`    |
+| [`GET /api/icon/{slug}`](#get-apiiconslug)     | Single icon             | `image/svg+xml`    |
+| [`GET /api/icons`](#get-apiicons)              | Icon list               | `application/json` |
+| [`GET /api/icons/search`](#get-apiiconssearch) | Search icons            | `application/json` |
+| [`GET /api/svgs`](#get-apisvgs)                | Batch SVG retrieval     | `application/json` |
 
-### 通用渲染参数
+### Common Render Parameters
 
-以下参数适用于所有返回 SVG 的端点：
+These parameters apply to all endpoints that return SVG:
 
-| 参数        | 说明                                               |
-| ----------- | -------------------------------------------------- |
-| `theme`     | 卡片背景主题：`dark`（默认）或 `light`             |
-| `color`     | 覆盖卡片背景色（hex，如 `F7DF1E`）                 |
-| `iconColor` | 覆盖图标 path 填充色（hex）                        |
-| `viewbox`   | 设为 `auto` 时输出原始 24×24 SVG，不含圆角卡片背景 |
+| Parameter   | Description                                                           |
+| ----------- | --------------------------------------------------------------------- |
+| `theme`     | Card background theme: `dark` (default) or `light`                    |
+| `color`     | Override card background color (hex, e.g. `F7DF1E`)                   |
+| `iconColor` | Override icon path fill color (hex)                                   |
+| `viewbox`   | Set to `auto` to output raw 24×24 SVG without rounded card background |
 
 ---
 
-## 端点详情
+## Endpoints
 
 ### `GET /icons`
 
-生成多图标拼接 SVG。
+Generate a combined multi-icon SVG.
 
-**参数**
+**Parameters**
 
-| 参数        | 必填 | 说明                                   |
-| ----------- | ---- | -------------------------------------- |
-| `icons`     | 是   | 逗号分隔的 slug，或 `all` 表示全部图标 |
-| `perline`   | 否   | 每行图标数量，1–50，默认 `15`          |
-| `theme`     | 否   | 见[通用渲染参数](#通用渲染参数)        |
-| `color`     | 否   | 见[通用渲染参数](#通用渲染参数)        |
-| `iconColor` | 否   | 见[通用渲染参数](#通用渲染参数)        |
-| `viewbox`   | 否   | 见[通用渲染参数](#通用渲染参数)        |
+| Parameter   | Required | Description                                               |
+| ----------- | -------- | --------------------------------------------------------- |
+| `icons`     | Yes      | Comma-separated slugs, or `all` for every icon            |
+| `perline`   | No       | Icons per row, 1–50, default `15`                         |
+| `theme`     | No       | See [Common Render Parameters](#common-render-parameters) |
+| `color`     | No       | See [Common Render Parameters](#common-render-parameters) |
+| `iconColor` | No       | See [Common Render Parameters](#common-render-parameters) |
+| `viewbox`   | No       | See [Common Render Parameters](#common-render-parameters) |
 
 ```bash
 curl "https://simpleicons.dev/icons?icons=javascript,html5,css,react"
@@ -69,7 +69,7 @@ curl "https://simpleicons.dev/icons?icons=nodedotjs,vuedotjs,nextdotjs&theme=lig
 
 ### `GET /api/icon/{slug}`
 
-返回单个图标的 SVG。
+Return a single icon SVG.
 
 ```bash
 curl "https://simpleicons.dev/api/icon/javascript"
@@ -78,28 +78,28 @@ curl "https://simpleicons.dev/api/icon/javascript?color=F7DF1E&viewbox=auto"
 
 ### `GET /api/icons`
 
-返回所有可用图标的 slug 列表。
+Return a list of all available icon slugs.
 
 ```bash
-# slug 数组
+# Slug array
 curl "https://simpleicons.dev/api/icons"
 
-# 完整元数据（slug、title、hex、source 等）
+# Full metadata (slug, title, hex, source, etc.)
 curl "https://simpleicons.dev/api/icons?format=full"
 ```
 
-| 参数          | 说明                           |
-| ------------- | ------------------------------ |
-| `format=full` | 返回完整元数据，而非 slug 数组 |
+| Parameter     | Description                                |
+| ------------- | ------------------------------------------ |
+| `format=full` | Return full metadata instead of slug array |
 
 ### `GET /api/icons/search`
 
-按 slug 或 title 模糊搜索图标。
+Fuzzy search icons by slug or title.
 
-| 参数    | 说明                                |
-| ------- | ----------------------------------- |
-| `q`     | 搜索关键词                          |
-| `limit` | 返回数量上限，默认 `50`，最大 `100` |
+| Parameter | Description                          |
+| --------- | ------------------------------------ |
+| `q`       | Search query                         |
+| `limit`   | Max results, default `50`, max `100` |
 
 ```bash
 curl "https://simpleicons.dev/api/icons/search?q=react"
@@ -107,14 +107,14 @@ curl "https://simpleicons.dev/api/icons/search?q=react"
 
 ### `GET /api/svgs`
 
-按需返回多个图标的 SVG 字符串，JSON 对象 key 为 slug。
+Return SVG strings for multiple icons as a JSON object keyed by slug.
 
-| 参数    | 说明                       |
-| ------- | -------------------------- |
-| `slugs` | 逗号分隔的 slug 列表       |
-| `all=1` | 返回全部图标（响应体较大） |
+| Parameter | Description                       |
+| --------- | --------------------------------- |
+| `slugs`   | Comma-separated slug list         |
+| `all=1`   | Return all icons (large response) |
 
-支持与 SVG 端点相同的渲染参数。
+Supports the same render parameters as SVG endpoints.
 
 ```bash
 curl "https://simpleicons.dev/api/svgs?slugs=javascript,react"
@@ -122,11 +122,11 @@ curl "https://simpleicons.dev/api/svgs?slugs=javascript,react"
 
 ---
 
-## 图标 slug
+## Icon Slugs
 
-使用 [simpleicons.org](https://simpleicons.org) 上的官方 slug：
+Use official slugs from [simpleicons.org](https://simpleicons.org):
 
-| 品牌       | slug         |
+| Brand      | Slug         |
 | ---------- | ------------ |
 | JavaScript | `javascript` |
 | HTML       | `html5`      |
@@ -136,13 +136,13 @@ curl "https://simpleicons.dev/api/svgs?slugs=javascript,react"
 | Vue        | `vuedotjs`   |
 | Next.js    | `nextdotjs`  |
 
-另支持 simple-icons 内置别名（`aliases.old`、`aliases.aka`、`aliases.loc`）。未知 slug 返回 `400 Unknown icon: ...`。
+Built-in aliases from simple-icons (`aliases.old`, `aliases.aka`, `aliases.loc`) are also supported. Unknown slugs return `400 Unknown icon: ...`.
 
-完整列表：`GET https://simpleicons.dev/api/icons`
+Full list: `GET https://simpleicons.dev/api/icons`
 
 ---
 
-## 本地开发
+## Local Development
 
 ```bash
 pnpm install
@@ -151,14 +151,24 @@ pnpm build
 pnpm start
 ```
 
-```
-lib/icons/          图标注册、渲染、参数解析
-app/icons/          多图标拼接
-app/api/icon/       单图标
-app/api/icons/      列表与搜索
-app/api/svgs/       批量 SVG
+### Testing
+
+```bash
+pnpm test          # Unit + route integration tests (Vitest)
+pnpm test:watch    # Vitest watch mode
+pnpm test:e2e      # E2E API tests (Playwright)
 ```
 
-## 许可
+### Project Layout
 
-图标版权归各品牌所有者，使用请遵守 [Simple Icons 免责声明](https://github.com/simple-icons/simple-icons/blob/develop/DISCLAIMER.md)。
+```
+lib/icons/          Icon registry, rendering, parameter parsing
+app/icons/          Multi-icon combined SVG
+app/api/icon/       Single icon
+app/api/icons/      List and search
+app/api/svgs/       Batch SVG
+```
+
+## License
+
+Icon copyrights belong to their respective brand owners. Use in accordance with the [Simple Icons disclaimer](https://github.com/simple-icons/simple-icons/blob/develop/DISCLAIMER.md).
