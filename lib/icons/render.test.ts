@@ -48,10 +48,11 @@ describe("render", () => {
   });
 
   describe("generateCombinedSvg", () => {
-    it("combines multiple icons with g transforms", () => {
+    it("combines multiple icons with layout transforms", () => {
       const svg = generateCombinedSvg(["javascript", "react"], 2);
       expect(svg).toContain("<svg");
-      expect(svg.match(/<g transform=/g)?.length).toBe(2);
+      expect(svg).toContain('translate(0, 0)');
+      expect(svg).toContain('translate(300, 0)');
     });
 
     it("respects perLine layout", () => {
