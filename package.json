@@ -1,7 +1,23 @@
 {
   "name": "simpleicons.dev",
-  "version": "0.1.0",
-  "private": true,
+  "version": "0.0.0",
+  "description": "SVG icon API inspired by @skill-icons.",
+  "license": "Apache-2.0",
+  "author": "Yongqi He <hi@heyongqi.me>",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/heyongqi02/simpleicons.dev.git"
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "type": "module",
+  "sideEffects": false,
+  "publishConfig": {
+    "repository": "https://registry.npmjs.org/",
+    "access": "public"
+  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -28,7 +44,11 @@
     "eslint": "^9",
     "eslint-config-next": "16.2.4",
     "typescript": "^5",
+    "vite-plus": "^0.1.24",
     "vitest": "^4.1.8"
+  },
+  "engines": {
+    "node": ">=24.16.0"
   },
   "packageManager": "pnpm@11.3.0"
 }
