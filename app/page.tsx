@@ -2,8 +2,8 @@ import Link from "next/link";
 import type { ReactNode } from "react";
 
 import { CodeBlock } from "@/components/home/code-block";
+import { QuickStartCard } from "@/components/home/quick-start-card";
 import { Badge } from "@/components/ui/badge";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import {
   Table,
@@ -46,8 +46,6 @@ const iconsParameters = [
     description: "Icons per row, 1–50 (default 15)",
   },
 ] as const;
-
-const quickStartMarkdown = `![My Skills](https://simpleicons.dev/icons?icons=javascript,html5,css,react,nodedotjs)`;
 
 const curlExamples = [
   'curl "https://simpleicons.dev/icons?icons=javascript,html5,css,react"',
@@ -110,27 +108,7 @@ export default function Home() {
 
       <section id="quick-start" className="space-y-4">
         <h2 className="text-xl font-semibold text-balance">Quick Start</h2>
-        <Card>
-          <CardHeader>
-            <CardTitle>Markdown badge</CardTitle>
-            <CardDescription>Embed a linked icon strip in your README.</CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <CodeBlock>{quickStartMarkdown}</CodeBlock>
-            <figure className="space-y-2">
-              <Link href="/">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src="/icons?icons=javascript,html5,css,react,nodedotjs"
-                  alt="JavaScript, HTML5, CSS, React, and Node.js icons"
-                  width={560}
-                  height={35}
-                  className="max-w-full"
-                />
-              </Link>
-            </figure>
-          </CardContent>
-        </Card>
+        <QuickStartCard />
       </section>
 
       <section id="api" className="space-y-4">
