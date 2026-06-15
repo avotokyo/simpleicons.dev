@@ -1,7 +1,5 @@
 # simpleicons.dev
 
-> <https://simpleicons.dev>
-
 SVG icon API powered by [Simple Icons](https://simpleicons.org). Combine brand icons into a single SVG for GitHub READMEs, resumes, and other Markdown documents.
 
 Icon data from [`simple-icons`](https://www.npmjs.com/package/simple-icons). Use official [slugs](https://github.com/simple-icons/simple-icons/blob/master/slugs.md) as identifiers.
@@ -55,7 +53,3 @@ curl "https://simpleicons.dev/api/icons/search?q=react"
 ## Slugs
 
 Find slugs at [simpleicons.org](https://simpleicons.org) or `GET /api/icons`. Aliases (`aliases.old`, `aliases.aka`, `aliases.loc`) are supported. Unknown slugs return `400`.
-
----
-
-Powered by Vercel
