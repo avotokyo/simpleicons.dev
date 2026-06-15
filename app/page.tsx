@@ -47,9 +47,7 @@ const iconsParameters = [
   },
 ] as const;
 
-const quickStartMarkdown = `[![My Skills](https://simpleicons.dev/icons?icons=javascript,html5,css,react,nodedotjs)](https://simpleicons.dev)`;
-
-const quickStartImageMarkdown = `![My Skills](https://simpleicons.dev/icons?icons=nodedotjs,vuedotjs,nextdotjs&theme=light&perline=3)`;
+const quickStartMarkdown = `![My Skills](https://simpleicons.dev/icons?icons=javascript,html5,css,react,nodedotjs)`;
 
 const curlExamples = [
   'curl "https://simpleicons.dev/icons?icons=javascript,html5,css,react"',
@@ -125,27 +123,6 @@ export default function Home() {
                 <img
                   src="/icons?icons=javascript,html5,css,react,nodedotjs"
                   alt="JavaScript, HTML5, CSS, React, and Node.js icons"
-                  width={560}
-                  height={35}
-                  className="max-w-full"
-                />
-              </Link>
-            </figure>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader>
-            <CardTitle>Markdown image</CardTitle>
-            <CardDescription>Use theme and perline to customize the layout.</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <CodeBlock>{quickStartImageMarkdown}</CodeBlock>
-            <figure className="space-y-2">
-              <Link href="/">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src="/icons?icons=nodedotjs,vuedotjs,nextdotjs&theme=light&perline=3"
-                  alt="Node.js, Vue.js, and Next.js icons"
                   width={560}
                   height={35}
                   className="max-w-full"
