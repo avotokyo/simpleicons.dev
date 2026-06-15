@@ -196,9 +196,7 @@ export function parseSvgsRequest(searchParams: URLSearchParams): SvgsRequestPara
  * 解析 `/api/icons/search` 端点的请求参数。
  * limit 默认 50，最大 100；无效值回退到默认值。
  */
-export function parseSearchRequest(
-  searchParams: URLSearchParams,
-): SearchRequestParams | ResolveError {
+export function parseSearchRequest(searchParams: URLSearchParams): SearchRequestParams {
   const query = searchParams.get("q") ?? "";
   const limitParam = searchParams.get("limit");
   const limit = limitParam ? Number.parseInt(limitParam, 10) : DEFAULT_SEARCH_LIMIT;
