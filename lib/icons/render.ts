@@ -1,8 +1,6 @@
 import "server-only";
 
-import { readFileSync } from "node:fs";
-
-import { getIconBySlug, getIconSvgPath } from "./registry";
+import { getIconBySlug, getIconSvg } from "./registry";
 import type { RenderOptions, Theme } from "./types";
 
 export const ICONS_PER_LINE = 15;
@@ -49,10 +47,6 @@ function applyDefaultIconFill(inner: string, hex: string): string {
   return applyPathFill(inner, normalizeHex(hex));
 }
 
-function readIconSvg(slug: string): string {
-  return readFileSync(getIconSvgPath(slug), "utf8");
-}
-
 export function renderIconCard(
   slug: string,
   options: RenderOptions = {},
@@ -63,7 +57,10 @@ export function renderIconCard(
   }
 
   const theme = options.theme ?? "dark";
-  const svg = readIconSvg(slug);
+  const svg = getIconSvg(slug);
+  if (!svg) {
+    throw new Error(`Missing SVG for icon: ${slug}`);
+  }
   let inner = extractSvgInner(svg);
   inner = options.iconColor
     ? applyIconColor(inner, options.iconColor)

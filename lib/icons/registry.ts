@@ -1,8 +1,9 @@
 import "server-only";
 
-import path from "node:path";
-
+import * as simpleIcons from "simple-icons";
+import type { SimpleIcon } from "simple-icons";
 import iconsData from "simple-icons/icons.json";
+import { slugToVariableName } from "simple-icons/sdk";
 
 import type { IconRecord } from "./types";
 
@@ -19,10 +20,6 @@ type IconData = {
     loc?: Record<string, string>;
   };
 };
-
-function getIconsSvgDir(): string {
-  return path.join(process.cwd(), "node_modules/simple-icons/icons");
-}
 
 type Registry = {
   bySlug: Map<string, IconRecord>;
@@ -87,8 +84,19 @@ function getRegistry(): Registry {
   return registry;
 }
 
-export function getIconSvgPath(slug: string): string {
-  return path.join(getIconsSvgDir(), `${slug}.svg`);
+function isSimpleIcon(value: unknown): value is SimpleIcon {
+  return (
+    typeof value === "object" &&
+    value !== null &&
+    "svg" in value &&
+    typeof (value as SimpleIcon).svg === "string"
+  );
+}
+
+export function getIconSvg(slug: string): string | undefined {
+  const key = slugToVariableName(slug) as keyof typeof simpleIcons;
+  const icon = simpleIcons[key];
+  return isSimpleIcon(icon) ? icon.svg : undefined;
 }
 
 export function getAllSlugs(): string[] {
