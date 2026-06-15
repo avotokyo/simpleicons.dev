@@ -1,0 +1,4 @@
+minimumReleaseAge: 0
+registries:
+  default: https://registry.npmmirror.com/
+  "@jd": http://registry.m.jd.com/
