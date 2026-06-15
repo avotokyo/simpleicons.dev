@@ -10,28 +10,11 @@ export type IconsRequestParams = {
   renderOptions: RenderOptions;
 };
 
-/** 批量 SVG 端点解析后的请求参数 */
-export type SvgsRequestParams = {
-  slugs: string[];
-  renderOptions: RenderOptions;
-};
-
-/** 搜索端点解析后的请求参数 */
-export type SearchRequestParams = {
-  query: string;
-  limit: number;
-};
-
 /** 参数校验失败时的错误结构。 使用联合类型而非 throw，便于路由层统一处理 400 响应。 */
 export type ResolveError = {
   status: number;
   message: string;
 };
-
-/** 搜索默认返回数量上限 */
-const DEFAULT_SEARCH_LIMIT = 50;
-/** 搜索最大返回数量 */
-const MAX_SEARCH_LIMIT = 100;
 
 /** 解析 theme 查询参数。 合法值：dark | light；未传则返回 undefined（由调用方决定默认值）。 */
 function parseTheme(value: string | null): Theme | undefined | ResolveError {
@@ -137,52 +120,4 @@ export function parseIconsRequest(
     perLine: perLineResult,
     renderOptions,
   };
-}
-
-/** 解析 `/api/svgs` 端点的请求参数。 支持 ?slugs=a,b,c 或 ?all=1 获取全部图标。 */
-export function parseSvgsRequest(searchParams: URLSearchParams): SvgsRequestParams | ResolveError {
-  const renderOptions = parseRenderOptions(searchParams);
-  if (isResolveError(renderOptions)) return renderOptions;
-
-  const all = searchParams.get("all");
-  const slugsParam = searchParams.get("slugs");
-
-  if (all === "1") {
-    return { slugs: getAllSlugs(), renderOptions };
-  }
-
-  if (slugsParam) {
-    const names = slugsParam
-      .split(",")
-      .map((n) => n.trim())
-      .filter(Boolean);
-    const slugsResult = resolveIconSlugs(names);
-    if (isResolveError(slugsResult)) return slugsResult;
-    return { slugs: slugsResult, renderOptions };
-  }
-
-  return {
-    status: 400,
-    message: "Specify ?slugs=javascript,react or ?all=1",
-  };
-}
-
-/** 解析 `/api/icons/search` 端点的请求参数。 limit 默认 50，最大 100；无效值回退到默认值。 */
-export function parseSearchRequest(searchParams: URLSearchParams): SearchRequestParams {
-  const query = searchParams.get("q") ?? "";
-  const limitParam = searchParams.get("limit");
-  const limit = limitParam ? Number.parseInt(limitParam, 10) : DEFAULT_SEARCH_LIMIT;
-  const safeLimit =
-    Number.isNaN(limit) || limit < 1 ? DEFAULT_SEARCH_LIMIT : Math.min(limit, MAX_SEARCH_LIMIT);
-
-  return { query, limit: safeLimit };
-}
-
-/** 解析动态路由中的 slug 参数。 支持别名解析，未知 slug 返回 400。 */
-export function resolveSlugParam(slug: string): string | ResolveError {
-  const resolved = resolveSlug(slug);
-  if (!resolved) {
-    return { status: 400, message: `Unknown icon: ${slug}` };
-  }
-  return resolved;
 }

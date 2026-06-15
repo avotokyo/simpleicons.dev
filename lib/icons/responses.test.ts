@@ -1,15 +1,8 @@
 import { describe, expect, it } from "vite-plus/test";
 
-import { errorResponse, jsonResponse, renderErrorResponse, svgResponse } from "./responses";
+import { errorResponse, renderErrorResponse, svgResponse } from "./responses";
 
 describe("responses", () => {
-  it("jsonResponse sets content-type and body", async () => {
-    const res = jsonResponse({ foo: "bar" });
-    expect(res.status).toBe(200);
-    expect(res.headers.get("content-type")).toBe("application/json;charset=UTF-8");
-    expect(await res.json()).toEqual({ foo: "bar" });
-  });
-
   it("svgResponse sets image/svg+xml content-type", async () => {
     const res = svgResponse("<svg></svg>");
     expect(res.status).toBe(200);

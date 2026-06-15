@@ -1,16 +1,6 @@
 import "server-only";
 import type { ResolveError } from "./resolve";
 
-/** JSON 响应的 Content-Type，所有 JSON 端点统一使用 */
-const JSON_CONTENT_TYPE = "application/json;charset=UTF-8";
-
-/** 返回 JSON 响应，统一设置 charset 头。 */
-export function jsonResponse(data: unknown): Response {
-  return Response.json(data, {
-    headers: { "content-type": JSON_CONTENT_TYPE },
-  });
-}
-
 /** 返回 SVG 图片响应。 */
 export function svgResponse(svg: string): Response {
   return new Response(svg, {

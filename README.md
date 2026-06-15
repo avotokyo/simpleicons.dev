@@ -22,17 +22,13 @@ Icon data from [`simple-icons`](https://www.npmjs.com/package/simple-icons). Use
 
 ## API
 
-| Endpoint                | Description                             |
-| ----------------------- | --------------------------------------- |
-| `GET /icons`            | Combined multi-icon SVG                 |
-| `GET /api/icon/{slug}`  | Single icon SVG                         |
-| `GET /api/icons`        | Icon list (`?format=full` for metadata) |
-| `GET /api/icons/search` | Search by slug or title (`q`, `limit`)  |
-| `GET /api/svgs`         | Batch SVG as JSON (`slugs` or `all=1`)  |
+| Endpoint     | Description             |
+| ------------ | ----------------------- |
+| `GET /icons` | Combined multi-icon SVG |
 
 ### Render parameters
 
-Applies to all SVG endpoints:
+Applies to `/icons`:
 
 | Parameter   | Description                           |
 | ----------- | ------------------------------------- |
@@ -50,10 +46,8 @@ Applies to all SVG endpoints:
 
 ```bash
 curl "https://simpleicons.dev/icons?icons=javascript,html5,css,react"
-curl "https://simpleicons.dev/api/icon/javascript?color=F7DF1E&viewbox=auto"
-curl "https://simpleicons.dev/api/icons/search?q=react"
 ```
 
 ## Slugs
 
-Find slugs at [simpleicons.org](https://simpleicons.org) or `GET /api/icons`. Aliases (`aliases.old`, `aliases.aka`, `aliases.loc`) are supported. Unknown slugs return `400`.
+Find slugs at [simpleicons.org](https://simpleicons.org). Aliases (`aliases.old`, `aliases.aka`, `aliases.loc`) are supported. Unknown slugs return `400`.

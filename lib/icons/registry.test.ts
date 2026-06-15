@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vite-plus/test";
 
-import { getAllSlugs, getIconBySlug, resolveSlug, searchIcons } from "./registry";
+import { getAllSlugs, getIconBySlug, resolveSlug } from "./registry";
 
 describe("registry", () => {
   describe("resolveSlug", () => {
@@ -50,30 +50,6 @@ describe("registry", () => {
       expect(slugs).toContain("react");
       const sorted = [...slugs].sort();
       expect(slugs).toEqual(sorted);
-    });
-  });
-
-  describe("searchIcons", () => {
-    it("finds icons by slug substring", () => {
-      const results = searchIcons("react");
-      expect(results.length).toBeGreaterThan(0);
-      expect(results.some((i) => i.slug === "react")).toBe(true);
-    });
-
-    it("finds icons by title substring", () => {
-      const results = searchIcons("node");
-      expect(results.length).toBeGreaterThan(0);
-      expect(results.some((i) => i.slug === "nodedotjs")).toBe(true);
-    });
-
-    it("returns empty array for empty query", () => {
-      expect(searchIcons("")).toEqual([]);
-      expect(searchIcons("   ")).toEqual([]);
-    });
-
-    it("respects limit", () => {
-      const results = searchIcons("a", 3);
-      expect(results.length).toBeLessThanOrEqual(3);
     });
   });
 });

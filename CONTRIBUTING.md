@@ -48,9 +48,6 @@ CI runs the same checks on every push and pull request.
 ```
 lib/icons/          Icon registry, rendering, parameter parsing
 app/icons/          Multi-icon combined SVG route
-app/api/icon/       Single icon route
-app/api/icons/      List and search routes
-app/api/svgs/       Batch SVG route
 e2e/                Playwright API tests
 ```
 

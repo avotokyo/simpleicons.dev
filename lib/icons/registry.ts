@@ -111,12 +111,6 @@ export function getAllSlugs(): string[] {
   return getRegistry().allSlugs;
 }
 
-/** 返回全部图标元数据，顺序与 getAllSlugs 一致 */
-export function getAllIcons(): IconRecord[] {
-  const { bySlug, allSlugs } = getRegistry();
-  return allSlugs.map((slug) => bySlug.get(slug)!);
-}
-
 /** 根据官方 slug 获取元数据，不存在时返回 undefined */
 export function getIconBySlug(slug: string): IconRecord | undefined {
   return getRegistry().bySlug.get(slug);
@@ -139,19 +133,4 @@ export function resolveSlug(name: string): string | undefined {
   if (fromNormalized && bySlug.has(fromNormalized)) return fromNormalized;
 
   return undefined;
-}
-
-/** 按 slug 或 title 模糊搜索图标。 线性扫描，结果达到 limit 时提前终止。 */
-export function searchIcons(query: string, limit = 50): IconRecord[] {
-  const q = query.trim().toLowerCase();
-  if (!q) return [];
-
-  const results: IconRecord[] = [];
-  for (const icon of getAllIcons()) {
-    if (icon.slug.includes(q) || icon.title.toLowerCase().includes(q)) {
-      results.push(icon);
-      if (results.length >= limit) break;
-    }
-  }
-  return results;
 }

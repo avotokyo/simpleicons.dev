@@ -124,15 +124,3 @@ export function generateCombinedSvg(
   return `<svg width="${scaledWidth}" height="${scaledHeight}" viewBox="0 0 ${length} ${height}" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1">${iconsMarkup}
   </svg>`;
 }
-
-/** 批量渲染多个图标，返回 slug → SVG 字符串的映射 */
-export function renderSvgsMap(
-  slugs: string[],
-  options: RenderOptions = {},
-): Record<string, string> {
-  const result: Record<string, string> = {};
-  for (const slug of slugs) {
-    result[slug] = renderIconCard(slug, options);
-  }
-  return result;
-}

@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vite-plus/test";
 
-import { generateCombinedSvg, renderIconCard, renderSvgsMap } from "./render";
+import { generateCombinedSvg, renderIconCard } from "./render";
 
 describe("render", () => {
   describe("renderIconCard", () => {
@@ -54,15 +54,6 @@ describe("render", () => {
       expect(svg).toContain("translate(0, 0)");
       expect(svg).toContain("translate(0, 300)");
       expect(svg).toContain("translate(0, 600)");
-    });
-  });
-
-  describe("renderSvgsMap", () => {
-    it("returns slug keys mapped to svg strings", () => {
-      const map = renderSvgsMap(["javascript", "react"]);
-      expect(Object.keys(map)).toEqual(["javascript", "react"]);
-      expect(map.javascript).toContain("<svg");
-      expect(map.react).toContain("<svg");
     });
   });
 });

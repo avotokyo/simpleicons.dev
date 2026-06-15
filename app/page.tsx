@@ -24,7 +24,6 @@ const navItems = [
   { href: "#quick-start", label: "Quick Start" },
   { href: "#api", label: "API" },
   { href: "#render-parameters", label: "Render Parameters" },
-  { href: "#icons-endpoint", label: "GET /icons" },
   { href: "#examples", label: "Examples" },
   { href: "#slugs", label: "Slugs" },
 ] as const;
@@ -35,30 +34,6 @@ const apiEndpoints = [
     path: "/icons",
     href: "/icons?icons=javascript,html5,css,react",
     description: "Combined multi-icon SVG",
-  },
-  {
-    method: "GET",
-    path: "/api/icon/{slug}",
-    href: "/api/icon/javascript",
-    description: "Single icon SVG",
-  },
-  {
-    method: "GET",
-    path: "/api/icons",
-    href: "/api/icons",
-    description: "Icon list (?format=full for metadata)",
-  },
-  {
-    method: "GET",
-    path: "/api/icons/search",
-    href: "/api/icons/search?q=react",
-    description: "Search by slug or title (q, limit)",
-  },
-  {
-    method: "GET",
-    path: "/api/svgs",
-    href: "/api/svgs?slugs=javascript,react",
-    description: "Batch SVG as JSON (slugs or all=1)",
   },
 ] as const;
 
@@ -84,8 +59,6 @@ const quickStartImageMarkdown = `![My Skills](https://simpleicons.dev/icons?icon
 
 const curlExamples = [
   'curl "https://simpleicons.dev/icons?icons=javascript,html5,css,react"',
-  'curl "https://simpleicons.dev/api/icon/javascript?color=F7DF1E&viewbox=auto"',
-  'curl "https://simpleicons.dev/api/icons/search?q=react"',
 ] as const;
 
 function ExternalLink({
@@ -225,41 +198,10 @@ export default function Home() {
             ))}
           </TableBody>
         </Table>
-      </section>
 
-      <section id="render-parameters" className="space-y-4">
-        <h2 className="text-xl font-semibold text-balance">Render Parameters</h2>
-        <p className="text-sm text-muted-foreground">
-          Applies to all SVG endpoints:
-        </p>
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead>Parameter</TableHead>
-              <TableHead>Description</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {renderParameters.map((parameter) => (
-              <TableRow key={parameter.name}>
-                <TableCell>
-                  <code className="text-sm" translate="no">
-                    {parameter.name}
-                  </code>
-                </TableCell>
-                <TableCell className="whitespace-normal text-muted-foreground">
-                  {parameter.description}
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </section>
-
-      <section id="icons-endpoint" className="space-y-4">
-        <h2 className="text-xl font-semibold text-balance">
-          <code translate="no">GET /icons</code>
-        </h2>
+        <h3 className="text-lg font-medium">
+          <code translate="no">GET /icons</code> parameters
+        </h3>
         <Table>
           <TableHeader>
             <TableRow>
@@ -292,6 +234,33 @@ export default function Home() {
         </Table>
       </section>
 
+      <section id="render-parameters" className="space-y-4">
+        <h2 className="text-xl font-semibold text-balance">Render Parameters</h2>
+        <p className="text-sm text-muted-foreground">Applies to `/icons`:</p>
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead>Parameter</TableHead>
+              <TableHead>Description</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {renderParameters.map((parameter) => (
+              <TableRow key={parameter.name}>
+                <TableCell>
+                  <code className="text-sm" translate="no">
+                    {parameter.name}
+                  </code>
+                </TableCell>
+                <TableCell className="whitespace-normal text-muted-foreground">
+                  {parameter.description}
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </section>
+
       <section id="examples" className="space-y-4">
         <h2 className="text-xl font-semibold text-balance">Examples</h2>
         <div className="space-y-3">
@@ -305,16 +274,7 @@ export default function Home() {
         <h2 className="text-xl font-semibold text-balance">Slugs</h2>
         <p className="text-muted-foreground">
           Find slugs at{" "}
-          <ExternalLink href="https://simpleicons.org">simpleicons.org</ExternalLink>{" "}
-          or{" "}
-          <Link
-            href="/api/icons"
-            className="text-primary underline-offset-4 hover:underline"
-          >
-            <code className="text-foreground" translate="no">
-              GET /api/icons
-            </code>
-          </Link>
+          <ExternalLink href="https://simpleicons.org">simpleicons.org</ExternalLink>
           . Aliases (
           <code className="text-sm" translate="no">
             aliases.old
