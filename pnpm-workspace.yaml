@@ -1,3 +1,6 @@
+allowBuilds:
+  sharp: true
+  unrs-resolver: true
 minimumReleaseAge: 0
 registries:
   default: https://registry.npmmirror.com/
