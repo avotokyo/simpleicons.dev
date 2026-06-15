@@ -4,7 +4,7 @@ import path from "node:path";
 
 import iconsData from "simple-icons/icons.json";
 
-import type { IconMeta, IconRecord } from "./types";
+import type { IconRecord } from "./types";
 
 type IconData = {
   title: string;
@@ -122,28 +122,14 @@ export function resolveSlug(name: string): string | undefined {
   return undefined;
 }
 
-export function toIconMeta(icon: IconRecord): IconMeta {
-  return {
-    slug: icon.slug,
-    title: icon.title,
-    hex: icon.hex,
-    source: icon.source,
-    guidelines: icon.guidelines,
-    license: icon.license,
-  };
-}
-
-export function searchIcons(query: string, limit = 50): IconMeta[] {
+export function searchIcons(query: string, limit = 50): IconRecord[] {
   const q = query.trim().toLowerCase();
   if (!q) return [];
 
-  const results: IconMeta[] = [];
+  const results: IconRecord[] = [];
   for (const icon of getAllIcons()) {
-    if (
-      icon.slug.includes(q) ||
-      icon.title.toLowerCase().includes(q)
-    ) {
-      results.push(toIconMeta(icon));
+    if (icon.slug.includes(q) || icon.title.toLowerCase().includes(q)) {
+      results.push(icon);
       if (results.length >= limit) break;
     }
   }

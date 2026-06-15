@@ -5,15 +5,6 @@ export type License =
 export type Theme = "dark" | "light";
 
 export type IconRecord = {
-  title: string;
-  slug: string;
-  hex: string;
-  source: string;
-  guidelines?: string;
-  license?: License;
-};
-
-export type IconMeta = {
   slug: string;
   title: string;
   hex: string;

@@ -31,10 +31,9 @@ export async function GET(request: Request) {
       slugs.push(resolved);
     }
   } else {
-    return new Response(
-      'Specify ?slugs=js,react or ?all=1',
-      { status: 400 },
-    );
+    return new Response("Specify ?slugs=javascript,react or ?all=1", {
+      status: 400,
+    });
   }
 
   try {

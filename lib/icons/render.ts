@@ -6,11 +6,11 @@ import { getIconBySlug, getIconSvgPath } from "./registry";
 import type { RenderOptions, Theme } from "./types";
 
 export const ICONS_PER_LINE = 15;
-export const ONE_ICON = 48;
+const ONE_ICON = 48;
 const CELL_SIZE = 300;
 const CELL_PADDING = 44;
 const CARD_SIZE = 256;
-export const SCALE = ONE_ICON / (CELL_SIZE - CELL_PADDING);
+const SCALE = ONE_ICON / (CELL_SIZE - CELL_PADDING);
 
 const THEME_BACKGROUNDS: Record<Theme, string> = {
   dark: "#242938",

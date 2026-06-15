@@ -6,7 +6,6 @@ import type { RenderOptions, Theme } from "./types";
 
 export type IconsRequestParams = {
   slugs: string[];
-  theme: Theme;
   perLine: number;
   renderOptions: RenderOptions;
 };
@@ -112,7 +111,6 @@ export function parseIconsRequest(
 
   return {
     slugs: slugsResult,
-    theme,
     perLine: perLineResult,
     renderOptions: {
       theme,
