@@ -33,9 +33,17 @@ function extractSvgInner(svg: string): string {
 function applyIconColor(inner: string, iconColor?: string): string {
   if (!iconColor) return inner;
   const fill = normalizeHex(iconColor);
-  return inner.replace(/<path\b([^>]*?)>/gi, (tag, attrs: string) => {
+  return inner.replace(/<path\b([^>]*?)>/gi, (_tag, attrs: string) => {
     const withoutFill = attrs.replace(/\sfill="[^"]*"/gi, "");
     return `<path${withoutFill} fill="${fill}">`;
+  });
+}
+
+function applyDefaultIconFill(inner: string, hex: string): string {
+  const fill = normalizeHex(hex);
+  return inner.replace(/<path\b([^>]*?)>/gi, (tag, attrs: string) => {
+    if (/\sfill="/i.test(attrs)) return tag;
+    return `<path${attrs} fill="${fill}">`;
   });
 }
 
@@ -55,7 +63,9 @@ export function renderIconCard(
   const theme = options.theme ?? "dark";
   const svg = readIconSvg(slug);
   let inner = extractSvgInner(svg);
-  inner = applyIconColor(inner, options.iconColor);
+  inner = options.iconColor
+    ? applyIconColor(inner, options.iconColor)
+    : applyDefaultIconFill(inner, icon.hex);
 
   if (options.viewbox === "auto") {
     return `<svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">${inner}</svg>`;
