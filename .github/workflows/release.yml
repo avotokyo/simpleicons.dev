@@ -1,0 +1,16 @@
+name: Release
+
+on:
+  workflow_dispatch:
+  push:
+    tags:
+      - "v*"
+
+jobs:
+  release:
+    uses: heyongqi02/workflows/.github/workflows/release.yml@vp
+    with:
+      publish: true
+    permissions:
+      contents: write
+      id-token: write

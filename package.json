@@ -9,7 +9,6 @@
     "url": "git+https://github.com/heyongqi02/simpleicons.dev.git"
   },
   "files": [
-    "dist",
     "README.md"
   ],
   "type": "module",
