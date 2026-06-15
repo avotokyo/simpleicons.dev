@@ -30,21 +30,23 @@ function extractSvgInner(svg: string): string {
   return match ? match[1].trim() : svg;
 }
 
-function applyIconColor(inner: string, iconColor?: string): string {
-  if (!iconColor) return inner;
-  const fill = normalizeHex(iconColor);
-  return inner.replace(/<path\b([^>]*?)>/gi, (_tag, attrs: string) => {
+function applyPathFill(inner: string, fill: string, force = false): string {
+  return inner.replace(/<path\b([^>]*)\/>/gi, (_tag, attrs: string) => {
+    if (!force && /\sfill="/i.test(attrs)) {
+      return `<path${attrs}/>`;
+    }
     const withoutFill = attrs.replace(/\sfill="[^"]*"/gi, "");
-    return `<path${withoutFill} fill="${fill}">`;
+    return `<path${withoutFill} fill="${fill}"/>`;
   });
 }
 
+function applyIconColor(inner: string, iconColor?: string): string {
+  if (!iconColor) return inner;
+  return applyPathFill(inner, normalizeHex(iconColor), true);
+}
+
 function applyDefaultIconFill(inner: string, hex: string): string {
-  const fill = normalizeHex(hex);
-  return inner.replace(/<path\b([^>]*?)>/gi, (tag, attrs: string) => {
-    if (/\sfill="/i.test(attrs)) return tag;
-    return `<path${attrs} fill="${fill}">`;
-  });
+  return applyPathFill(inner, normalizeHex(hex));
 }
 
 function readIconSvg(slug: string): string {
