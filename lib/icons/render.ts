@@ -22,7 +22,7 @@ const THEME_BACKGROUNDS: Record<Theme, string> = {
   light: "#F4F2ED",
 };
 
-/** 规范化 hex 颜色值，确保以 # 开头。 支持 3–8 位 hex，无效格式抛出 Error。 */
+/** 规范化 hex 颜色值，确保以 # 开头。 支持 3–8 位 hex，无效格式抛出 Error。 勿用 simple-icons/sdk 的 normalizeColor：后者无校验、去 #、转大写，语义不同。 */
 function normalizeHex(color: string): string {
   const hex = color.replace(/^#/, "");
   if (!/^[0-9a-fA-F]{3,8}$/.test(hex)) {
