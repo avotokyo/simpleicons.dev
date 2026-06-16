@@ -35,10 +35,10 @@ Applies to `/icons`:
 
 ### `GET /icons`
 
-| Parameter | Required | Description                        |
-| --------- | -------- | ---------------------------------- |
+| Parameter | Required | Description                              |
+| --------- | -------- | ---------------------------------------- |
 | `icons`   | Yes      | Comma-separated official slugs, or `all` |
-| `perline` | No       | Icons per row, 1–50 (default `15`) |
+| `perline` | No       | Icons per row, 1–50 (default `15`)       |
 
 ```bash
 curl "https://simpleicons.dev/icons?icons=javascript,html5,css,react"
