@@ -6,7 +6,7 @@ import { useMemo, useState } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 
-const DEFAULT_MARKDOWN = `![My Skills](https://simpleicons.dev/icons?icons=javascript,html5,css,react,nodedotjs)`;
+const DEFAULT_MARKDOWN = `![My Skills](https://simpleicons.dev/icons?icons=javascript,html5,css,react,nodedotjs&theme=light)`;
 
 const MARKDOWN_IMAGE_RE = /^!\[([^\]]*)\]\(([^)]+)\)$/;
 

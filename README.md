@@ -11,10 +11,10 @@ Icon data from [`simple-icons`](https://www.npmjs.com/package/simple-icons). Use
 ## Quick Start
 
 ```md
-![My Skills](https://simpleicons.dev/icons?icons=javascript,html5,css,react,nodedotjs)
+![My Skills](https://simpleicons.dev/icons?icons=javascript,html5,css,react,nodedotjs&theme=light)
 ```
 
-![My Skills](https://simpleicons.dev/icons?icons=javascript,html5,css,react,nodedotjs)
+![My Skills](https://simpleicons.dev/icons?icons=javascript,html5,css,react,nodedotjs&theme=light)
 
 ## API
 
