@@ -7,16 +7,16 @@ import { slugToVariableName } from "simple-icons/sdk";
 
 import type { IconRecord } from "./types";
 
-/** 内存注册表：官方 slug → 元数据，及排序后的 slug 列表。 */
+/** In-memory registry: official slug → metadata, plus a sorted slug list. */
 type Registry = {
   bySlug: Map<string, IconRecord>;
   allSlugs: string[];
 };
 
-/** 懒加载单例，首次请求时构建 */
+/** Lazy singleton, built on first access. */
 let registry: Registry | null = null;
 
-/** 从 icons.json 构建内存注册表。 */
+/** Build the registry from simple-icons/icons.json. */
 function buildRegistry(): Registry {
   const raw = iconsData as IconData[];
   const bySlug = new Map<string, IconRecord>();
@@ -37,7 +37,6 @@ function buildRegistry(): Registry {
   return { bySlug, allSlugs };
 }
 
-/** 获取注册表单例，懒加载构建 */
 function getRegistry(): Registry {
   if (!registry) {
     registry = buildRegistry();
@@ -45,7 +44,7 @@ function getRegistry(): Registry {
   return registry;
 }
 
-/** 类型守卫：判断 simple-icons 包导出对象是否为有效 SimpleIcon */
+/** Type guard for simple-icons package exports. */
 function isSimpleIcon(value: unknown): value is SimpleIcon {
   return (
     typeof value === "object" &&
@@ -55,24 +54,24 @@ function isSimpleIcon(value: unknown): value is SimpleIcon {
   );
 }
 
-/** 根据 slug 获取 SVG path 字符串。 通过 slugToVariableName 将 slug 转为 simple-icons 包的导出名（如 siJavascript）。 */
+/** Return SVG markup for an official slug via simple-icons (e.g. siJavascript). */
 export function getIconSvg(slug: string): string | undefined {
   const key = slugToVariableName(slug) as keyof typeof simpleIcons;
   const icon = simpleIcons[key];
   return isSimpleIcon(icon) ? icon.svg : undefined;
 }
 
-/** 返回全部官方 slug 列表（已排序） */
+/** Return all official slugs (sorted). */
 export function getAllSlugs(): string[] {
   return getRegistry().allSlugs;
 }
 
-/** 根据官方 slug 获取元数据，不存在时返回 undefined */
+/** Return metadata for an official slug, or undefined if unknown. */
 export function getIconBySlug(slug: string): IconRecord | undefined {
   return getRegistry().bySlug.get(slug);
 }
 
-/** 校验输入是否为 simple-icons 官方 slug（大小写不敏感）。 */
+/** Match input against an official simple-icons slug (case-insensitive). */
 export function resolveSlug(name: string): string | undefined {
   const key = name.trim().toLowerCase();
   if (!key) return undefined;

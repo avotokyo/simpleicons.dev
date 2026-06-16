@@ -5,14 +5,14 @@ import { getAllSlugs, resolveSlug } from "./registry";
 import { ICONS_PER_LINE } from "./render";
 import type { RenderOptions } from "./types";
 
-/** `/icons` 端点解析后的请求参数 */
+/** Parsed query parameters for GET /icons. */
 export type IconsRequestParams = {
   slugs: string[];
   perLine: number;
   renderOptions: RenderOptions;
 };
 
-/** 参数校验失败时的错误结构。 */
+/** Validation failure returned instead of throwing. */
 export type ResolveError = {
   status: number;
   message: string;
@@ -88,12 +88,12 @@ function parseIconSlugList(iconParam: string): string[] | ResolveError {
   return slugs;
 }
 
-/** 判断值是否为 ResolveError，用于类型收窄 */
+/** Type guard for ResolveError. */
 export function isResolveError(value: unknown): value is ResolveError {
   return typeof value === "object" && value !== null && "status" in value && "message" in value;
 }
 
-/** 解析 SVG 渲染相关的通用查询参数。 */
+/** Parse shared SVG render query parameters. */
 export function parseRenderOptions(searchParams: URLSearchParams): RenderOptions | ResolveError {
   const result = renderOptionsSchema.safeParse({
     theme: optionalParam(searchParams, "theme"),
@@ -109,7 +109,7 @@ export function parseRenderOptions(searchParams: URLSearchParams): RenderOptions
   return result.data;
 }
 
-/** 解析 `/icons` 端点的完整请求参数。 */
+/** Parse and validate GET /icons query parameters. */
 export function parseIconsRequest(
   searchParams: URLSearchParams,
 ): IconsRequestParams | ResolveError {

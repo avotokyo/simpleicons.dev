@@ -2,7 +2,7 @@ import { generateCombinedSvg } from "@/lib/icons/render";
 import { isResolveError, parseIconsRequest } from "@/lib/icons/resolve";
 import { errorResponse, renderErrorResponse, svgResponse } from "@/lib/icons/responses";
 
-/** GET /icons — 多图标拼接 SVG 端点。 解析 icons/perline 等参数，生成可嵌入 Markdown 的拼接 SVG。 */
+/** GET /icons — combined multi-icon SVG for Markdown embeds. */
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const parsed = parseIconsRequest(searchParams);

@@ -37,7 +37,7 @@ Applies to `/icons`:
 
 | Parameter | Required | Description                        |
 | --------- | -------- | ---------------------------------- |
-| `icons`   | Yes      | Comma-separated slugs, or `all`    |
+| `icons`   | Yes      | Comma-separated official slugs, or `all` |
 | `perline` | No       | Icons per row, 1–50 (default `15`) |
 
 ```bash
@@ -46,4 +46,4 @@ curl "https://simpleicons.dev/icons?icons=javascript,html5,css,react"
 
 ## Slugs
 
-Find slugs at [simpleicons.org](https://simpleicons.org). Aliases (`aliases.old`, `aliases.aka`, `aliases.loc`) are supported. Unknown slugs return `400`.
+Find official slugs at [simpleicons.org](https://simpleicons.org) or in [slugs.md](https://github.com/simple-icons/simple-icons/blob/master/slugs.md). Only official slugs are accepted (case-insensitive). Unknown slugs return `400`.

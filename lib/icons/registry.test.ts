@@ -18,7 +18,7 @@ describe("registry", () => {
       expect(resolveSlug(node!.title)).toBeUndefined();
     });
 
-    it("does not resolve titleToSlug input", () => {
+    it("does not resolve unofficial slug forms", () => {
       expect(resolveSlug(".NET")).toBeUndefined();
       expect(resolveSlug("C++")).toBeUndefined();
       expect(resolveSlug("Alpine.js")).toBeUndefined();

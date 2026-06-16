@@ -2,27 +2,27 @@ import "server-only";
 import { getIconBySlug, getIconSvg } from "./registry";
 import type { RenderOptions, Theme } from "./types";
 
-/** 多图标拼接时默认每行图标数量 */
+/** Default number of icons per row in combined output. */
 export const ICONS_PER_LINE = 15;
 
-/** 拼接输出中单个图标的显示尺寸（px） */
+/** Display size of one icon in the combined output (px). */
 const ONE_ICON = 48;
-/** 拼接网格中每个单元格的尺寸 */
+/** Cell size in the composition grid. */
 const CELL_SIZE = 300;
-/** 单元格内边距，用于计算有效绘制区域 */
+/** Cell padding used to compute the drawable area. */
 const CELL_PADDING = 44;
-/** 单图标卡片尺寸（圆角矩形背景） */
+/** Single-icon card size (rounded rectangle background). */
 const CARD_SIZE = 256;
-/** 从单元格坐标系到输出 SVG 坐标系的缩放比 */
+/** Scale from cell coordinates to output SVG coordinates. */
 const SCALE = ONE_ICON / (CELL_SIZE - CELL_PADDING);
 
-/** 各主题的默认卡片背景色 */
+/** Default card background colors per theme. */
 const THEME_BACKGROUNDS: Record<Theme, string> = {
   dark: "#242938",
   light: "#F4F2ED",
 };
 
-/** 规范化 hex 颜色值，确保以 # 开头。 支持 3–8 位 hex，无效格式抛出 Error。 勿用 simple-icons/sdk 的 normalizeColor：后者无校验、去 #、转大写，语义不同。 */
+/** Normalize a hex color and ensure a leading `#`. Invalid values throw. */
 function normalizeHex(color: string): string {
   const hex = color.replace(/^#/, "");
   if (!/^[0-9a-fA-F]{3,8}$/.test(hex)) {
@@ -31,13 +31,13 @@ function normalizeHex(color: string): string {
   return `#${hex}`;
 }
 
-/** 从完整 SVG 字符串中提取 <svg> 标签内的内容 */
+/** Extract inner markup from a full SVG string. */
 function extractSvgInner(svg: string): string {
   const match = svg.match(/<svg[^>]*>([\s\S]*)<\/svg>/i);
   return match ? match[1].trim() : svg;
 }
 
-/** 为 path 元素设置 fill 属性。 force=false 时保留已有 fill；force=true 时强制覆盖。 */
+/** Set `fill` on path elements. When force=false, keep an existing fill. */
 function applyPathFill(inner: string, fill: string, force = false): string {
   return inner.replace(/<path\b([^>]*)\/>/gi, (_tag, attrs: string) => {
     if (!force && /\sfill="/i.test(attrs)) {
@@ -48,18 +48,17 @@ function applyPathFill(inner: string, fill: string, force = false): string {
   });
 }
 
-/** 应用用户指定的 iconColor，强制覆盖 path 的 fill */
 function applyIconColor(inner: string, iconColor?: string): string {
   if (!iconColor) return inner;
   return applyPathFill(inner, normalizeHex(iconColor), true);
 }
 
-/** 为无 fill 的 path 应用品牌默认色（来自 icons.json 的 hex 字段） */
+/** Apply brand default color from icons.json when paths have no fill. */
 function applyDefaultIconFill(inner: string, hex: string): string {
   return applyPathFill(inner, normalizeHex(hex));
 }
 
-/** 渲染单个图标的 SVG 卡片。 viewbox=auto 时返回原始 24×24 SVG；否则返回带圆角背景的 256×256 卡片。 */
+/** Render one icon as a card SVG, or raw 24×24 when viewbox=auto. */
 export function renderIconCard(slug: string, options: RenderOptions = {}): string {
   const icon = getIconBySlug(slug);
   if (!icon) {
@@ -93,13 +92,13 @@ ${inner}
 </svg>`;
 }
 
-/** 渲染图标卡片并仅返回内部 path 内容。 用于多图标拼接，避免嵌套完整 <svg> 标签。 */
+/** Return card inner markup only, for multi-icon composition. */
 export function renderIconCardInner(slug: string, options: RenderOptions = {}): string {
   const full = renderIconCard(slug, options);
   return extractSvgInner(full);
 }
 
-/** 将多个图标拼接为一张 SVG。 按 perLine 分列排列，整体缩放至 ONE_ICON 高度的行。 */
+/** Compose multiple icon cards into one SVG grid. */
 export function generateCombinedSvg(
   slugs: string[],
   perLine: number,

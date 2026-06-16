@@ -46,7 +46,7 @@ CI runs the same checks on every push and pull request.
 ## Project Layout
 
 ```
-lib/icons/          Icon registry, rendering, parameter parsing
+lib/icons/          Icon registry, SVG rendering, request validation (Zod)
 app/icons/          Multi-icon combined SVG route
 e2e/                Playwright API tests
 ```
