@@ -26,26 +26,26 @@ vp run start
 
 This project uses [Next.js](https://nextjs.org/) for the app and [Vite Plus](https://viteplus.dev/) for the developer toolchain. Test and format settings live in the root `vite.config.ts`; ESLint stays in `eslint.config.ts`.
 
-| Tool        | Role                                        |
-| ----------- | ------------------------------------------- |
-| Next.js     | App runtime (`dev`, `build`, `start`)       |
-| Vite Plus   | Unit tests (`vp test`) and Oxfmt formatting |
-| ESLint      | Linting (`vp run lint`)                     |
-| Playwright  | E2E API tests (`e2e/`)                      |
+| Tool       | Role                                        |
+| ---------- | ------------------------------------------- |
+| Next.js    | App runtime (`dev`, `build`, `start`)       |
+| Vite Plus  | Unit tests (`vp test`) and Oxfmt formatting |
+| ESLint     | Linting (`vp run lint`)                     |
+| Playwright | E2E API tests (`e2e/`)                      |
 
 Recommended VS Code extension: [Vite Plus Extension Pack](https://marketplace.visualstudio.com/items?itemName=VoidZero.vite-plus-extension-pack).
 
 ## Scripts
 
-| Command                | Description                                |
-| ---------------------- | ------------------------------------------ |
-| `vp run dev`           | Start Next.js dev server                   |
-| `vp run build`         | Production build                           |
-| `vp run start`         | Serve production build                     |
-| `vp run lint`          | Run ESLint                                 |
-| `vp run test`          | Unit and route integration tests           |
-| `vp run test:watch`    | Vite Plus test watch mode                  |
-| `vp run test:e2e`      | E2E API tests (Playwright)                 |
+| Command             | Description                      |
+| ------------------- | -------------------------------- |
+| `vp run dev`        | Start Next.js dev server         |
+| `vp run build`      | Production build                 |
+| `vp run start`      | Serve production build           |
+| `vp run lint`       | Run ESLint                       |
+| `vp run test`       | Unit and route integration tests |
+| `vp run test:watch` | Vite Plus test watch mode        |
+| `vp run test:e2e`   | E2E API tests (Playwright)       |
 
 ## Testing
 
