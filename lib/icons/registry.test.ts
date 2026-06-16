@@ -12,10 +12,16 @@ describe("registry", () => {
       expect(resolveSlug("JavaScript")).toBe("javascript");
     });
 
-    it("resolves title alias", () => {
+    it("does not resolve brand title as slug", () => {
       const node = getIconBySlug("nodedotjs");
       expect(node).toBeDefined();
-      expect(resolveSlug(node!.title)).toBe("nodedotjs");
+      expect(resolveSlug(node!.title)).toBeUndefined();
+    });
+
+    it("does not resolve unofficial slug forms", () => {
+      expect(resolveSlug(".NET")).toBeUndefined();
+      expect(resolveSlug("C++")).toBeUndefined();
+      expect(resolveSlug("Alpine.js")).toBeUndefined();
     });
 
     it("returns undefined for unknown slug", () => {

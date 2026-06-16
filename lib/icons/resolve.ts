@@ -1,123 +1,141 @@
 import "server-only";
+import { z } from "zod";
+
 import { getAllSlugs, resolveSlug } from "./registry";
 import { ICONS_PER_LINE } from "./render";
-import type { RenderOptions, Theme } from "./types";
+import type { RenderOptions } from "./types";
 
-/** `/icons` 端点解析后的请求参数 */
+/** Parsed query parameters for GET /icons. */
 export type IconsRequestParams = {
   slugs: string[];
   perLine: number;
   renderOptions: RenderOptions;
 };
 
-/** 参数校验失败时的错误结构。 使用联合类型而非 throw，便于路由层统一处理 400 响应。 */
+/** Validation failure returned instead of throwing. */
 export type ResolveError = {
   status: number;
   message: string;
 };
 
-/** 解析 theme 查询参数。 合法值：dark | light；未传则返回 undefined（由调用方决定默认值）。 */
-function parseTheme(value: string | null): Theme | undefined | ResolveError {
-  if (!value) return undefined;
-  if (value === "dark" || value === "light") return value;
-  return {
-    status: 400,
-    message: 'Theme must be either "light" or "dark"',
-  };
-}
+const THEME_ERROR = 'Theme must be either "light" or "dark"';
+const PER_LINE_ERROR = "Icons per line must be a number between 1 and 50";
+const MISSING_ICONS_ERROR = "Missing icons parameter";
 
-/** 解析 perline 查询参数。 合法范围：1–50，未传则使用 ICONS_PER_LINE 默认值。 */
-function parsePerLine(value: string | null): number | ResolveError {
-  const perLine = value ? Number.parseInt(value, 10) : ICONS_PER_LINE;
+const themeSchema = z.enum(["dark", "light"], { message: THEME_ERROR });
+
+const renderOptionsSchema = z.object({
+  theme: themeSchema.optional().default("dark"),
+  color: z.string().optional(),
+  iconColor: z.string().optional(),
+  viewbox: z.preprocess(
+    (value) => (value === "auto" ? "auto" : undefined),
+    z.literal("auto").optional(),
+  ),
+});
+
+const perLineSchema = z.union([z.string(), z.undefined()]).transform((value, ctx) => {
+  const perLine = value === undefined ? ICONS_PER_LINE : Number.parseInt(value, 10);
   if (Number.isNaN(perLine) || perLine < 1 || perLine > 50) {
-    return {
-      status: 400,
-      message: "Icons per line must be a number between 1 and 50",
-    };
+    ctx.addIssue({ code: "custom", message: PER_LINE_ERROR });
+    return z.NEVER;
   }
   return perLine;
+});
+
+const iconsParamSchema = z.string({ message: MISSING_ICONS_ERROR }).min(1, MISSING_ICONS_ERROR);
+
+const officialSlugSchema = z.string().transform((name, ctx) => {
+  const slug = resolveSlug(name);
+  if (!slug) {
+    ctx.addIssue({ code: "custom", message: `Unknown icon: ${name}` });
+    return z.NEVER;
+  }
+  return slug;
+});
+
+function toResolveError(error: z.ZodError): ResolveError {
+  return { status: 400, message: error.issues[0]?.message ?? "Invalid request" };
 }
 
-/** 解析 icons 查询参数为名称列表。 支持逗号分隔的 slug 列表，或特殊值 "all" 返回全部 slug。 */
-function parseIconNames(iconParam: string | null): string[] | ResolveError {
-  if (!iconParam) {
-    return { status: 400, message: "Missing icons parameter" };
-  }
+function optionalParam(searchParams: URLSearchParams, key: string): string | undefined {
+  return searchParams.get(key) ?? undefined;
+}
 
+function parseIconSlugList(iconParam: string): string[] | ResolveError {
   if (iconParam === "all") {
     return getAllSlugs();
   }
 
   const names = iconParam
     .split(",")
-    .map((n) => n.trim())
+    .map((name) => name.trim())
     .filter(Boolean);
+
   if (names.length === 0) {
-    return { status: 400, message: "Missing icons parameter" };
+    return { status: 400, message: MISSING_ICONS_ERROR };
   }
 
-  return names;
-}
-
-/** 将用户输入的名称列表解析为官方 slug 列表。 任一名称无法解析时立即返回 400 错误。 */
-function resolveIconSlugs(names: string[]): string[] | ResolveError {
   const slugs: string[] = [];
-
   for (const name of names) {
-    const slug = resolveSlug(name);
-    if (!slug) {
-      return { status: 400, message: `Unknown icon: ${name}` };
+    const result = officialSlugSchema.safeParse(name);
+    if (!result.success) {
+      return toResolveError(result.error);
     }
-    slugs.push(slug);
+    slugs.push(result.data);
   }
 
   return slugs;
 }
 
-/** 判断值是否为 ResolveError，用于类型收窄 */
+/** Type guard for ResolveError. */
 export function isResolveError(value: unknown): value is ResolveError {
   return typeof value === "object" && value !== null && "status" in value && "message" in value;
 }
 
-/** 解析 SVG 渲染相关的通用查询参数。 适用于所有返回 SVG 的端点（theme、color、iconColor、viewbox）。 */
+/** Parse shared SVG render query parameters. */
 export function parseRenderOptions(searchParams: URLSearchParams): RenderOptions | ResolveError {
-  const themeResult = parseTheme(searchParams.get("theme"));
-  if (isResolveError(themeResult)) return themeResult;
+  const result = renderOptionsSchema.safeParse({
+    theme: optionalParam(searchParams, "theme"),
+    color: optionalParam(searchParams, "color"),
+    iconColor: optionalParam(searchParams, "iconColor"),
+    viewbox: optionalParam(searchParams, "viewbox"),
+  });
 
-  const color = searchParams.get("color") ?? undefined;
-  const iconColor = searchParams.get("iconColor") ?? undefined;
-  const viewboxParam = searchParams.get("viewbox");
-  const viewbox = viewboxParam === "auto" ? ("auto" as const) : undefined;
+  if (!result.success) {
+    return toResolveError(result.error);
+  }
 
-  return {
-    theme: themeResult ?? "dark",
-    color: color ?? undefined,
-    iconColor: iconColor ?? undefined,
-    viewbox,
-  };
+  return result.data;
 }
 
-/** 解析 `/icons` 端点的完整请求参数。 组合 icons/perline 与通用渲染参数。 */
+/** Parse and validate GET /icons query parameters. */
 export function parseIconsRequest(
   searchParams: URLSearchParams,
 ): IconsRequestParams | ResolveError {
-  const iconParam = searchParams.get("icons");
-
-  const iconNames = parseIconNames(iconParam);
-  if (isResolveError(iconNames)) return iconNames;
+  const iconsResult = iconsParamSchema.safeParse(searchParams.get("icons"));
+  if (!iconsResult.success) {
+    return toResolveError(iconsResult.error);
+  }
 
   const renderOptions = parseRenderOptions(searchParams);
-  if (isResolveError(renderOptions)) return renderOptions;
+  if (isResolveError(renderOptions)) {
+    return renderOptions;
+  }
 
-  const perLineResult = parsePerLine(searchParams.get("perline"));
-  if (isResolveError(perLineResult)) return perLineResult;
+  const perLineResult = perLineSchema.safeParse(optionalParam(searchParams, "perline"));
+  if (!perLineResult.success) {
+    return toResolveError(perLineResult.error);
+  }
 
-  const slugsResult = iconParam === "all" ? iconNames : resolveIconSlugs(iconNames as string[]);
-  if (isResolveError(slugsResult)) return slugsResult;
+  const slugsResult = parseIconSlugList(iconsResult.data);
+  if (isResolveError(slugsResult)) {
+    return slugsResult;
+  }
 
   return {
     slugs: slugsResult,
-    perLine: perLineResult,
+    perLine: perLineResult.data,
     renderOptions,
   };
 }

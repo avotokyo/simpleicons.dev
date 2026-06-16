@@ -39,7 +39,11 @@ const renderParameters = [
 ] as const;
 
 const iconsParameters = [
-  { name: "icons", required: true, description: "Comma-separated slugs, or all" },
+  {
+    name: "icons",
+    required: true,
+    description: "Comma-separated official slugs, or all",
+  },
   {
     name: "perline",
     required: false,
@@ -217,20 +221,12 @@ export default function Home() {
       <section id="slugs" className="space-y-4">
         <h2 className="text-xl font-semibold text-balance">Slugs</h2>
         <p className="text-muted-foreground">
-          Find slugs at <ExternalLink href="https://simpleicons.org">simpleicons.org</ExternalLink>.
-          Aliases (
-          <code className="text-sm" translate="no">
-            aliases.old
-          </code>
-          ,{" "}
-          <code className="text-sm" translate="no">
-            aliases.aka
-          </code>
-          ,{" "}
-          <code className="text-sm" translate="no">
-            aliases.loc
-          </code>
-          ) are supported. Unknown slugs return{" "}
+          Find official slugs at{" "}
+          <ExternalLink href="https://simpleicons.org">simpleicons.org</ExternalLink> or in{" "}
+          <ExternalLink href="https://github.com/simple-icons/simple-icons/blob/master/slugs.md">
+            slugs.md
+          </ExternalLink>
+          . Only official slugs are accepted (case-insensitive). Unknown slugs return{" "}
           <code className="text-sm" translate="no">
             400
           </code>
