@@ -2,7 +2,8 @@
 
 [![npm version](https://npmx.dev/api/registry/badge/version/simpleicons.dev)](https://npmx.dev/package/simpleicons.dev)
 [![npm license](https://npmx.dev/api/registry/badge/license/simpleicons.dev)](./LICENSE)
-[![npm updated](https://npmx.dev/api/registry/badge/updated/simpleicons.dev)](https://npmx.dev/package/simpleicons.dev)
+[![npm updated](https://npmx.dev/api/registry/badge/size/simpleicons.dev)](https://npmx.dev/package/simpleicons.dev)
+[![npm updated](https://npmx.dev/api/registry/badge/deprecated/simpleicons.dev)](https://npmx.dev/package/simpleicons.dev)
 
 SVG icon API powered by [Simple Icons](https://simpleicons.org). Combine brand icons into a single SVG for GitHub READMEs, resumes, and other Markdown documents.
 
