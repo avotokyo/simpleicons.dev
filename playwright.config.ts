@@ -13,7 +13,7 @@ export default defineConfig({
     baseURL: `http://127.0.0.1:${PORT}`,
   },
   webServer: {
-    command: `pnpm build && pnpm exec next start -p ${PORT}`,
+    command: `vp run build && vp exec next start -p ${PORT}`,
     url: `http://127.0.0.1:${PORT}`,
     reuseExistingServer: !process.env.CI,
     timeout: 120_000,
