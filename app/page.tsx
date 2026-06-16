@@ -2,58 +2,24 @@ import Link from "next/link";
 import type { ReactNode } from "react";
 
 import { CodeBlock } from "@/components/home/code-block";
+import { DocTable } from "@/components/home/doc-table";
 import { QuickStartCard } from "@/components/home/quick-start-card";
+import { SectionHeading } from "@/components/home/section-heading";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
-
-const navItems = [
-  { href: "#quick-start", label: "Quick Start" },
-  { href: "#api", label: "API" },
-  { href: "#render-parameters", label: "Render Parameters" },
-  { href: "#examples", label: "Examples" },
-  { href: "#slugs", label: "Slugs" },
-] as const;
-
-const apiEndpoints = [
-  {
-    method: "GET",
-    path: "/icons",
-    href: "/icons?icons=javascript,html5,css,react",
-    description: "Combined multi-icon SVG",
-  },
-] as const;
-
-const renderParameters = [
-  { name: "theme", description: "dark (default) or light" },
-  { name: "color", description: "Card background (hex, e.g. F7DF1E)" },
-  { name: "iconColor", description: "Icon fill color (hex)" },
-  { name: "viewbox", description: "auto for raw 24×24 SVG without card" },
-] as const;
-
-const iconsParameters = [
-  {
-    name: "icons",
-    required: true,
-    description: "Comma-separated official slugs, or all",
-  },
-  {
-    name: "perline",
-    required: false,
-    description: "Icons per row, 1–50 (default 15)",
-  },
-] as const;
-
-const curlExamples = [
-  'curl "https://simpleicons.dev/icons?icons=javascript,html5,css,react"',
-] as const;
+  apiEndpoints,
+  curlExamples,
+  errorMessages,
+  iconsAllWarning,
+  iconsParameters,
+  navItems,
+  renderParameters,
+  responseDocs,
+  SITE_DESCRIPTION,
+  slugBehaviorNote,
+} from "@/lib/docs";
+import { linkClassName } from "@/lib/styles";
 
 function ExternalLink({ href, children }: { href: string; children: ReactNode }) {
   return (
@@ -61,7 +27,7 @@ function ExternalLink({ href, children }: { href: string; children: ReactNode })
       href={href}
       target="_blank"
       rel="noopener noreferrer"
-      className="text-primary underline-offset-4 hover:underline">
+      className={`text-primary ${linkClassName}`}>
       {children}
     </a>
   );
@@ -74,9 +40,7 @@ export default function Home() {
         <ul className="text-muted-foreground flex flex-wrap gap-x-4 gap-y-2 text-sm">
           {navItems.map((item) => (
             <li key={item.href}>
-              <a
-                href={item.href}
-                className="hover:text-foreground underline-offset-4 hover:underline">
+              <a href={item.href} className={`hover:text-foreground ${linkClassName}`}>
                 {item.label}
               </a>
             </li>
@@ -88,11 +52,7 @@ export default function Home() {
         <h1 className="text-3xl font-semibold text-balance">
           <span translate="no">simpleicons.dev</span>
         </h1>
-        <p className="text-muted-foreground">
-          SVG icon API powered by{" "}
-          <ExternalLink href="https://simpleicons.org">Simple Icons</ExternalLink>. Combine brand
-          icons into a single SVG for GitHub READMEs, resumes, and other Markdown documents.
-        </p>
+        <p className="text-muted-foreground">{SITE_DESCRIPTION}</p>
         <p className="text-muted-foreground text-sm">
           Icon data from{" "}
           <ExternalLink href="https://www.npmjs.com/package/simple-icons">
@@ -111,106 +71,132 @@ export default function Home() {
       <Separator />
 
       <section id="quick-start" className="space-y-4">
-        <h2 className="text-xl font-semibold text-balance">Quick Start</h2>
+        <SectionHeading>Quick Start</SectionHeading>
         <QuickStartCard />
       </section>
 
       <section id="api" className="space-y-4">
-        <h2 className="text-xl font-semibold text-balance">API</h2>
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead>Method</TableHead>
-              <TableHead>Endpoint</TableHead>
-              <TableHead>Description</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {apiEndpoints.map((endpoint) => (
-              <TableRow key={endpoint.path}>
-                <TableCell>
-                  <Badge variant="secondary">{endpoint.method}</Badge>
-                </TableCell>
-                <TableCell>
-                  <Link
-                    href={endpoint.href}
-                    className="font-mono text-sm underline-offset-4 hover:underline"
-                    translate="no">
-                    {endpoint.path}
-                  </Link>
-                </TableCell>
-                <TableCell className="text-muted-foreground whitespace-normal">
-                  {endpoint.description}
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
+        <SectionHeading>API</SectionHeading>
+        <DocTable
+          rows={apiEndpoints}
+          rowKey={(endpoint) => endpoint.path}
+          columns={[
+            {
+              header: "Method",
+              cell: (endpoint) => <Badge variant="secondary">{endpoint.method}</Badge>,
+            },
+            {
+              header: "Endpoint",
+              cell: (endpoint) => (
+                <Link
+                  href={endpoint.href}
+                  className={`font-mono text-sm ${linkClassName}`}
+                  translate="no">
+                  {endpoint.path}
+                </Link>
+              ),
+            },
+            {
+              header: "Description",
+              className: "text-muted-foreground whitespace-normal",
+              cell: (endpoint) => endpoint.description,
+            },
+          ]}
+        />
 
         <h3 className="text-lg font-medium">
           <code translate="no">GET /icons</code> parameters
         </h3>
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead>Parameter</TableHead>
-              <TableHead>Required</TableHead>
-              <TableHead>Description</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {iconsParameters.map((parameter) => (
-              <TableRow key={parameter.name}>
-                <TableCell>
-                  <code className="text-sm" translate="no">
-                    {parameter.name}
-                  </code>
-                </TableCell>
-                <TableCell>
-                  {parameter.required ? (
-                    <Badge variant="default">Yes</Badge>
-                  ) : (
-                    <Badge variant="outline">No</Badge>
-                  )}
-                </TableCell>
-                <TableCell className="text-muted-foreground whitespace-normal">
-                  {parameter.description}
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
+        <DocTable
+          rows={iconsParameters}
+          rowKey={(parameter) => parameter.name}
+          columns={[
+            {
+              header: "Parameter",
+              cell: (parameter) => (
+                <code className="text-sm" translate="no">
+                  {parameter.name}
+                </code>
+              ),
+            },
+            {
+              header: "Required",
+              cell: (parameter) =>
+                parameter.required ? (
+                  <Badge variant="default">Yes</Badge>
+                ) : (
+                  <Badge variant="outline">No</Badge>
+                ),
+            },
+            {
+              header: "Description",
+              className: "text-muted-foreground whitespace-normal",
+              cell: (parameter) => parameter.description,
+            },
+          ]}
+        />
+        <p className="text-muted-foreground text-sm">{iconsAllWarning}</p>
+      </section>
+
+      <section id="responses" className="space-y-4">
+        <SectionHeading>Responses</SectionHeading>
+        <DocTable
+          rows={responseDocs}
+          rowKey={(response) => response.status}
+          columns={[
+            {
+              header: "Status",
+              cell: (response) => (
+                <code className="text-sm" translate="no">
+                  {response.status}
+                </code>
+              ),
+            },
+            {
+              header: "Description",
+              className: "text-muted-foreground whitespace-normal",
+              cell: (response) => response.description,
+            },
+          ]}
+        />
+        <p className="text-muted-foreground text-sm">Common validation messages:</p>
+        <ul className="text-muted-foreground list-inside list-disc space-y-1 text-sm">
+          {errorMessages.map((message) => (
+            <li key={message}>
+              <code className="text-sm" translate="no">
+                {message}
+              </code>
+            </li>
+          ))}
+        </ul>
       </section>
 
       <section id="render-parameters" className="space-y-4">
-        <h2 className="text-xl font-semibold text-balance">Render Parameters</h2>
+        <SectionHeading>Render Parameters</SectionHeading>
         <p className="text-muted-foreground text-sm">Applies to `/icons`:</p>
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead>Parameter</TableHead>
-              <TableHead>Description</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {renderParameters.map((parameter) => (
-              <TableRow key={parameter.name}>
-                <TableCell>
-                  <code className="text-sm" translate="no">
-                    {parameter.name}
-                  </code>
-                </TableCell>
-                <TableCell className="text-muted-foreground whitespace-normal">
-                  {parameter.description}
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
+        <DocTable
+          rows={renderParameters}
+          rowKey={(parameter) => parameter.name}
+          columns={[
+            {
+              header: "Parameter",
+              cell: (parameter) => (
+                <code className="text-sm" translate="no">
+                  {parameter.name}
+                </code>
+              ),
+            },
+            {
+              header: "Description",
+              className: "text-muted-foreground whitespace-normal",
+              cell: (parameter) => parameter.description,
+            },
+          ]}
+        />
       </section>
 
       <section id="examples" className="space-y-4">
-        <h2 className="text-xl font-semibold text-balance">Examples</h2>
+        <SectionHeading>Examples</SectionHeading>
         <div className="space-y-3">
           {curlExamples.map((example) => (
             <CodeBlock key={example}>{example}</CodeBlock>
@@ -219,14 +205,14 @@ export default function Home() {
       </section>
 
       <section id="slugs" className="space-y-4">
-        <h2 className="text-xl font-semibold text-balance">Slugs</h2>
+        <SectionHeading>Slugs</SectionHeading>
         <p className="text-muted-foreground">
           Find official slugs at{" "}
           <ExternalLink href="https://simpleicons.org">simpleicons.org</ExternalLink> or in{" "}
           <ExternalLink href="https://github.com/simple-icons/simple-icons/blob/master/slugs.md">
             slugs.md
           </ExternalLink>
-          . Only official slugs are accepted (case-insensitive). Unknown slugs return{" "}
+          . {slugBehaviorNote} Unknown slugs return{" "}
           <code className="text-sm" translate="no">
             400
           </code>

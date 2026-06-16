@@ -4,12 +4,13 @@ import Link from "next/link";
 import { useMemo, useState } from "react";
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { QUICK_START_MARKDOWN } from "@/lib/docs";
+import { codeSurfaceClassName } from "@/lib/styles";
 import { cn } from "@/lib/utils";
-
-const DEFAULT_MARKDOWN = `![My Skills](https://simpleicons.dev/icons?icons=javascript,html5,css,react,nodedotjs&theme=light)`;
 
 const MARKDOWN_IMAGE_RE = /^!\[([^\]]*)\]\(([^)]+)\)$/;
 
+/** Rewrite production hostnames to relative paths for local API preview. */
 function toPreviewSrc(url: string): string {
   if (url.startsWith("/")) {
     return url;
@@ -27,6 +28,7 @@ function toPreviewSrc(url: string): string {
   return url;
 }
 
+/** Parse a single-line Markdown image into alt text and preview URL. */
 function parseMarkdownImage(markdown: string): { alt: string; src: string } | null {
   const match = markdown.trim().match(MARKDOWN_IMAGE_RE);
   if (!match) {
@@ -37,10 +39,11 @@ function parseMarkdownImage(markdown: string): { alt: string; src: string } | nu
   return { alt, src: toPreviewSrc(url) };
 }
 
+const FALLBACK_PREVIEW = parseMarkdownImage(QUICK_START_MARKDOWN)!;
+
 export function QuickStartCard() {
-  const [markdown, setMarkdown] = useState(DEFAULT_MARKDOWN);
+  const [markdown, setMarkdown] = useState(QUICK_START_MARKDOWN);
   const preview = useMemo(() => parseMarkdownImage(markdown), [markdown]);
-  const fallbackPreview = useMemo(() => parseMarkdownImage(DEFAULT_MARKDOWN)!, []);
 
   return (
     <Card>
@@ -56,7 +59,8 @@ export function QuickStartCard() {
           spellCheck={false}
           rows={2}
           className={cn(
-            "w-full resize-y rounded-md bg-muted p-4 font-mono text-sm",
+            codeSurfaceClassName,
+            "w-full resize-y",
             "border-0 focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none",
           )}
           translate="no"
@@ -65,9 +69,9 @@ export function QuickStartCard() {
           <Link href="/">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              key={preview?.src ?? fallbackPreview.src}
-              src={preview?.src ?? fallbackPreview.src}
-              alt={preview?.alt ?? fallbackPreview.alt}
+              key={preview?.src ?? FALLBACK_PREVIEW.src}
+              src={preview?.src ?? FALLBACK_PREVIEW.src}
+              alt={preview?.alt ?? FALLBACK_PREVIEW.alt}
               width={560}
               height={35}
               className="max-w-full"

@@ -1,9 +1,7 @@
 import "server-only";
+import { DEFAULT_THEME } from "./constants";
 import { getIconBySlug, getIconSvg } from "./registry";
 import type { RenderOptions, Theme } from "./types";
-
-/** Default number of icons per row in combined output. */
-export const ICONS_PER_LINE = 15;
 
 /** Display size of one icon in the combined output (px). */
 const ONE_ICON = 48;
@@ -48,6 +46,7 @@ function applyPathFill(inner: string, fill: string, force = false): string {
   });
 }
 
+/** Override all path fills with a custom icon color (force=true). */
 function applyIconColor(inner: string, iconColor?: string): string {
   if (!iconColor) return inner;
   return applyPathFill(inner, normalizeHex(iconColor), true);
@@ -58,44 +57,60 @@ function applyDefaultIconFill(inner: string, hex: string): string {
   return applyPathFill(inner, normalizeHex(hex));
 }
 
-/** Render one icon as a card SVG, or raw 24×24 when viewbox=auto. */
-export function renderIconCard(slug: string, options: RenderOptions = {}): string {
+/** Load and colorize icon path markup. Slugs are validated upstream; throws if data is missing. */
+function buildIconInner(slug: string, options: RenderOptions = {}): string {
   const icon = getIconBySlug(slug);
   if (!icon) {
     throw new Error(`Unknown icon: ${slug}`);
   }
 
-  const theme = options.theme ?? "dark";
   const svg = getIconSvg(slug);
   if (!svg) {
     throw new Error(`Missing SVG for icon: ${slug}`);
   }
-  let inner = extractSvgInner(svg);
-  inner = options.iconColor
-    ? applyIconColor(inner, options.iconColor)
-    : applyDefaultIconFill(inner, icon.hex);
+
+  const raw = extractSvgInner(svg);
+  return options.iconColor
+    ? applyIconColor(raw, options.iconColor)
+    : applyDefaultIconFill(raw, icon.hex);
+}
+
+/**
+ * Build card inner markup for multi-icon composition. Not a public HTTP endpoint — used internally
+ * by generateCombinedSvg.
+ */
+function buildCardContent(slug: string, options: RenderOptions = {}): string {
+  const inner = buildIconInner(slug, options);
 
   if (options.viewbox === "auto") {
-    return `<svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">${inner}</svg>`;
+    return inner;
   }
 
+  const theme = options.theme ?? DEFAULT_THEME;
   const background = options.color ? normalizeHex(options.color) : THEME_BACKGROUNDS[theme];
-
   const iconScale = (CARD_SIZE - 64) / 24;
   const iconOffset = (CARD_SIZE - 24 * iconScale) / 2;
 
-  return `<svg width="${CARD_SIZE}" height="${CARD_SIZE}" viewBox="0 0 ${CARD_SIZE} ${CARD_SIZE}" fill="none" xmlns="http://www.w3.org/2000/svg">
-<rect width="${CARD_SIZE}" height="${CARD_SIZE}" rx="60" fill="${background}"/>
+  return `<rect width="${CARD_SIZE}" height="${CARD_SIZE}" rx="60" fill="${background}"/>
 <g transform="translate(${iconOffset}, ${iconOffset}) scale(${iconScale})">
 ${inner}
-</g>
-</svg>`;
+</g>`;
 }
 
-/** Return card inner markup only, for multi-icon composition. */
-export function renderIconCardInner(slug: string, options: RenderOptions = {}): string {
-  const full = renderIconCard(slug, options);
-  return extractSvgInner(full);
+/**
+ * Render one icon as a card SVG, or raw 24×24 when viewbox=auto. Library/test helper — not exposed
+ * as an HTTP route.
+ */
+export function renderIconCard(slug: string, options: RenderOptions = {}): string {
+  if (options.viewbox === "auto") {
+    const inner = buildIconInner(slug, options);
+    return `<svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">${inner}</svg>`;
+  }
+
+  const content = buildCardContent(slug, options);
+  return `<svg width="${CARD_SIZE}" height="${CARD_SIZE}" viewBox="0 0 ${CARD_SIZE} ${CARD_SIZE}" fill="none" xmlns="http://www.w3.org/2000/svg">
+${content}
+</svg>`;
 }
 
 /** Compose multiple icon cards into one SVG grid. */
@@ -104,7 +119,7 @@ export function generateCombinedSvg(
   perLine: number,
   options: RenderOptions = {},
 ): string {
-  const iconSvgList = slugs.map((slug) => renderIconCardInner(slug, options));
+  const iconSvgList = slugs.map((slug) => buildCardContent(slug, options));
 
   const length = Math.min(perLine * CELL_SIZE, slugs.length * CELL_SIZE) - CELL_PADDING;
   const height = Math.ceil(iconSvgList.length / perLine) * CELL_SIZE - CELL_PADDING;

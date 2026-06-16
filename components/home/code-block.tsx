@@ -1,13 +1,12 @@
-import { cn } from "@/lib/utils";
+import { codeSurfaceClassName } from "@/lib/styles";
 
 type CodeBlockProps = {
   children: string;
-  className?: string;
 };
 
-export function CodeBlock({ children, className }: CodeBlockProps) {
+export function CodeBlock({ children }: CodeBlockProps) {
   return (
-    <pre className={cn("overflow-x-auto rounded-md bg-muted p-4 font-mono text-sm", className)}>
+    <pre className={codeSurfaceClassName}>
       <code translate="no">{children}</code>
     </pre>
   );

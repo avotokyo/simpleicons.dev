@@ -5,6 +5,7 @@ Thanks for your interest in simpleicons.dev! This guide covers local development
 ## Prerequisites
 
 - [Node.js](https://nodejs.org/) >= 24.15.0
+- [pnpm](https://pnpm.io/) 11.3.0 (see `packageManager` in `package.json`)
 - [Vite Plus](https://viteplus.dev/) (`vp` CLI)
 
 Install `vp` globally:
@@ -31,7 +32,7 @@ This project uses [Next.js](https://nextjs.org/) for the app and [Vite Plus](htt
 | Next.js    | App runtime (`dev`, `build`, `start`)       |
 | Vite Plus  | Unit tests (`vp test`) and Oxfmt formatting |
 | ESLint     | Linting (`vp run lint`)                     |
-| Playwright | E2E API tests (`e2e/`)                      |
+| Playwright | E2E API smoke tests (`e2e/`)                |
 
 Recommended VS Code extension: [Vite Plus Extension Pack](https://marketplace.visualstudio.com/items?itemName=VoidZero.vite-plus-extension-pack).
 
@@ -59,16 +60,28 @@ vp run test:e2e
 CI runs the same checks on every push and pull request.
 
 - **Unit / integration tests** — Vite Plus (`vite-plus/test`), co-located as `*.test.ts` next to source files
-- **E2E tests** — Playwright against the local dev server (`e2e/`)
+- **E2E tests** — Playwright smoke tests against a production build on port `3099` (see `playwright.config.ts`)
 
 ## Project Layout
 
 ```
-lib/icons/          Icon registry, SVG rendering, request validation (Zod)
-app/icons/          Multi-icon combined SVG route
-e2e/                Playwright API tests
-vite.config.ts      Vite Plus test and format configuration
+app/
+  page.tsx            API documentation homepage
+  icons/route.ts      GET /icons — multi-icon combined SVG
+components/
+  home/               Quick Start card, code blocks, doc tables
+  ui/                 shadcn/ui primitives
+lib/
+  docs.ts             Shared API documentation constants (keep README in sync)
+  icons/              Icon registry, SVG rendering, request validation (Zod)
+e2e/                  Playwright API smoke tests
+vite.config.ts        Vite Plus test and format configuration
+playwright.config.ts  E2E server on port 3099
 ```
+
+## Documentation
+
+API parameter tables and examples are defined in [`lib/docs.ts`](lib/docs.ts). Machine-readable API spec: [`openapi.yaml`](openapi.yaml). When changing API behavior or docs, update `lib/docs.ts` and keep [`README.md`](README.md) aligned.
 
 ## Pull Requests
 

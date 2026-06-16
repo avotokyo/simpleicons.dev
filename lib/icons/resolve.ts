@@ -1,8 +1,8 @@
 import "server-only";
 import { z } from "zod";
 
+import { DEFAULT_THEME, ICONS_PER_LINE, MAX_ICONS, TOO_MANY_ICONS_ERROR } from "./constants";
 import { getAllSlugs, resolveSlug } from "./registry";
-import { ICONS_PER_LINE } from "./render";
 import type { RenderOptions } from "./types";
 
 /** Parsed query parameters for GET /icons. */
@@ -18,6 +18,9 @@ export type ResolveError = {
   message: string;
 };
 
+/** Discriminated union for parse results. */
+export type ParseResult<T> = { ok: true; data: T } | { ok: false; error: ResolveError };
+
 const THEME_ERROR = 'Theme must be either "light" or "dark"';
 const PER_LINE_ERROR = "Icons per line must be a number between 1 and 50";
 const MISSING_ICONS_ERROR = "Missing icons parameter";
@@ -25,7 +28,7 @@ const MISSING_ICONS_ERROR = "Missing icons parameter";
 const themeSchema = z.enum(["dark", "light"], { message: THEME_ERROR });
 
 const renderOptionsSchema = z.object({
-  theme: themeSchema.optional().default("dark"),
+  theme: themeSchema.optional().default(DEFAULT_THEME),
   color: z.string().optional(),
   iconColor: z.string().optional(),
   viewbox: z.preprocess(
@@ -54,47 +57,59 @@ const officialSlugSchema = z.string().transform((name, ctx) => {
   return slug;
 });
 
+/** Map the first Zod issue to a 400 ResolveError. */
 function toResolveError(error: z.ZodError): ResolveError {
   return { status: 400, message: error.issues[0]?.message ?? "Invalid request" };
 }
 
+/** Read an optional query parameter, normalizing null to undefined. */
 function optionalParam(searchParams: URLSearchParams, key: string): string | undefined {
   return searchParams.get(key) ?? undefined;
 }
 
-function parseIconSlugList(iconParam: string): string[] | ResolveError {
-  if (iconParam === "all") {
-    return getAllSlugs();
+/** Parse comma-separated slugs or expand icons=all, enforcing MAX_ICONS. */
+function parseIconSlugList(iconParam: string): ParseResult<string[]> {
+  const slugs: ParseResult<string[]> =
+    iconParam === "all" ? { ok: true, data: getAllSlugs() } : parseSlugNames(iconParam);
+  if (isParseError(slugs)) {
+    return slugs;
   }
 
+  if (slugs.data.length > MAX_ICONS) {
+    return { ok: false, error: { status: 400, message: TOO_MANY_ICONS_ERROR } };
+  }
+
+  return slugs;
+}
+
+/** Split, trim, and validate a comma-separated slug list. */
+function parseSlugNames(iconParam: string): ParseResult<string[]> {
   const names = iconParam
     .split(",")
     .map((name) => name.trim())
     .filter(Boolean);
 
   if (names.length === 0) {
-    return { status: 400, message: MISSING_ICONS_ERROR };
+    return { ok: false, error: { status: 400, message: MISSING_ICONS_ERROR } };
   }
 
-  const slugs: string[] = [];
-  for (const name of names) {
-    const result = officialSlugSchema.safeParse(name);
-    if (!result.success) {
-      return toResolveError(result.error);
-    }
-    slugs.push(result.data);
+  const result = z.array(officialSlugSchema).safeParse(names);
+  if (!result.success) {
+    return { ok: false, error: toResolveError(result.error) };
   }
 
-  return slugs;
+  return { ok: true, data: result.data };
 }
 
-/** Type guard for ResolveError. */
-export function isResolveError(value: unknown): value is ResolveError {
-  return typeof value === "object" && value !== null && "status" in value && "message" in value;
+/** Type guard for failed parse results. */
+export function isParseError<T>(
+  result: ParseResult<T>,
+): result is { ok: false; error: ResolveError } {
+  return !result.ok;
 }
 
 /** Parse shared SVG render query parameters. */
-export function parseRenderOptions(searchParams: URLSearchParams): RenderOptions | ResolveError {
+export function parseRenderOptions(searchParams: URLSearchParams): ParseResult<RenderOptions> {
   const result = renderOptionsSchema.safeParse({
     theme: optionalParam(searchParams, "theme"),
     color: optionalParam(searchParams, "color"),
@@ -103,39 +118,40 @@ export function parseRenderOptions(searchParams: URLSearchParams): RenderOptions
   });
 
   if (!result.success) {
-    return toResolveError(result.error);
+    return { ok: false, error: toResolveError(result.error) };
   }
 
-  return result.data;
+  return { ok: true, data: result.data };
 }
 
 /** Parse and validate GET /icons query parameters. */
-export function parseIconsRequest(
-  searchParams: URLSearchParams,
-): IconsRequestParams | ResolveError {
+export function parseIconsRequest(searchParams: URLSearchParams): ParseResult<IconsRequestParams> {
   const iconsResult = iconsParamSchema.safeParse(searchParams.get("icons"));
   if (!iconsResult.success) {
-    return toResolveError(iconsResult.error);
+    return { ok: false, error: toResolveError(iconsResult.error) };
   }
 
   const renderOptions = parseRenderOptions(searchParams);
-  if (isResolveError(renderOptions)) {
+  if (isParseError(renderOptions)) {
     return renderOptions;
   }
 
   const perLineResult = perLineSchema.safeParse(optionalParam(searchParams, "perline"));
   if (!perLineResult.success) {
-    return toResolveError(perLineResult.error);
+    return { ok: false, error: toResolveError(perLineResult.error) };
   }
 
   const slugsResult = parseIconSlugList(iconsResult.data);
-  if (isResolveError(slugsResult)) {
+  if (isParseError(slugsResult)) {
     return slugsResult;
   }
 
   return {
-    slugs: slugsResult,
-    perLine: perLineResult.data,
-    renderOptions,
+    ok: true,
+    data: {
+      slugs: slugsResult.data,
+      perLine: perLineResult.data,
+      renderOptions: renderOptions.data,
+    },
   };
 }

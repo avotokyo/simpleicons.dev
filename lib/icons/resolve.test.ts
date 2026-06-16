@@ -1,45 +1,46 @@
 import { describe, expect, it } from "vite-plus/test";
 
-import { isResolveError, parseIconsRequest, parseRenderOptions } from "./resolve";
+import { MAX_ICONS } from "./constants";
+import { getAllSlugs } from "./registry";
+import { isParseError, parseIconsRequest, parseRenderOptions } from "./resolve";
 
 function params(input: Record<string, string>): URLSearchParams {
   return new URLSearchParams(input);
 }
 
 describe("resolve", () => {
-  describe("isResolveError", () => {
-    it("returns true for ResolveError objects", () => {
-      expect(isResolveError({ status: 400, message: "bad" })).toBe(true);
+  describe("isParseError", () => {
+    it("returns true for failed parse results", () => {
+      expect(isParseError({ ok: false, error: { status: 400, message: "bad" } })).toBe(true);
     });
 
-    it("returns false for non-errors", () => {
-      expect(isResolveError({ slugs: [] })).toBe(false);
-      expect(isResolveError(null)).toBe(false);
+    it("returns false for successful results", () => {
+      expect(isParseError({ ok: true, data: { theme: "dark" } })).toBe(false);
     });
   });
 
   describe("parseRenderOptions", () => {
     it("returns default dark theme", () => {
       const result = parseRenderOptions(params({}));
-      expect(isResolveError(result)).toBe(false);
-      if (!isResolveError(result)) {
-        expect(result.theme).toBe("dark");
+      expect(isParseError(result)).toBe(false);
+      if (!isParseError(result)) {
+        expect(result.data.theme).toBe("dark");
       }
     });
 
     it("accepts light theme", () => {
       const result = parseRenderOptions(params({ theme: "light" }));
-      expect(isResolveError(result)).toBe(false);
-      if (!isResolveError(result)) {
-        expect(result.theme).toBe("light");
+      expect(isParseError(result)).toBe(false);
+      if (!isParseError(result)) {
+        expect(result.data.theme).toBe("light");
       }
     });
 
     it("rejects invalid theme", () => {
       const result = parseRenderOptions(params({ theme: "blue" }));
-      expect(isResolveError(result)).toBe(true);
-      if (isResolveError(result)) {
-        expect(result.status).toBe(400);
+      expect(isParseError(result)).toBe(true);
+      if (isParseError(result)) {
+        expect(result.error.status).toBe(400);
       }
     });
 
@@ -47,11 +48,11 @@ describe("resolve", () => {
       const result = parseRenderOptions(
         params({ color: "F7DF1E", iconColor: "FF0000", viewbox: "auto" }),
       );
-      expect(isResolveError(result)).toBe(false);
-      if (!isResolveError(result)) {
-        expect(result.color).toBe("F7DF1E");
-        expect(result.iconColor).toBe("FF0000");
-        expect(result.viewbox).toBe("auto");
+      expect(isParseError(result)).toBe(false);
+      if (!isParseError(result)) {
+        expect(result.data.color).toBe("F7DF1E");
+        expect(result.data.iconColor).toBe("FF0000");
+        expect(result.data.viewbox).toBe("auto");
       }
     });
   });
@@ -59,38 +60,57 @@ describe("resolve", () => {
   describe("parseIconsRequest", () => {
     it("returns 400 when icons is missing", () => {
       const result = parseIconsRequest(params({}));
-      expect(isResolveError(result)).toBe(true);
-      if (isResolveError(result)) {
-        expect(result.message).toContain("Missing icons");
+      expect(isParseError(result)).toBe(true);
+      if (isParseError(result)) {
+        expect(result.error.message).toContain("Missing icons");
       }
     });
 
     it("parses comma-separated icons", () => {
       const result = parseIconsRequest(params({ icons: "javascript,react" }));
-      expect(isResolveError(result)).toBe(false);
-      if (!isResolveError(result)) {
-        expect(result.slugs).toEqual(["javascript", "react"]);
+      expect(isParseError(result)).toBe(false);
+      if (!isParseError(result)) {
+        expect(result.data.slugs).toEqual(["javascript", "react"]);
       }
     });
 
-    it("supports icons=all", () => {
+    it("trims and lowercases slug matching", () => {
+      const result = parseIconsRequest(params({ icons: " JavaScript , REACT " }));
+      expect(isParseError(result)).toBe(false);
+      if (!isParseError(result)) {
+        expect(result.data.slugs).toEqual(["javascript", "react"]);
+      }
+    });
+
+    it("rejects icons=all when over MAX_ICONS", () => {
       const result = parseIconsRequest(params({ icons: "all" }));
-      expect(isResolveError(result)).toBe(false);
-      if (!isResolveError(result)) {
-        expect(result.slugs.length).toBeGreaterThan(100);
+      expect(isParseError(result)).toBe(true);
+      if (isParseError(result)) {
+        expect(result.error.message).toContain(String(MAX_ICONS));
+      }
+    });
+
+    it("rejects too many explicit icons", () => {
+      const slugs = getAllSlugs()
+        .slice(0, MAX_ICONS + 1)
+        .join(",");
+      const result = parseIconsRequest(params({ icons: slugs }));
+      expect(isParseError(result)).toBe(true);
+      if (isParseError(result)) {
+        expect(result.error.message).toContain(String(MAX_ICONS));
       }
     });
 
     it("rejects invalid perline", () => {
       const result = parseIconsRequest(params({ icons: "javascript", perline: "99" }));
-      expect(isResolveError(result)).toBe(true);
+      expect(isParseError(result)).toBe(true);
     });
 
     it("rejects unknown icon", () => {
       const result = parseIconsRequest(params({ icons: "not-a-real-icon-xyz" }));
-      expect(isResolveError(result)).toBe(true);
-      if (isResolveError(result)) {
-        expect(result.message).toContain("Unknown icon");
+      expect(isParseError(result)).toBe(true);
+      if (isParseError(result)) {
+        expect(result.error.message).toContain("Unknown icon");
       }
     });
   });

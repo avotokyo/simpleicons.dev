@@ -5,14 +5,14 @@ import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import { Geist } from "next/font/google";
 
+import { SITE_DESCRIPTION } from "@/lib/docs";
 import { cn } from "@/lib/utils";
 
 const geist = Geist({ subsets: ["latin"], variable: "--font-sans" });
 
 export const metadata: Metadata = {
   title: "simpleicons.dev",
-  description:
-    "SVG icon API powered by Simple Icons. Combine brand icons into a single SVG for GitHub READMEs, resumes, and other Markdown documents.",
+  description: SITE_DESCRIPTION,
 };
 
 export const viewport: Viewport = {

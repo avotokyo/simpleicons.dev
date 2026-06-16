@@ -3,10 +3,11 @@ import { describe, expect, it } from "vite-plus/test";
 import { errorResponse, renderErrorResponse, svgResponse } from "./responses";
 
 describe("responses", () => {
-  it("svgResponse sets image/svg+xml content-type", async () => {
+  it("svgResponse sets image/svg+xml content-type and cache headers", async () => {
     const res = svgResponse("<svg></svg>");
     expect(res.status).toBe(200);
     expect(res.headers.get("Content-Type")).toBe("image/svg+xml");
+    expect(res.headers.get("Cache-Control")).toBe("public, max-age=86400, s-maxage=604800");
     expect(await res.text()).toBe("<svg></svg>");
   });
 
