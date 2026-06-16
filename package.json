@@ -23,7 +23,6 @@
     "dev": "next dev",
     "lint": "eslint",
     "start": "next start",
-    "test": "vp test",
     "test:coverage": "vp test coverage",
     "test:e2e": "playwright test",
     "test:watch": "vp test watch"

@@ -37,15 +37,14 @@ Recommended VS Code extension: [Vite Plus Extension Pack](https://marketplace.vi
 
 ## Scripts
 
-| Command             | Description                      |
-| ------------------- | -------------------------------- |
-| `vp run dev`        | Start Next.js dev server         |
-| `vp run build`      | Production build                 |
-| `vp run start`      | Serve production build           |
-| `vp run lint`       | Run ESLint                       |
-| `vp run test`       | Unit and route integration tests |
-| `vp run test:watch` | Vite Plus test watch mode        |
-| `vp run test:e2e`   | E2E API tests (Playwright)       |
+| Command             | Description                |
+| ------------------- | -------------------------- |
+| `vp run dev`        | Start Next.js dev server   |
+| `vp run build`      | Production build           |
+| `vp run start`      | Serve production build     |
+| `vp run lint`       | Run ESLint                 |
+| `vp run test:watch` | Vite Plus test watch mode  |
+| `vp run test:e2e`   | E2E API tests (Playwright) |
 
 ## Testing
 
@@ -53,7 +52,7 @@ Run the full test suite before opening a pull request:
 
 ```bash
 vp run lint
-vp run test
+vp test
 vp run test:e2e
 ```
 
@@ -75,7 +74,7 @@ vite.config.ts      Vite Plus test and format configuration
 
 1. Fork the repository and create a branch from `main`.
 2. Make focused changes with tests when behavior changes.
-3. Ensure `vp run lint`, `vp run test`, and `vp run test:e2e` pass locally.
+3. Ensure `vp run lint`, `vp test`, and `vp run test:e2e` pass locally.
 4. Open a pull request with a clear description of what changed and why.
 
 ## Code of Conduct
