@@ -4,11 +4,13 @@ import { DEFAULT_THEME, ICONS_PER_LINE, MAX_ICONS } from "@/lib/icons/constants"
 
 export const SITE_URL = "https://simpleicons.dev";
 
-export const SITE_DESCRIPTION =
-  "SVG icon API powered by Simple Icons. Combine brand icons into a single SVG for GitHub READMEs, resumes, and other Markdown documents.";
+export const SITE_DESCRIPTION = "Showcase your skills on your GitHub README or resumé with ease.";
 
 export const NPM_PACKAGE_NOTE =
   "The npm package is a version marker for the deployed service, not a programmatic SDK.";
+
+export const QUICK_START_TITLE = "Quick Start";
+export const QUICK_START_INTRO = "Paste this into your Markdown:";
 
 /** Default Quick Start Markdown embed (production URL). */
 export const QUICK_START_MARKDOWN = `![My Skills](${SITE_URL}/icons?icons=javascript,html5,css,react,nodedotjs&theme=light)`;
@@ -16,7 +18,7 @@ export const QUICK_START_MARKDOWN = `![My Skills](${SITE_URL}/icons?icons=javasc
 export const API_ENDPOINT = `${SITE_URL}/icons`;
 
 export const navItems = [
-  { href: "#quick-start", label: "Quick Start" },
+  { href: "#quick-start", label: QUICK_START_TITLE },
   { href: "#examples", label: "Examples" },
   { href: "#showcase", label: "Showcase" },
   { href: "#api-reference", label: "API Reference" },

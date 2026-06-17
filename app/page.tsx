@@ -8,6 +8,8 @@ import {
   API_ENDPOINT,
   apiParams,
   NPM_PACKAGE_NOTE,
+  QUICK_START_INTRO,
+  QUICK_START_TITLE,
   navItems,
   showcaseExample,
   SITE_DESCRIPTION,
@@ -106,8 +108,8 @@ export default function Home() {
       <hr className="border-border" />
 
       <section id="quick-start" className="space-y-4">
-        <SectionHeading>Quick Start</SectionHeading>
-        <p className="text-muted-foreground">Paste this into your Markdown:</p>
+        <SectionHeading>{QUICK_START_TITLE}</SectionHeading>
+        <p className="text-muted-foreground">{QUICK_START_INTRO}</p>
         <QuickStart />
         <p className="text-muted-foreground text-sm">
           Replace the{" "}
