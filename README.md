@@ -3,11 +3,9 @@
   simpleicons.dev
 </h1>
 
-SVG icon API powered by [Simple Icons](https://simpleicons.org). Combine brand icons into a single SVG for GitHub READMEs, resumes, and other Markdown documents.
+Showcase your skills on your Github readme or resumé with ease ✨
 
 Icon data from [`simple-icons`](https://www.npmjs.com/package/simple-icons). Use official [slugs](https://github.com/simple-icons/simple-icons/blob/master/slugs.md) as identifiers.
-
-The npm package is a version marker for the deployed service, not a programmatic SDK.
 
 ## Quick Start
 
