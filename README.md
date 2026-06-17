@@ -6,9 +6,9 @@ Icon data from [`simple-icons`](https://www.npmjs.com/package/simple-icons). Use
 
 The npm package is a version marker for the deployed service, not a programmatic SDK.
 
-Full API documentation: [simpleicons.dev](https://simpleicons.dev)
-
 ## Quick Start
+
+Paste this into your Markdown:
 
 ```md
 ![My Skills](https://simpleicons.dev/icons?icons=javascript,html5,css,react,nodedotjs&theme=light)
@@ -16,6 +16,40 @@ Full API documentation: [simpleicons.dev](https://simpleicons.dev)
 
 ![My Skills](https://simpleicons.dev/icons?icons=javascript,html5,css,react,nodedotjs&theme=light)
 
-## Contributing
+Replace the `icons` value with a comma-separated list of slugs from [simpleicons.org](https://simpleicons.org).
 
-See [CONTRIBUTING.md](CONTRIBUTING.md) for local setup.
+## Examples
+
+Light theme (shown above):
+
+```md
+![My Skills](https://simpleicons.dev/icons?icons=javascript,html5,css,react,nodedotjs&theme=light)
+```
+
+![My Skills](https://simpleicons.dev/icons?icons=javascript,html5,css,react,nodedotjs&theme=light)
+
+Dark theme:
+
+```md
+![My Skills](https://simpleicons.dev/icons?icons=javascript,html5,css,react,nodedotjs&theme=dark)
+```
+
+![My Skills](https://simpleicons.dev/icons?icons=javascript,html5,css,react,nodedotjs&theme=dark)
+
+Two icons per row:
+
+```md
+![My Skills](https://simpleicons.dev/icons?icons=javascript,react&perline=2)
+```
+
+![My Skills](https://simpleicons.dev/icons?icons=javascript,react&perline=2)
+
+Single icon without card background:
+
+```md
+![JavaScript](https://simpleicons.dev/icons?icons=javascript&viewbox=auto)
+```
+
+![JavaScript](https://simpleicons.dev/icons?icons=javascript&viewbox=auto)
+
+More options: [simpleicons.dev](https://simpleicons.dev)
