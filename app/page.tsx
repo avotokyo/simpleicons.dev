@@ -4,7 +4,15 @@ import type { ReactNode } from "react";
 import logo from "@/app/logo.png";
 import { MarkdownExample } from "@/components/markdown-example";
 import { QuickStart } from "@/components/quick-start";
-import { NPM_PACKAGE_NOTE, navItems, SITE_DESCRIPTION, usageExamples } from "@/lib/docs";
+import {
+  API_ENDPOINT,
+  apiParams,
+  NPM_PACKAGE_NOTE,
+  navItems,
+  showcaseExample,
+  SITE_DESCRIPTION,
+  usageExamples,
+} from "@/lib/docs";
 
 const linkClassName = "underline-offset-4 hover:underline";
 
@@ -22,6 +30,41 @@ function ExternalLink({ href, children }: { href: string; children: ReactNode })
 
 function SectionHeading({ children }: { children: ReactNode }) {
   return <h2 className="text-xl font-semibold text-balance">{children}</h2>;
+}
+
+function ParamTable() {
+  return (
+    <div className="overflow-x-auto">
+      <table className="w-full text-sm">
+        <thead>
+          <tr className="border-border border-b text-left">
+            <th className="pr-4 pb-2 font-medium">Parameter</th>
+            <th className="pr-4 pb-2 font-medium">Required</th>
+            <th className="pr-4 pb-2 font-medium">Default</th>
+            <th className="pb-2 font-medium">Description</th>
+          </tr>
+        </thead>
+        <tbody className="text-muted-foreground">
+          {apiParams.map((param) => (
+            <tr key={param.name} className="border-border border-b">
+              <td className="py-2 pr-4 align-top">
+                <code className="text-foreground" translate="no">
+                  {param.name}
+                </code>
+              </td>
+              <td className="py-2 pr-4 align-top">{param.required ? "Yes" : "No"}</td>
+              <td className="py-2 pr-4 align-top">
+                <code className="text-foreground" translate="no">
+                  {param.default}
+                </code>
+              </td>
+              <td className="py-2 align-top">{param.description}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
 }
 
 export default function Home() {
@@ -81,6 +124,45 @@ export default function Home() {
         {usageExamples.map((example) => (
           <MarkdownExample key={example.id} title={example.title} markdown={example.markdown} />
         ))}
+      </section>
+
+      <section id="showcase" className="space-y-4">
+        <SectionHeading>Showcase</SectionHeading>
+        <p className="text-muted-foreground">
+          Real-world usage in a GitHub profile README — skills badges rendered via Markdown image
+          embeds.
+        </p>
+        <figure className="space-y-2">
+          <figcaption className="text-muted-foreground text-sm">{showcaseExample.title}</figcaption>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={showcaseExample.imageUrl}
+            alt={showcaseExample.alt}
+            width={800}
+            height={400}
+            className="border-border max-w-full rounded-md border"
+          />
+        </figure>
+      </section>
+
+      <section id="api-reference" className="space-y-4">
+        <SectionHeading>API Reference</SectionHeading>
+        <p className="text-muted-foreground">
+          <code className="text-foreground text-sm" translate="no">
+            GET {API_ENDPOINT}
+          </code>{" "}
+          returns a combined SVG for Markdown embeds.
+        </p>
+        <ParamTable />
+        <p className="text-muted-foreground text-sm">
+          Icon slugs are listed at{" "}
+          <ExternalLink href="https://simpleicons.org">simpleicons.org</ExternalLink> and in the
+          official{" "}
+          <ExternalLink href="https://github.com/simple-icons/simple-icons/blob/master/slugs.md">
+            slugs reference
+          </ExternalLink>
+          .
+        </p>
       </section>
     </main>
   );
