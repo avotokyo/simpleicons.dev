@@ -18,6 +18,8 @@ Paste this into your Markdown:
 ![My Skills](https://simpleicons.dev/icons?icons=javascript,html5,css,react,nodedotjs&theme=light)
 ```
 
+![My Skills](https://simpleicons.dev/icons?icons=javascript,html5,css,react,nodedotjs&theme=light)
+
 Replace the `icons` value with a comma-separated list of slugs from [simpleicons.org](https://simpleicons.org).
 
 ---
