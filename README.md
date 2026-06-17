@@ -5,8 +5,8 @@
 
 Showcase your skills on your GitHub README or resumé with ease.
 
-> [!NOTE]
-> Icon data from [`simple-icons`](https://www.npmjs.com/package/simple-icons). Use official [slugs](https://github.com/simple-icons/simple-icons/blob/master/slugs.md) as identifiers. The npm package is a version marker for the deployed service, not a programmatic SDK.
+> [!TIP]
+> Icon data from [`simple-icons`](https://www.npmjs.com/package/simple-icons). Use official [slugs](https://github.com/simple-icons/simple-icons/blob/master/slugs.md) as identifiers.
 
 **Full docs & examples:** [simpleicons.dev](https://simpleicons.dev)
 
