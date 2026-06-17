@@ -78,7 +78,7 @@ function DocTable<T>({
     <div className="overflow-x-auto">
       <table className="w-full text-sm">
         <thead>
-          <tr className="border-b border-border">
+          <tr className="border-border border-b">
             {columns.map((column) => (
               <th key={column.header} className="px-3 py-2 text-left font-medium">
                 {column.header}
@@ -88,7 +88,7 @@ function DocTable<T>({
         </thead>
         <tbody>
           {rows.map((row) => (
-            <tr key={rowKey(row)} className="border-b border-border">
+            <tr key={rowKey(row)} className="border-border border-b">
               {columns.map((column) => (
                 <td key={column.header} className={`px-3 py-2 ${column.className ?? ""}`}>
                   {column.cell(row)}

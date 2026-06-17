@@ -44,7 +44,7 @@ export function QuickStart() {
   const preview = useMemo(() => parseMarkdownImage(markdown), [markdown]);
 
   return (
-    <div className="space-y-4 rounded-lg border border-border p-6">
+    <div className="border-border space-y-4 rounded-lg border p-6">
       <div className="space-y-1">
         <h3 className="font-semibold">Markdown badge</h3>
         <p className="text-muted-foreground text-sm">Embed a linked icon strip in your README.</p>
@@ -55,7 +55,7 @@ export function QuickStart() {
         aria-label="Markdown badge example"
         spellCheck={false}
         rows={2}
-        className={`${codeSurfaceClassName} w-full resize-y border-0 focus-visible:ring-2 focus-visible:ring-primary/30 focus-visible:outline-none`}
+        className={`${codeSurfaceClassName} focus-visible:ring-primary/30 w-full resize-y border-0 focus-visible:ring-2 focus-visible:outline-none`}
         translate="no"
       />
       <figure className="space-y-2">
