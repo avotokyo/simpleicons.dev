@@ -1,4 +1,7 @@
-# simpleicons.dev
+<h1>
+  <img src="app/logo.png" width="40" height="40" alt="" valign="middle" />
+  simpleicons.dev
+</h1>
 
 SVG icon API powered by [Simple Icons](https://simpleicons.org). Combine brand icons into a single SVG for GitHub READMEs, resumes, and other Markdown documents.
 
