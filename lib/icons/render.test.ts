@@ -55,5 +55,17 @@ describe("render", () => {
       expect(svg).toContain("translate(0, 300)");
       expect(svg).toContain("translate(0, 600)");
     });
+
+    it("renders single icon with auto viewbox as 24x24 svg", () => {
+      const svg = generateCombinedSvg(["javascript"], 15, { viewbox: "auto" });
+      expect(svg).toContain('viewBox="0 0 24 24"');
+      expect(svg).not.toContain("<rect");
+    });
+
+    it("renders multiple icons with auto viewbox without card backgrounds", () => {
+      const svg = generateCombinedSvg(["javascript", "react"], 2, { viewbox: "auto" });
+      expect(svg).not.toContain("<rect");
+      expect(svg).toContain("scale(");
+    });
   });
 });

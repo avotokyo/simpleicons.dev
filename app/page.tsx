@@ -11,8 +11,8 @@ import {
   apiEndpoints,
   curlExamples,
   errorMessages,
-  iconsAllWarning,
   iconsParameters,
+  NPM_PACKAGE_NOTE,
   navItems,
   renderParameters,
   responseDocs,
@@ -64,7 +64,7 @@ export default function Home() {
           <ExternalLink href="https://github.com/simple-icons/simple-icons/blob/master/slugs.md">
             slugs
           </ExternalLink>{" "}
-          as identifiers.
+          as identifiers. {NPM_PACKAGE_NOTE}
         </p>
       </header>
 
@@ -135,7 +135,6 @@ export default function Home() {
             },
           ]}
         />
-        <p className="text-muted-foreground text-sm">{iconsAllWarning}</p>
       </section>
 
       <section id="responses" className="space-y-4">

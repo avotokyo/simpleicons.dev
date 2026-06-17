@@ -36,7 +36,7 @@ export const iconsParameters = [
   {
     name: "icons",
     required: true,
-    description: `Comma-separated official slugs (case-insensitive, trimmed), \`all\`, or up to ${MAX_ICONS} icons`,
+    description: `Comma-separated official slugs (case-insensitive, trimmed), up to ${MAX_ICONS} icons`,
   },
   {
     name: "perline",
@@ -49,7 +49,11 @@ export const renderParameters = [
   { name: "theme", description: "dark (default) or light" },
   { name: "color", description: "Card background (hex, e.g. F7DF1E)" },
   { name: "iconColor", description: "Icon fill color (hex)" },
-  { name: "viewbox", description: "auto for raw 24×24 SVG without card" },
+  {
+    name: "viewbox",
+    description:
+      "auto — single icon: raw 24×24 SVG without card; multiple icons: grid without card backgrounds",
+  },
 ] as const;
 
 export const responseDocs = [
@@ -75,11 +79,8 @@ export const errorMessages = [
   `Too many icons requested (max ${MAX_ICONS})`,
 ] as const;
 
-export const iconsAllWarning =
-  "`icons=all` expands every official slug (3000+). Requests are capped at 100 icons; use explicit slug lists for large sets.";
-
 export const slugBehaviorNote =
-  "Only official slugs are accepted. Matching is case-insensitive and comma-separated values are trimmed.";
+  "Only official slugs are accepted. Matching is case-insensitive and comma-separated values are trimmed. Duplicate slugs are rendered multiple times.";
 
 export const curlExamples = [
   `curl "${SITE_URL}/icons?icons=javascript,html5,css,react,nodedotjs&theme=light"`,

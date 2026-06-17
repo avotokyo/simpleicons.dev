@@ -5,13 +5,13 @@ import type { RenderOptions, Theme } from "./types";
 
 /** Display size of one icon in the combined output (px). */
 const ONE_ICON = 48;
-/** Cell size in the composition grid. */
+/** Cell size in the composition grid (internal coordinates). */
 const CELL_SIZE = 300;
-/** Cell padding used to compute the drawable area. */
+/** Cell padding; drawable area per cell is CELL_SIZE - CELL_PADDING (256px). */
 const CELL_PADDING = 44;
 /** Single-icon card size (rounded rectangle background). */
 const CARD_SIZE = 256;
-/** Scale from cell coordinates to output SVG coordinates. */
+/** Scale from cell coordinates to output SVG coordinates (ONE_ICON / drawable area). */
 const SCALE = ONE_ICON / (CELL_SIZE - CELL_PADDING);
 
 /** Default card background colors per theme. */
@@ -35,7 +35,7 @@ function extractSvgInner(svg: string): string {
   return match ? match[1].trim() : svg;
 }
 
-/** Set `fill` on path elements. When force=false, keep an existing fill. */
+/** Set `fill` on self-closing path elements. When force=false, keep an existing fill. */
 function applyPathFill(inner: string, fill: string, force = false): string {
   return inner.replace(/<path\b([^>]*)\/>/gi, (_tag, attrs: string) => {
     if (!force && /\sfill="/i.test(attrs)) {
@@ -57,7 +57,7 @@ function applyDefaultIconFill(inner: string, hex: string): string {
   return applyPathFill(inner, normalizeHex(hex));
 }
 
-/** Load and colorize icon path markup. Slugs are validated upstream; throws if data is missing. */
+/** Load and colorize icon path markup. Throws if metadata or SVG is missing (500 at HTTP layer). */
 function buildIconInner(slug: string, options: RenderOptions = {}): string {
   const icon = getIconBySlug(slug);
   if (!icon) {
@@ -83,7 +83,10 @@ function buildCardContent(slug: string, options: RenderOptions = {}): string {
   const inner = buildIconInner(slug, options);
 
   if (options.viewbox === "auto") {
-    return inner;
+    const drawable = CELL_SIZE - CELL_PADDING;
+    const scale = drawable / 24;
+    const offset = (CELL_SIZE - 24 * scale) / 2;
+    return `<g transform="translate(${offset}, ${offset}) scale(${scale})">${inner}</g>`;
   }
 
   const theme = options.theme ?? DEFAULT_THEME;
@@ -113,12 +116,19 @@ ${content}
 </svg>`;
 }
 
-/** Compose multiple icon cards into one SVG grid. */
+/**
+ * Compose multiple icon cards into one SVG grid. When viewbox=auto and only one slug is requested,
+ * delegates to renderIconCard for a standalone 24×24 SVG.
+ */
 export function generateCombinedSvg(
   slugs: string[],
   perLine: number,
   options: RenderOptions = {},
 ): string {
+  if (options.viewbox === "auto" && slugs.length === 1) {
+    return renderIconCard(slugs[0], options);
+  }
+
   const iconSvgList = slugs.map((slug) => buildCardContent(slug, options));
 
   const length = Math.min(perLine * CELL_SIZE, slugs.length * CELL_SIZE) - CELL_PADDING;

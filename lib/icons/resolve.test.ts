@@ -82,11 +82,11 @@ describe("resolve", () => {
       }
     });
 
-    it("rejects icons=all when over MAX_ICONS", () => {
+    it("rejects icons=all as unknown slug", () => {
       const result = parseIconsRequest(params({ icons: "all" }));
       expect(isParseError(result)).toBe(true);
       if (isParseError(result)) {
-        expect(result.error.message).toContain(String(MAX_ICONS));
+        expect(result.error.message).toContain("Unknown icon");
       }
     });
 

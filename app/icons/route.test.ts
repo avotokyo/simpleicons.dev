@@ -25,4 +25,13 @@ describe("GET /icons", () => {
     expect(res.status).toBe(400);
     expect(await res.text()).toContain("Unknown icon");
   });
+
+  it("returns 200 with 24x24 svg for single icon and viewbox=auto", async () => {
+    const req = new Request("http://localhost/icons?icons=javascript&viewbox=auto");
+    const res = await GET(req);
+    expect(res.status).toBe(200);
+    const body = await res.text();
+    expect(body).toContain('viewBox="0 0 24 24"');
+    expect(body).not.toContain("<rect");
+  });
 });

@@ -16,7 +16,7 @@ type Registry = {
 /** Lazy singleton, built on first access. */
 let registry: Registry | null = null;
 
-/** Build the registry from simple-icons/icons.json. */
+/** Build the registry from simple-icons/icons.json (SVG strings come from package exports). */
 function buildRegistry(): Registry {
   const raw = iconsData as IconData[];
   const bySlug = new Map<string, IconRecord>();
@@ -66,7 +66,7 @@ export function getAllSlugs(): string[] {
   return getRegistry().allSlugs;
 }
 
-/** Return metadata for an official slug, or undefined if unknown. */
+/** Return metadata for an official slug, or undefined if unknown. Slug must be lowercase. */
 export function getIconBySlug(slug: string): IconRecord | undefined {
   return getRegistry().bySlug.get(slug);
 }

@@ -81,7 +81,11 @@ playwright.config.ts  E2E server on port 3099
 
 ## Documentation
 
-API parameter tables and examples are defined in [`lib/docs.ts`](lib/docs.ts). Machine-readable API spec: [`openapi.yaml`](openapi.yaml). When changing API behavior or docs, update `lib/docs.ts` and keep [`README.md`](README.md) aligned.
+API parameter tables and examples are defined in [`lib/docs.ts`](lib/docs.ts). Machine-readable API spec: [`openapi.yaml`](openapi.yaml). When changing API behavior or docs, update the following:
+
+1. **API behavior** — change `lib/icons/*` and add or update tests (`*.test.ts`).
+2. **User-facing docs** — keep [`lib/docs.ts`](lib/docs.ts), [`README.md`](README.md), and [`openapi.yaml`](openapi.yaml) aligned.
+3. **Verify locally** — run `vp run lint`, `vp test`, and `vp run test:e2e` before opening a pull request.
 
 ## Pull Requests
 

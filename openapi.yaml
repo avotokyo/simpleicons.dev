@@ -1,0 +1,101 @@
+openapi: 3.1.0
+info:
+  title: simpleicons.dev API
+  description: |
+    SVG icon API powered by Simple Icons. Combine brand icons into a single SVG
+    for GitHub READMEs, resumes, and other Markdown documents.
+
+    Icon data from the `simple-icons` npm package. Use official slugs as identifiers.
+  version: 1.0.0
+servers:
+  - url: https://simpleicons.dev
+    description: Production
+paths:
+  /icons:
+    get:
+      summary: Combined multi-icon SVG
+      description: |
+        Returns a single SVG image combining one or more brand icons in a grid layout.
+        Supports card backgrounds, themes, and custom colors.
+      operationId: getIcons
+      parameters:
+        - name: icons
+          in: query
+          required: true
+          description: |
+            Comma-separated official slugs (case-insensitive, trimmed), up to 100 icons.
+          schema:
+            type: string
+            example: javascript,html5,css,react,nodedotjs
+        - name: perline
+          in: query
+          required: false
+          description: Icons per row, 1–50 (default 15).
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 50
+            default: 15
+        - name: theme
+          in: query
+          required: false
+          description: Card background theme.
+          schema:
+            type: string
+            enum: [dark, light]
+            default: dark
+        - name: color
+          in: query
+          required: false
+          description: Card background color (hex, e.g. F7DF1E).
+          schema:
+            type: string
+            example: F7DF1E
+        - name: iconColor
+          in: query
+          required: false
+          description: Icon fill color (hex).
+          schema:
+            type: string
+            example: FF0000
+        - name: viewbox
+          in: query
+          required: false
+          description: |
+            When `auto`: single icon returns raw 24×24 SVG without card;
+            multiple icons return a grid without card backgrounds.
+          schema:
+            type: string
+            enum: [auto]
+      responses:
+        "200":
+          description: Success — combined SVG image.
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+              example: public, max-age=86400, s-maxage=604800
+          content:
+            image/svg+xml:
+              schema:
+                type: string
+        "400":
+          description: Validation error.
+          content:
+            text/plain:
+              schema:
+                type: string
+              examples:
+                missingIcons:
+                  value: Missing icons parameter
+                unknownIcon:
+                  value: "Unknown icon: not-a-real-icon"
+                tooManyIcons:
+                  value: Too many icons requested (max 100)
+        "500":
+          description: Render error (e.g. invalid hex color).
+          content:
+            text/plain:
+              schema:
+                type: string
+              example: "Invalid color: not-a-color"

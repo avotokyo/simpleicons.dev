@@ -11,6 +11,8 @@ Icon data from [`simple-icons`](https://www.npmjs.com/package/simple-icons). Use
 
 The npm package is a version marker for the deployed service, not a programmatic SDK. API documentation constants live in [`lib/docs.ts`](lib/docs.ts).
 
+See [CONTRIBUTING.md](CONTRIBUTING.md) for local setup.
+
 ## Quick Start
 
 ```md
@@ -27,23 +29,21 @@ The npm package is a version marker for the deployed service, not a programmatic
 
 ### `GET /icons` parameters
 
-| Parameter | Required | Description                                                                          |
-| --------- | -------- | ------------------------------------------------------------------------------------ |
-| `icons`   | Yes      | Comma-separated official slugs (case-insensitive, trimmed), or `all` (max 100 icons) |
-| `perline` | No       | Icons per row, 1–50 (default `15`)                                                   |
-
-> **Note:** `icons=all` expands every official slug (3000+). Requests are capped at 100 icons; use explicit slug lists for large sets.
+| Parameter | Required | Description                                                           |
+| --------- | -------- | --------------------------------------------------------------------- |
+| `icons`   | Yes      | Comma-separated official slugs (case-insensitive, trimmed), up to 100 |
+| `perline` | No       | Icons per row, 1–50 (default `15`)                                    |
 
 ### Render parameters
 
 Applies to `/icons`:
 
-| Parameter   | Description                           |
-| ----------- | ------------------------------------- |
-| `theme`     | `dark` (default) or `light`           |
-| `color`     | Card background (hex, e.g. `F7DF1E`)  |
-| `iconColor` | Icon fill color (hex)                 |
-| `viewbox`   | `auto` for raw 24×24 SVG without card |
+| Parameter   | Description                                                                                     |
+| ----------- | ----------------------------------------------------------------------------------------------- |
+| `theme`     | `dark` (default) or `light`                                                                     |
+| `color`     | Card background (hex, e.g. `F7DF1E`)                                                            |
+| `iconColor` | Icon fill color (hex)                                                                           |
+| `viewbox`   | `auto` — single icon: raw 24×24 SVG without card; multiple icons: grid without card backgrounds |
 
 ### Responses
 
@@ -65,7 +65,7 @@ curl "https://simpleicons.dev/icons?icons=javascript&viewbox=auto"
 
 ## Slugs
 
-Find official slugs at [simpleicons.org](https://simpleicons.org) or in [slugs.md](https://github.com/simple-icons/simple-icons/blob/master/slugs.md). Only official slugs are accepted. Matching is case-insensitive and comma-separated values are trimmed. Unknown slugs return `400`.
+Find official slugs at [simpleicons.org](https://simpleicons.org) or in [slugs.md](https://github.com/simple-icons/simple-icons/blob/master/slugs.md). Only official slugs are accepted. Matching is case-insensitive and comma-separated values are trimmed. Duplicate slugs are rendered multiple times. Unknown slugs return `400`.
 
 ## Contributing
 

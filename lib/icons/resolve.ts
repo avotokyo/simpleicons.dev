@@ -2,7 +2,7 @@ import "server-only";
 import { z } from "zod";
 
 import { DEFAULT_THEME, ICONS_PER_LINE, MAX_ICONS, TOO_MANY_ICONS_ERROR } from "./constants";
-import { getAllSlugs, resolveSlug } from "./registry";
+import { resolveSlug } from "./registry";
 import type { RenderOptions } from "./types";
 
 /** Parsed query parameters for GET /icons. */
@@ -67,10 +67,9 @@ function optionalParam(searchParams: URLSearchParams, key: string): string | und
   return searchParams.get(key) ?? undefined;
 }
 
-/** Parse comma-separated slugs or expand icons=all, enforcing MAX_ICONS. */
+/** Parse comma-separated slugs, enforcing MAX_ICONS. */
 function parseIconSlugList(iconParam: string): ParseResult<string[]> {
-  const slugs: ParseResult<string[]> =
-    iconParam === "all" ? { ok: true, data: getAllSlugs() } : parseSlugNames(iconParam);
+  const slugs = parseSlugNames(iconParam);
   if (isParseError(slugs)) {
     return slugs;
   }

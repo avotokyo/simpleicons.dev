@@ -14,7 +14,10 @@ export type IconRecord = {
   license?: License;
 };
 
-/** SVG render options for icon endpoints. viewbox=auto returns raw 24×24 without a card. */
+/**
+ * SVG render options for GET /icons. viewbox=auto: single icon → 24×24; multiple → grid without
+ * cards.
+ */
 export type RenderOptions = {
   /** Card background theme; defaults to dark. */
   theme?: Theme;
@@ -22,6 +25,6 @@ export type RenderOptions = {
   color?: string;
   /** Override icon path fill color (hex). */
   iconColor?: string;
-  /** When "auto", return raw 24×24 SVG without rounded card background. */
+  /** Single icon: raw 24×24 SVG. Multiple icons: grid layout without card backgrounds. */
   viewbox?: "auto";
 };
