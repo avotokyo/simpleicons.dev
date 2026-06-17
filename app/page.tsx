@@ -1,5 +1,7 @@
+import Image from "next/image";
 import type { ReactNode } from "react";
 
+import logo from "@/app/logo.png";
 import { MarkdownExample } from "@/components/markdown-example";
 import { QuickStart } from "@/components/quick-start";
 import { NPM_PACKAGE_NOTE, navItems, SITE_DESCRIPTION, usageExamples } from "@/lib/docs";
@@ -38,7 +40,8 @@ export default function Home() {
       </nav>
 
       <header className="space-y-4">
-        <h1 className="text-3xl font-semibold text-balance">
+        <h1 className="flex items-center gap-3 text-3xl font-semibold text-balance">
+          <Image src={logo} alt="" width={40} height={40} className="size-10 shrink-0" priority />
           <span translate="no">simpleicons.dev</span>
         </h1>
         <p className="text-muted-foreground">{SITE_DESCRIPTION}</p>
