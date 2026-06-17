@@ -16,14 +16,7 @@ jobs:
     timeout-minutes: 15
 
     steps:
-      - name: Setup Vite Plus
-        uses: avotokyo/workflows/setup-vp@main
+      - name: Unit Test
+        uses: avotokyo/workflows/unit-test@main
         with:
-          fetch-all: true
-          cache: false
-
-      - name: Lint
-        run: vp run lint
-
-      - name: Unit and integration tests
-        run: vp test
+          build: false
