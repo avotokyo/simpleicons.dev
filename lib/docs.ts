@@ -1,6 +1,4 @@
-/** Single source of truth for site and API documentation. */
-
-import { MAX_ICONS } from "./icons/constants";
+/** Single source of truth for site and usage documentation. */
 
 export const SITE_URL = "https://simpleicons.dev";
 
@@ -15,74 +13,28 @@ export const QUICK_START_MARKDOWN = `![My Skills](${SITE_URL}/icons?icons=javasc
 
 export const navItems = [
   { href: "#quick-start", label: "Quick Start" },
-  { href: "#api", label: "API" },
-  { href: "#responses", label: "Responses" },
-  { href: "#render-parameters", label: "Render Parameters" },
   { href: "#examples", label: "Examples" },
-  { href: "#slugs", label: "Slugs" },
 ] as const;
 
-export const apiEndpoints = [
+export const usageExamples = [
   {
-    method: "GET",
-    path: "/icons",
-    href: "/icons?icons=javascript,html5,css,react,nodedotjs&theme=light",
-    description: "Combined multi-icon SVG",
-  },
-] as const;
-
-export const iconsParameters = [
-  {
-    name: "icons",
-    required: true,
-    description: `Comma-separated official slugs (case-insensitive, trimmed), up to ${MAX_ICONS} icons`,
+    id: "light",
+    title: "Light theme (shown above)",
+    markdown: `![My Skills](${SITE_URL}/icons?icons=javascript,html5,css,react,nodedotjs&theme=light)`,
   },
   {
-    name: "perline",
-    required: false,
-    description: "Icons per row, 1–50 (default 15)",
-  },
-] as const;
-
-export const renderParameters = [
-  { name: "theme", description: "dark (default) or light" },
-  { name: "color", description: "Card background (hex, e.g. F7DF1E)" },
-  { name: "iconColor", description: "Icon fill color (hex)" },
-  {
-    name: "viewbox",
-    description:
-      "auto — single icon: raw 24×24 SVG without card; multiple icons: grid without card backgrounds",
-  },
-] as const;
-
-export const responseDocs = [
-  {
-    status: "200",
-    description: "Success — body is an SVG string with Content-Type image/svg+xml",
+    id: "dark",
+    title: "Dark theme",
+    markdown: `![My Skills](${SITE_URL}/icons?icons=javascript,html5,css,react,nodedotjs&theme=dark)`,
   },
   {
-    status: "400",
-    description: "Validation error — plain-text message describing the problem",
+    id: "perline",
+    title: "Two icons per row",
+    markdown: `![My Skills](${SITE_URL}/icons?icons=javascript,react&perline=2)`,
   },
   {
-    status: "500",
-    description: "Render error — plain-text message (e.g. invalid hex color)",
+    id: "viewbox",
+    title: "Single icon without card background",
+    markdown: `![JavaScript](${SITE_URL}/icons?icons=javascript&viewbox=auto)`,
   },
-] as const;
-
-export const errorMessages = [
-  "Missing icons parameter",
-  'Theme must be either "light" or "dark"',
-  "Icons per line must be a number between 1 and 50",
-  "Unknown icon: …",
-  `Too many icons requested (max ${MAX_ICONS})`,
-] as const;
-
-export const slugBehaviorNote =
-  "Only official slugs are accepted. Matching is case-insensitive and comma-separated values are trimmed. Duplicate slugs are rendered multiple times.";
-
-export const curlExamples = [
-  `curl "${SITE_URL}/icons?icons=javascript,html5,css,react,nodedotjs&theme=light"`,
-  `curl "${SITE_URL}/icons?icons=javascript,react&perline=2"`,
-  `curl "${SITE_URL}/icons?icons=javascript&viewbox=auto"`,
 ] as const;
