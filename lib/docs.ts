@@ -1,8 +1,7 @@
-/** Single source of truth for site and API documentation. Keep README.md in sync manually. */
+/** Single source of truth for site and API documentation. */
 
 import { MAX_ICONS } from "./icons/constants";
 
-export const SITE_NAME = "simpleicons.dev";
 export const SITE_URL = "https://simpleicons.dev";
 
 export const SITE_DESCRIPTION =

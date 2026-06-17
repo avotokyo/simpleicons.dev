@@ -1,12 +1,7 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
 
-import { CodeBlock } from "@/components/home/code-block";
-import { DocTable } from "@/components/home/doc-table";
-import { QuickStartCard } from "@/components/home/quick-start-card";
-import { SectionHeading } from "@/components/home/section-heading";
-import { Badge } from "@/components/ui/badge";
-import { Separator } from "@/components/ui/separator";
+import { QuickStart } from "@/components/quick-start";
 import {
   apiEndpoints,
   curlExamples,
@@ -19,7 +14,9 @@ import {
   SITE_DESCRIPTION,
   slugBehaviorNote,
 } from "@/lib/docs";
-import { linkClassName } from "@/lib/styles";
+
+const linkClassName = "underline-offset-4 hover:underline";
+const codeSurfaceClassName = "overflow-x-auto rounded-md bg-muted p-4 font-mono text-sm";
 
 function ExternalLink({ href, children }: { href: string; children: ReactNode }) {
   return (
@@ -30,6 +27,78 @@ function ExternalLink({ href, children }: { href: string; children: ReactNode })
       className={`text-primary ${linkClassName}`}>
       {children}
     </a>
+  );
+}
+
+function SectionHeading({ children }: { children: ReactNode }) {
+  return <h2 className="text-xl font-semibold text-balance">{children}</h2>;
+}
+
+function CodeBlock({ children }: { children: string }) {
+  return (
+    <pre className={codeSurfaceClassName}>
+      <code translate="no">{children}</code>
+    </pre>
+  );
+}
+
+function Badge({
+  children,
+  variant = "default",
+}: {
+  children: ReactNode;
+  variant?: "default" | "secondary" | "outline";
+}) {
+  const className =
+    variant === "secondary"
+      ? "rounded-full bg-muted px-2 py-0.5 text-xs font-medium"
+      : variant === "outline"
+        ? "rounded-full border border-border px-2 py-0.5 text-xs font-medium"
+        : "rounded-full bg-primary px-2 py-0.5 text-xs font-medium text-white";
+
+  return <span className={className}>{children}</span>;
+}
+
+type DocTableColumn<T> = {
+  header: string;
+  cell: (row: T) => ReactNode;
+  className?: string;
+};
+
+function DocTable<T>({
+  columns,
+  rows,
+  rowKey,
+}: {
+  columns: DocTableColumn<T>[];
+  rows: readonly T[];
+  rowKey: (row: T) => string;
+}) {
+  return (
+    <div className="overflow-x-auto">
+      <table className="w-full text-sm">
+        <thead>
+          <tr className="border-b border-border">
+            {columns.map((column) => (
+              <th key={column.header} className="px-3 py-2 text-left font-medium">
+                {column.header}
+              </th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {rows.map((row) => (
+            <tr key={rowKey(row)} className="border-b border-border">
+              {columns.map((column) => (
+                <td key={column.header} className={`px-3 py-2 ${column.className ?? ""}`}>
+                  {column.cell(row)}
+                </td>
+              ))}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
   );
 }
 
@@ -68,11 +137,11 @@ export default function Home() {
         </p>
       </header>
 
-      <Separator />
+      <hr className="border-border" />
 
       <section id="quick-start" className="space-y-4">
         <SectionHeading>Quick Start</SectionHeading>
-        <QuickStartCard />
+        <QuickStart />
       </section>
 
       <section id="api" className="space-y-4">

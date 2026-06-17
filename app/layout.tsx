@@ -6,7 +6,6 @@ import "./globals.css";
 import { Geist } from "next/font/google";
 
 import { SITE_DESCRIPTION } from "@/lib/docs";
-import { cn } from "@/lib/utils";
 
 const geist = Geist({ subsets: ["latin"], variable: "--font-sans" });
 
@@ -25,7 +24,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={cn("font-sans", geist.variable)} suppressHydrationWarning>
+    <html lang="en" className={`font-sans ${geist.variable}`} suppressHydrationWarning>
       <body className="relative">
         <a href="#main-content" className="skip-link">
           Skip to content

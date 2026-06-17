@@ -8,6 +8,7 @@ describe("GET /icons", () => {
     const res = await GET(req);
     expect(res.status).toBe(200);
     expect(res.headers.get("Content-Type")).toBe("image/svg+xml");
+    expect(res.headers.get("Cache-Control")).toContain("public");
     const body = await res.text();
     expect(body).toContain("<svg");
   });
