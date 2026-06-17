@@ -17,7 +17,7 @@ jobs:
 
     steps:
       - name: Setup Vite Plus
-        uses: avotokyo/workflows/setup-vp.yml@main
+        uses: avotokyo/workflows/setup-vp@main
         with:
           fetch-all: true
           cache: false
