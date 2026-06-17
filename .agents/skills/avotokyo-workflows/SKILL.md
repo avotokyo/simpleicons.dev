@@ -54,9 +54,9 @@ Composite steps for custom jobs.
 
 ## Best Practices
 
-| Topic                   | Description                        | Reference                                                  |
-| ----------------------- | ---------------------------------- | ---------------------------------------------------------- |
-| Permissions & Migration | Required permissions, legacy paths | [best-practices-usage](references/best-practices-usage.md) |
+| Topic | Description                       | Reference                                                  |
+| ----- | --------------------------------- | ---------------------------------------------------------- |
+| Usage | Permissions, paths, matrix format | [best-practices-usage](references/best-practices-usage.md) |
 
 ## Quick Reference
 

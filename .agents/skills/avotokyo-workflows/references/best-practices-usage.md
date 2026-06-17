@@ -1,6 +1,6 @@
 ---
 name: best-practices-usage
-description: Permissions, path conventions, and legacy migration for avotokyo/workflows
+description: Permissions, path conventions, and matrix input format for avotokyo/workflows
 ---
 
 # Usage Best Practices
@@ -15,7 +15,7 @@ uses: avotokyo/workflows/.github/workflows/<name>.yml@main
 uses: avotokyo/workflows/actions/<name>@main
 ```
 
-Pin `@main` or a release tag. Do not use legacy `*/action.yml` paths for workflows.
+Pin `@main` or a release tag.
 
 ## Required Permissions
 
@@ -39,16 +39,6 @@ with:
   os-matrix: '"ubuntu-latest", "windows-latest"' # JSON fragment
   node-versions: "22,24,26" # comma-separated
 ```
-
-## Legacy Migration
-
-| Old                                            | New                                                       |
-| ---------------------------------------------- | --------------------------------------------------------- |
-| `avotokyo/workflows/setup@main`                | `avotokyo/workflows/actions/setup@main`                   |
-| `avotokyo/workflows/unit-test/action.yml@main` | `avotokyo/workflows/.github/workflows/unit-test.yml@main` |
-| `avotokyo/workflows/coverage/action.yml@main`  | `avotokyo/workflows/.github/workflows/coverage.yml@main`  |
-| `avotokyo/workflows/release/action.yml@main`   | `avotokyo/workflows/.github/workflows/release.yml@main`   |
-| `avotokyo/workflows/autofix/action.yml@main`   | `avotokyo/workflows/.github/workflows/autofix.yml@main`   |
 
 ## Choosing a Layer
 

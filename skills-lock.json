@@ -5,7 +5,7 @@
       "source": "avotokyo/workflows",
       "sourceType": "github",
       "skillPath": "skills/avotokyo-workflows/SKILL.md",
-      "computedHash": "10404ab7236d1945bcd37265c422df847a092d66e00037a5cd62bdf6a61054ef"
+      "computedHash": "e335cbc055feefc546b24b922a652f8afed8b5ce3e9f57ed6f37bc620d6e03d5"
     },
     "web-design-guidelines": {
       "source": "antfu/skills",
