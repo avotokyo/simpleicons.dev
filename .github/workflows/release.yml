@@ -8,7 +8,7 @@ on:
 
 jobs:
   release:
-    uses: avotokyo/workflows/release@12db9a20f28938660c79ad2899e3dad379f68d25
+    uses: avotokyo/workflows/release@main
     with:
       publish: false
     permissions:
