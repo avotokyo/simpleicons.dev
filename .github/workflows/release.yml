@@ -8,9 +8,9 @@ on:
 
 jobs:
   release:
-    uses: heyongqi02/workflows/.github/workflows/release.yml@vp
+    uses: avotokyo/workflows/.github/workflows/release.yml@vp
     with:
-      publish: true
+      publish: false
     permissions:
       contents: write
       id-token: write
