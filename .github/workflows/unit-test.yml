@@ -12,11 +12,6 @@ concurrency:
 
 jobs:
   test:
-    runs-on: ubuntu-latest
-    timeout-minutes: 15
-
-    steps:
-      - name: Unit Test
-        uses: avotokyo/workflows/unit-test@main
-        with:
-          build: false
+    uses: avotokyo/workflows/.github/workflows/unit-test.yml@main
+    with:
+      build: ""

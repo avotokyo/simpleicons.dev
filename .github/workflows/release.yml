@@ -8,12 +8,9 @@ on:
 
 jobs:
   release:
-    runs-on: ubuntu-latest
+    uses: avotokyo/workflows/.github/workflows/release.yml@main
+    with:
+      publish: false
     permissions:
       contents: write
       id-token: write
-    steps:
-      - name: Release
-        uses: avotokyo/workflows/release@main
-        with:
-          publish: false
