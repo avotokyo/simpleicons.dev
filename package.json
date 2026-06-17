@@ -4,10 +4,10 @@
   "description": "SVG icon API powered by Simple Icons.",
   "homepage": "https://simpleicons.dev",
   "license": "Apache-2.0",
-  "author": "Yongqi He <hi@heyongqi.me>",
+  "author": "牛油果在东京学习 <hi@avotokyo.me>",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/heyongqi02/simpleicons.dev.git"
+    "url": "git+https://github.com/avotokyo/simpleicons.dev.git"
   },
   "files": [
     "README.md"
