@@ -1,14 +1,23 @@
 ---
 name: workflow-publish
-description: Build and publish package to npm
+description: Dispatch publish by type to per-registry workflows
 ---
 
-# Publish Workflow
+# Publish Workflow (Dispatcher)
+
+Routes `type` to a per-registry atomic workflow. Add a new publish target by adding a workflow + one job here.
+
+| `type`   | Atomic workflow    | Reference                                      |
+| -------- | ------------------ | ---------------------------------------------- |
+| `npm`    | `publish-npm.yml`  | [workflow-publish-npm](workflow-publish-npm.md) |
+| `github` | `publish-github.yml` | [workflow-publish-github](workflow-publish-github.md) |
 
 ```yaml
 jobs:
   publish:
     uses: avotokyo/workflows/.github/workflows/publish.yml@main
+    with:
+      type: npm
     permissions:
       contents: write
       id-token: write
@@ -16,21 +25,25 @@ jobs:
 
 ## Inputs
 
-| Input   | Default | Description                       |
-| ------- | ------- | --------------------------------- |
-| `build` | `""`    | Pre-publish build (skip if empty) |
-| `stage` | `false` | Stage publish                     |
-| `tag`   | `""`    | npm dist-tag                      |
+| Input   | Default | Description                      |
+| ------- | ------- | -------------------------------- |
+| `type`  | `npm`   | Publish type (`npm` or `github`) |
+| `build` | `""`    | Pre-publish build                |
+| `stage` | `false` | Stage publish                    |
+| `tag`   | `""`    | npm dist-tag                     |
 
-## Example
+## Example (GitHub Packages)
 
 ```yaml
 jobs:
   publish:
     uses: avotokyo/workflows/.github/workflows/publish.yml@main
     with:
+      type: github
       build: vp run build
     permissions:
       contents: write
-      id-token: write
+      packages: write
 ```
+
+See [best-practices-usage](best-practices-usage.md#adding-a-publish-type) to add a new type.
