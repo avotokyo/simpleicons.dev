@@ -10,7 +10,7 @@ Atomic workflow for GitHub Packages. Invoked directly or via [workflow-publish](
 ```yaml
 jobs:
   publish:
-    uses: avotokyo/workflows/.github/workflows/release/publish-github.yml@main
+    uses: avotokyo/workflows/.github/workflows/release-publish-github.yml@main
     permissions:
       contents: read
       packages: write
@@ -29,7 +29,7 @@ jobs:
 ```yaml
 jobs:
   publish:
-    uses: avotokyo/workflows/.github/workflows/release/publish-github.yml@main
+    uses: avotokyo/workflows/.github/workflows/release-publish-github.yml@main
     with:
       build: vp run build
     permissions:

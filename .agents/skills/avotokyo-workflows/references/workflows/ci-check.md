@@ -8,7 +8,7 @@ description: Single-OS code check with optional pre-build
 ```yaml
 jobs:
   check:
-    uses: avotokyo/workflows/.github/workflows/ci/check.yml@main
+    uses: avotokyo/workflows/.github/workflows/ci-check.yml@main
 ```
 
 ## Inputs
@@ -25,7 +25,7 @@ jobs:
 ```yaml
 jobs:
   check:
-    uses: avotokyo/workflows/.github/workflows/ci/check.yml@main
+    uses: avotokyo/workflows/.github/workflows/ci-check.yml@main
     with:
       build-for-check: true
 ```

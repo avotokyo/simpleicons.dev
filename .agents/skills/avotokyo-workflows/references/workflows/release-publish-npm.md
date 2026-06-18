@@ -10,7 +10,7 @@ Atomic workflow for npm Registry. Invoked directly or via [workflow-publish](rel
 ```yaml
 jobs:
   publish:
-    uses: avotokyo/workflows/.github/workflows/release/publish-npm.yml@main
+    uses: avotokyo/workflows/.github/workflows/release-publish-npm.yml@main
     permissions:
       contents: write
       id-token: write
@@ -29,7 +29,7 @@ jobs:
 ```yaml
 jobs:
   publish:
-    uses: avotokyo/workflows/.github/workflows/release/publish-npm.yml@main
+    uses: avotokyo/workflows/.github/workflows/release-publish-npm.yml@main
     with:
       build: vp run build
     permissions:

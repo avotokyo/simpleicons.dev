@@ -8,7 +8,7 @@ description: Auto-fix code style and commit via autofix-ci
 ```yaml
 jobs:
   autofix:
-    uses: avotokyo/workflows/.github/workflows/ci/autofix.yml@main
+    uses: avotokyo/workflows/.github/workflows/ci-autofix.yml@main
 ```
 
 ## Inputs
@@ -23,7 +23,7 @@ jobs:
 ```yaml
 jobs:
   autofix:
-    uses: avotokyo/workflows/.github/workflows/ci/autofix.yml@main
+    uses: avotokyo/workflows/.github/workflows/ci-autofix.yml@main
     with:
       command: vp check --fix
 ```

@@ -8,7 +8,7 @@ description: Matrix OS and Node version unit testing
 ```yaml
 jobs:
   test:
-    uses: avotokyo/workflows/.github/workflows/ci/test.yml@main
+    uses: avotokyo/workflows/.github/workflows/ci-test.yml@main
 ```
 
 ## Inputs
@@ -25,7 +25,7 @@ jobs:
 ```yaml
 jobs:
   test:
-    uses: avotokyo/workflows/.github/workflows/ci/test.yml@main
+    uses: avotokyo/workflows/.github/workflows/ci-test.yml@main
     with:
       os-matrix: '"ubuntu-latest"'
       node-versions: "22"

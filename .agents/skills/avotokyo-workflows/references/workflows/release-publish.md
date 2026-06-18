@@ -15,7 +15,7 @@ Routes `type` to a per-registry atomic workflow. Add a new publish target by add
 ```yaml
 jobs:
   publish:
-    uses: avotokyo/workflows/.github/workflows/release/publish.yml@main
+    uses: avotokyo/workflows/.github/workflows/release-publish.yml@main
     with:
       type: npm
     permissions:
@@ -37,7 +37,7 @@ jobs:
 ```yaml
 jobs:
   publish:
-    uses: avotokyo/workflows/.github/workflows/release/publish.yml@main
+    uses: avotokyo/workflows/.github/workflows/release-publish.yml@main
     with:
       type: github
       build: vp run build

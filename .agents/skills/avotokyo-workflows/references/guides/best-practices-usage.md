@@ -9,7 +9,7 @@ description: Permissions, path conventions, and matrix input format for avotokyo
 
 ```yaml
 # Workflow — job level
-uses: avotokyo/workflows/.github/workflows/<domain>/<name>.yml@main
+uses: avotokyo/workflows/.github/workflows/<name>.yml@main
 
 # Action — step level
 uses: avotokyo/workflows/actions/<domain>/<name>@main
@@ -45,18 +45,18 @@ Publish targets are **one implementation per type**, routed by thin dispatchers:
 
 | Layer    | Entry (with `type`)   | Implementation per type                                    |
 | -------- | --------------------- | ---------------------------------------------------------- |
-| Workflow | `release/publish.yml` | `release/publish-npm.yml`, `release/publish-github.yml`, … |
+| Workflow | `release-publish.yml` | `release-publish-npm.yml`, `release-publish-github.yml`, … |
 | Action   | —                     | `release/publish` (registry selected by `type`)            |
 
-Callers pass `type` to `release/publish.yml`; it forwards to the matching implementation workflow.
+Callers pass `type` to `release-publish.yml`; it forwards to the matching implementation workflow.
 
 ## Adding a Publish Type
 
 To add e.g. `type: verdaccio`:
 
 1. **Action** — extend `actions/release/publish/action.yml` with a new `type` branch, or split setup into the per-type workflow only
-2. **Workflow** — `.github/workflows/release/publish-verdaccio.yml` (setup, optional build, publish action)
-3. **Dispatcher** — add one conditional job to `.github/workflows/release/publish.yml`
+2. **Workflow** — `.github/workflows/release-publish-verdaccio.yml` (setup, optional build, publish action)
+3. **Dispatcher** — add one conditional job to `.github/workflows/release-publish.yml`
 4. **Docs** — add `release-publish-verdaccio.md`, update [release-publish](../workflows/release-publish.md) type table
 
 No changes needed in [composite-release](../workflows/composite-release.md) beyond documenting the new `type` value.
@@ -68,11 +68,11 @@ No changes needed in [composite-release](../workflows/composite-release.md) beyo
 ```yaml
 jobs:
   test:
-    uses: avotokyo/workflows/.github/workflows/composite/unit-test.yml@main
+    uses: avotokyo/workflows/.github/workflows/unit-test.yml@main
 
   coverage:
     needs: test
-    uses: avotokyo/workflows/.github/workflows/ci/coverage.yml@main
+    uses: avotokyo/workflows/.github/workflows/ci-coverage.yml@main
     permissions:
       id-token: write
 ```
@@ -81,7 +81,7 @@ See [composite-unit-test](../workflows/composite-unit-test.md) and [ci-coverage]
 
 ## Matrix Input Format
 
-For `ci/test.yml` / `composite/unit-test.yml`:
+For `ci-test.yml` / `unit-test.yml`:
 
 ```yaml
 with:

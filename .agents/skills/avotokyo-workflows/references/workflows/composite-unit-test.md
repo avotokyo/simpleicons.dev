@@ -10,7 +10,7 @@ Check + matrix test in parallel. Default CI entry point.
 ```yaml
 jobs:
   test:
-    uses: avotokyo/workflows/.github/workflows/composite/unit-test.yml@main
+    uses: avotokyo/workflows/.github/workflows/unit-test.yml@main
 ```
 
 ## Inputs
@@ -35,7 +35,7 @@ on: [push, pull_request]
 
 jobs:
   test:
-    uses: avotokyo/workflows/.github/workflows/composite/unit-test.yml@main
+    uses: avotokyo/workflows/.github/workflows/unit-test.yml@main
 ```
 
 Test only:

@@ -10,7 +10,7 @@ Changelog + [workflow-publish](release-publish.md) in parallel.
 ```yaml
 jobs:
   release:
-    uses: avotokyo/workflows/.github/workflows/composite/release.yml@main
+    uses: avotokyo/workflows/.github/workflows/release.yml@main
     permissions:
       contents: write
       id-token: write
@@ -37,7 +37,7 @@ on:
 
 jobs:
   release:
-    uses: avotokyo/workflows/.github/workflows/composite/release.yml@main
+    uses: avotokyo/workflows/.github/workflows/release.yml@main
     with:
       publish: true
       build: vp run build
@@ -51,7 +51,7 @@ jobs:
 ```yaml
 jobs:
   release:
-    uses: avotokyo/workflows/.github/workflows/composite/release.yml@main
+    uses: avotokyo/workflows/.github/workflows/release.yml@main
     with:
       publish: true
       type: github

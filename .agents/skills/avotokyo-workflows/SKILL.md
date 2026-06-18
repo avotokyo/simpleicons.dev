@@ -33,10 +33,10 @@ Read **one** reference file below for the component you need. Do not load all re
 
 Recommended entry points.
 
-| Name      | Workflow file             | Description                   | Reference                                                          |
-| --------- | ------------------------- | ----------------------------- | ------------------------------------------------------------------ |
-| Unit Test | `composite/unit-test.yml` | Check + matrix test CI        | [composite-unit-test](references/workflows/composite-unit-test.md) |
-| Release   | `composite/release.yml`   | Changelog + publish by `type` | [composite-release](references/workflows/composite-release.md)     |
+| Name      | Workflow file   | Description                   | Reference                                                          |
+| --------- | --------------- | ----------------------------- | ------------------------------------------------------------------ |
+| Unit Test | `unit-test.yml` | Check + matrix test CI        | [composite-unit-test](references/workflows/composite-unit-test.md) |
+| Release   | `release.yml`   | Changelog + publish by `type` | [composite-release](references/workflows/composite-release.md)     |
 
 ### Atomic Workflows
 
@@ -44,14 +44,14 @@ Single-job workflows. Compose manually for finer control.
 
 | Name           | Workflow file                | Description                     | Reference                                                                |
 | -------------- | ---------------------------- | ------------------------------- | ------------------------------------------------------------------------ |
-| Check          | `ci/check.yml`               | Lint/check on one OS            | [ci-check](references/workflows/ci-check.md)                             |
-| Test           | `ci/test.yml`                | Matrix OS × Node test           | [ci-test](references/workflows/ci-test.md)                               |
-| Coverage       | `ci/coverage.yml`            | Coverage test + Codecov         | [ci-coverage](references/workflows/ci-coverage.md)                       |
-| Autofix        | `ci/autofix.yml`             | Auto-fix and commit             | [ci-autofix](references/workflows/ci-autofix.md)                         |
-| Changelog      | `release/changelog.yml`      | GitHub Release changelog        | [release-changelog](references/workflows/release-changelog.md)           |
-| Publish        | `release/publish.yml`        | Dispatch publish by `type`      | [release-publish](references/workflows/release-publish.md)               |
-| Publish NPM    | `release/publish-npm.yml`    | Build + npm Registry publish    | [release-publish-npm](references/workflows/release-publish-npm.md)       |
-| Publish GitHub | `release/publish-github.yml` | Build + GitHub Packages publish | [release-publish-github](references/workflows/release-publish-github.md) |
+| Check          | `ci-check.yml`               | Lint/check on one OS            | [ci-check](references/workflows/ci-check.md)                             |
+| Test           | `ci-test.yml`                | Matrix OS × Node test           | [ci-test](references/workflows/ci-test.md)                               |
+| Coverage       | `ci-coverage.yml`            | Coverage test + Codecov         | [ci-coverage](references/workflows/ci-coverage.md)                       |
+| Autofix        | `ci-autofix.yml`             | Auto-fix and commit             | [ci-autofix](references/workflows/ci-autofix.md)                         |
+| Changelog      | `release-changelog.yml`      | GitHub Release changelog        | [release-changelog](references/workflows/release-changelog.md)           |
+| Publish        | `release-publish.yml`        | Dispatch publish by `type`      | [release-publish](references/workflows/release-publish.md)               |
+| Publish NPM    | `release-publish-npm.yml`    | Build + npm Registry publish    | [release-publish-npm](references/workflows/release-publish-npm.md)       |
+| Publish GitHub | `release-publish-github.yml` | Build + GitHub Packages publish | [release-publish-github](references/workflows/release-publish-github.md) |
 
 ### Actions
 
@@ -78,7 +78,7 @@ Composite steps for custom jobs.
 # Workflow — under jobs
 jobs:
   test:
-    uses: avotokyo/workflows/.github/workflows/composite/unit-test.yml@main
+    uses: avotokyo/workflows/.github/workflows/unit-test.yml@main
 
 # Action — under steps
 steps:
