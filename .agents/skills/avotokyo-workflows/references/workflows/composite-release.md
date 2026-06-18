@@ -5,12 +5,12 @@ description: Full release workflow combining changelog and publish by type
 
 # Release (Composite)
 
-Changelog + [workflow-publish](workflow-publish.md) in parallel.
+Changelog + [workflow-publish](release-publish.md) in parallel.
 
 ```yaml
 jobs:
   release:
-    uses: avotokyo/workflows/.github/workflows/release.yml@main
+    uses: avotokyo/workflows/.github/workflows/composite/release.yml@main
     permissions:
       contents: write
       id-token: write
@@ -37,7 +37,7 @@ on:
 
 jobs:
   release:
-    uses: avotokyo/workflows/.github/workflows/release.yml@main
+    uses: avotokyo/workflows/.github/workflows/composite/release.yml@main
     with:
       publish: true
       build: vp run build
@@ -51,7 +51,7 @@ jobs:
 ```yaml
 jobs:
   release:
-    uses: avotokyo/workflows/.github/workflows/release.yml@main
+    uses: avotokyo/workflows/.github/workflows/composite/release.yml@main
     with:
       publish: true
       type: github
@@ -61,4 +61,4 @@ jobs:
       packages: write
 ```
 
-Split into atomics: [workflow-changelog](workflow-changelog.md), [workflow-publish](workflow-publish.md).
+Split into atomics: [workflow-changelog](release-changelog.md), [workflow-publish](release-publish.md).

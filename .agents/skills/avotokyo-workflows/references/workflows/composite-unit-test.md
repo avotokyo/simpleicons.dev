@@ -10,7 +10,7 @@ Check + matrix test in parallel. Default CI entry point.
 ```yaml
 jobs:
   test:
-    uses: avotokyo/workflows/.github/workflows/unit-test.yml@main
+    uses: avotokyo/workflows/.github/workflows/composite/unit-test.yml@main
 ```
 
 ## Inputs
@@ -35,7 +35,7 @@ on: [push, pull_request]
 
 jobs:
   test:
-    uses: avotokyo/workflows/.github/workflows/unit-test.yml@main
+    uses: avotokyo/workflows/.github/workflows/composite/unit-test.yml@main
 ```
 
 Test only:
@@ -45,4 +45,6 @@ with:
   skip-check: true
 ```
 
-Split into atomics: [workflow-check](workflow-check.md), [workflow-test](workflow-test.md).
+Split into atomics: [workflow-check](ci-check.md), [workflow-test](ci-test.md).
+
+For CI + coverage, see [best-practices-usage](best-practices-usage.md#common-patterns).

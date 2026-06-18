@@ -8,7 +8,7 @@ description: Generate GitHub Release changelog
 ```yaml
 jobs:
   changelog:
-    uses: avotokyo/workflows/.github/workflows/changelog.yml@main
+    uses: avotokyo/workflows/.github/workflows/release/changelog.yml@main
 ```
 
 No inputs. Sets `contents: write` internally.

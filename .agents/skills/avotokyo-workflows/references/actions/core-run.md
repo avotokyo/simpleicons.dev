@@ -7,7 +7,7 @@ description: Execute a shell command in a composite step
 
 ```yaml
 steps:
-  - uses: avotokyo/workflows/actions/run@main
+  - uses: avotokyo/workflows/actions/core/run@main
     with:
       command: vp run build
 ```
@@ -18,4 +18,4 @@ steps:
 | --------- | -------- | -------------------- |
 | `command` | yes      | Shell command to run |
 
-Use step-level `if:` in the workflow to skip when empty. Pair with [action-setup](action-setup.md).
+Use step-level `if:` in the workflow to skip when empty. Pair with [action-setup](core-setup.md).

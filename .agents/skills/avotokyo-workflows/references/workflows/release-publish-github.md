@@ -5,12 +5,12 @@ description: Build and publish package to GitHub Packages
 
 # Publish GitHub Workflow
 
-Atomic workflow for GitHub Packages. Invoked directly or via [workflow-publish](workflow-publish.md) with `type: github`.
+Atomic workflow for GitHub Packages. Invoked directly or via [workflow-publish](release-publish.md) with `type: github`.
 
 ```yaml
 jobs:
   publish:
-    uses: avotokyo/workflows/.github/workflows/publish-github.yml@main
+    uses: avotokyo/workflows/.github/workflows/release/publish-github.yml@main
     permissions:
       contents: read
       packages: write
@@ -29,7 +29,7 @@ jobs:
 ```yaml
 jobs:
   publish:
-    uses: avotokyo/workflows/.github/workflows/publish-github.yml@main
+    uses: avotokyo/workflows/.github/workflows/release/publish-github.yml@main
     with:
       build: vp run build
     permissions:

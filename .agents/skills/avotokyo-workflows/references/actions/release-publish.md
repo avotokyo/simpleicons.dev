@@ -12,7 +12,7 @@ description: Publish package by type via vp pm
 
 ```yaml
 steps:
-  - uses: avotokyo/workflows/actions/publish@main
+  - uses: avotokyo/workflows/actions/release/publish@main
     with:
       type: npm
       stage: false
@@ -29,6 +29,6 @@ steps:
 
 Job needs `id-token: write` for `npm`, or `packages: write` for `github`.
 
-Pair with [action-setup](action-setup.md) — set `registry-url: https://npm.pkg.github.com` when using `type: github`.
+Pair with [action-setup](core-setup.md) — set `registry-url: https://npm.pkg.github.com` when using `type: github`.
 
-Prefer [workflow-publish](workflow-publish.md) for full setup + build + publish.
+Prefer [workflow-publish](../workflows/release-publish.md) for full setup + build + publish.

@@ -5,12 +5,12 @@ description: Build and publish package to npm Registry
 
 # Publish NPM Workflow
 
-Atomic workflow for npm Registry. Invoked directly or via [workflow-publish](workflow-publish.md) with `type: npm`.
+Atomic workflow for npm Registry. Invoked directly or via [workflow-publish](release-publish.md) with `type: npm`.
 
 ```yaml
 jobs:
   publish:
-    uses: avotokyo/workflows/.github/workflows/publish-npm.yml@main
+    uses: avotokyo/workflows/.github/workflows/release/publish-npm.yml@main
     permissions:
       contents: write
       id-token: write
@@ -29,7 +29,7 @@ jobs:
 ```yaml
 jobs:
   publish:
-    uses: avotokyo/workflows/.github/workflows/publish-npm.yml@main
+    uses: avotokyo/workflows/.github/workflows/release/publish-npm.yml@main
     with:
       build: vp run build
     permissions:

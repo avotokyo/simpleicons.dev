@@ -7,7 +7,7 @@ description: Checkout repository and configure Vite+ environment with caching
 
 ```yaml
 steps:
-  - uses: avotokyo/workflows/actions/setup@main
+  - uses: avotokyo/workflows/actions/core/setup@main
     with:
       cache: true
       node-version: "22"
@@ -31,10 +31,10 @@ steps:
 ## Monorepo
 
 ```yaml
-- uses: avotokyo/workflows/actions/setup@main
+- uses: avotokyo/workflows/actions/core/setup@main
   with:
     working-directory: packages/foo
     node-version: "22"
 ```
 
-Pair with [action-run](action-run.md) for custom jobs.
+Pair with [action-run](core-run.md) for custom jobs.

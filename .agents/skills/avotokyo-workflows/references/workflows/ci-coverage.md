@@ -8,7 +8,7 @@ description: Run coverage tests and upload to Codecov
 ```yaml
 jobs:
   coverage:
-    uses: avotokyo/workflows/.github/workflows/coverage.yml@main
+    uses: avotokyo/workflows/.github/workflows/ci/coverage.yml@main
     permissions:
       id-token: write
 ```
@@ -25,11 +25,11 @@ jobs:
 ```yaml
 jobs:
   test:
-    uses: avotokyo/workflows/.github/workflows/unit-test.yml@main
+    uses: avotokyo/workflows/.github/workflows/composite/unit-test.yml@main
 
   coverage:
     needs: test
-    uses: avotokyo/workflows/.github/workflows/coverage.yml@main
+    uses: avotokyo/workflows/.github/workflows/ci/coverage.yml@main
     permissions:
       id-token: write
 ```
