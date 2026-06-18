@@ -8,7 +8,7 @@ on:
 
 jobs:
   release:
-    uses: avotokyo/workflows/.github/workflows/composite/release.yml@main
+    uses: avotokyo/workflows/.github/workflows/release.yml@main
     with:
       publish: true
       type: github
